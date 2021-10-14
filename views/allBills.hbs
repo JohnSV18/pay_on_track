@@ -1,0 +1,10 @@
+<div class="row">
+            {{#each data}}
+            <div class="row">
+            <div class="lead col-5"><a href="/bills/{{this._id}}">{{this.title}}</a></div>
+                <p>{{this.description}}</p>
+                <p>${{this.amount}}</p>
+                <p>{{this.due_date}}</p>
+            </div>
+            {{/each}}
+</div>

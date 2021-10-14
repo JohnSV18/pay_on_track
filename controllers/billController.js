@@ -1,12 +1,13 @@
 const db = require("../models");
 const Bill = db.bills;
 
-
+exports.showHome = (req, res) => {
+    res.render("home");
+}
 // Get to great a new bill form
 exports.createForm = (req, res) => {
     res.render("createBill");
 }
-
 // Create and Save a new Bill
 exports.create = (req, res) => {
     // Validate request
@@ -14,7 +15,6 @@ exports.create = (req, res) => {
       res.status(400).send({ message: "Content can not be empty!" });
       return;
     }
-
     // Create a Bill
     const bill = new Bill({
       title: req.body.title,
@@ -22,12 +22,11 @@ exports.create = (req, res) => {
       amount: req.body.amount,
       due_date: req.body.due_date,
     });
-  
     // Save Bill in the database
     bill
       .save(bill)
       .then(data => {
-        res.send(data);
+        res.redirect(`/`);
       })
       .catch(err => {
         res.status(500).send({
@@ -42,9 +41,10 @@ exports.findAll = (req, res) => {
     const title = req.query.title;
     var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
   
-    Bill.find(condition)
+    Bill.find(condition).lean()
       .then(data => {
-        res.send(data);
+        console.log(data)
+        res.render('allBills', { data });
       })
       .catch(err => {
         res.status(500).send({
@@ -58,11 +58,11 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
     const id = req.params.id;
   
-    Bill.findById(id)
+    Bill.findById(id).lean()
       .then(data => {
         if (!data)
           res.status(404).send({ message: "Not found Bill with id " + id });
-        else res.send(data);
+        else res.render('showBill', { data });
       })
       .catch(err => {
         res

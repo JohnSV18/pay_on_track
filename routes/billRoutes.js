@@ -2,28 +2,28 @@ module.exports = app => {
     const bills = require("../controllers/billController.js");
   
     var router = require("express").Router();
-
-    // Get to create a new bill form
+    //go home
+    router.get("/", bills.showHome);
+    // Shows form to create a new bill
     router.get("/create", bills.createForm),
-  
     // Create a new Bill
     router.post("/create", bills.create);
   
     // Retrieve all Bills
-    router.get("/", bills.findAll);
+    router.get("/allbills", bills.findAll);
   
     // Retrieve a single bill with id
-    router.get("/:id", bills.findOne);
+    router.get("/bills/:id", bills.findOne);
   
     // Update a bill with id
-    router.put("/:id", bills.update);
+    router.put("/bills/:id", bills.update);
   
     // Delete a bill with id
-    router.delete("/:id", bills.delete);
+    router.delete("/bills/:id", bills.delete);
   
     // Delet all bills
-    router.delete("/", bills.deleteAll);
+    router.delete("/allbills", bills.deleteAll);
   
-    app.use('/bills', router);
+    app.use('/', router);
   };
   
