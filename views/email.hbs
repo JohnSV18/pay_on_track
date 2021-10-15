@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-    <div class="container">
-        <p>This is a reminder to pay all your bills</p>
+    <div class="lead justify-content-center">
+     {{bill.title}}
     </div>
+    <p>Bill description: {{bill.description}}</p>
+    <p>${{bill.amount}} is the amount left to be paid</p>
+    <p>This bill must be paid by: {{bill.due_date}}</p>
 </body>
 </html>

@@ -3,9 +3,9 @@ module.exports = mongoose => {
     "bill",
     mongoose.Schema(
       {
-        title: String,
-        description: String,
-        amount: Number,
+        title: { type: String, required: true },
+        description:{ type: String, minlength: 5, maxlength:20, required: true },
+        amount: { type: Number, required: true },
         due_date: Date,
       },
       { timestamps: true }

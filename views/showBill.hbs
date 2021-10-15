@@ -1,24 +1,36 @@
 <div class="row justify-content-center">
   <div class="col-4">
     <div class="lead justify-content-center">
-      <a href="/bills/{{{data._id}}}">{{{data.title}}}</a>
+      <a href="/bills/{{data._id}}">{{data.title}}</a>
     </div>
-    <p>Bill description: {{{data.description}}}</p>
-    <p>${{{data.amount}}} is the amount left to be paid</p>
-    <p>This bill must be paid by: {{{data.due_date}}}</p>
+    <p>Bill description: {{data.description}}</p>
+    <p>${{data.amount}} is the amount left to be paid</p>
+    <p>This bill must be paid by: {{data.due_date}}</p>
 
-    {{!-- <form action = "/bills/{{{data._id}}}?_method=PUT", method="post">
-        <div class="form-group">
-          <label for="title">title</label>
-          <input type="text" name="topic" class="form-control" id="card-topic">
+    <form action = "/bills/{{data._id}}?_method=put", method="post">
+        <div class="mb-3">
+            <label for="title" class="form-label">Name of the bill:</label>
+            <input type="text" class="form-control" name="title" id="title" value="{{data.title}}">
         </div>
-        <div class="form-group">
-          <label for="card-exercises">Exercises</label>
-          <input type="text" name="exercises" class="form-control" id="card-exercises">
+        <div class="mb-3">
+            <label for="description" class="form-label">What is this bill for?</label>
+            <input type="text" class="form-control" name="description" id="description" value="{{data.description}}">
         </div>
-        <div class='text-right'>
-          <button type="submit" class="btn btn-primary">Update bill</button>
+        <div class="mb-3">
+            <label for="amount" class="form-label">Bill Amount: $</label>
+            <input type="number" class="form-control" name="amount" id="amount" value="{{data.amount}}">
         </div>
-    </form> --}}
+        <div class="mb-3">
+            <label for="due_date" class="form-label">Full Payment Due Date</label>
+            <input type="date" class="form-control" name="due_date" id="due_date" value="{{data.due_date}}">
+        </div>
+        <button type="submit" class="btn btn-primary">Update bill</button>
+    </form>
+
+    <form action = "/bills/{{data._id}}?_method=DELETE" method = "post">
+     <!-- <form action="/delete/{{card._id}}" method="post" >    form(action=`/cards/${pet._id}?_method=DELETE`, method="POST")-->
+      <input type="hidden" name="_method" value="delete">
+      <button type="submit">Delete Bill</button>
+    </form>
   </div>
 </div>

@@ -2,8 +2,7 @@ module.exports = app => {
     const bills = require("../controllers/billController.js");
   
     var router = require("express").Router();
-    //go home
-    router.get("/", bills.showHome);
+  
     // Shows form to create a new bill
     router.get("/create", bills.createForm),
     // Create a new Bill

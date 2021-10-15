@@ -5,9 +5,6 @@ const API_KEY = process.env.MAILGUN_API_KEY
 const DOMAIN = process.env.EMAIL_DOMAIN
 const Bill = db.bills;
 
-exports.showHome = (req, res) => {
-    res.render("home");
-}
 // Get to great a new bill form
 exports.createForm = (req, res) => {
     res.render("createBill");
@@ -19,7 +16,7 @@ exports.create = (req, res) => {
       res.status(400).send({ message: "Content can not be empty!" });
       return;
     }
-    mailer.sendMail();
+    
     // Create a Bill
     const bill = new Bill({
       title: req.body.title,
@@ -27,10 +24,12 @@ exports.create = (req, res) => {
       amount: req.body.amount,
       due_date: req.body.due_date,
     });
+    
     // Save Bill in the database
     bill
       .save(bill)
       .then(data => {
+        mailer.sendMail(bill);
         res.redirect(`/`);
       })
       .catch(err => {
@@ -39,6 +38,7 @@ exports.create = (req, res) => {
             err.message || "Some error occurred while creating the Bill."
         });
       });
+    
   };
 
 // Retrieve all Bills from the database.
@@ -85,14 +85,15 @@ exports.update = (req, res) => {
     }
   
     const id = req.params.id;
+    const date = req.body.due_date;
   
-    Bill.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    Bill.findByIdAndUpdate(id, date, req.body, { useFindAndModify: false })
       .then(data => {
         if (!data) {
           res.status(404).send({
             message: `Cannot update Bill with id=${id}. Maybe Bill was not found!`
           });
-        } else res.send({ message: "Bill was updated successfully." });
+        } else res.render('home');
       })
       .catch(err => {
         res.status(500).send({
@@ -112,9 +113,7 @@ exports.delete = (req, res) => {
             message: `Cannot delete Bill with id=${id}. Maybe Bill was not found!`
           });
         } else {
-          res.send({
-            message: "Bill was deleted successfully!"
-          });
+          res.render('home');
         }
       })
       .catch(err => {
