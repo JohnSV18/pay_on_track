@@ -21,7 +21,7 @@ module.exports = app => {
     // Delete a bill with id
     router.delete("/bills/:id", bills.delete);
   
-    // Delet all bills
+    // Delete all bills
     router.delete("/allbills", bills.deleteAll);
   
     app.use('/', router);

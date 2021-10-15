@@ -3,8 +3,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const handlebars = require('express-handlebars')
 
-
-
 const app = express();
 const port = 8000;
 var corsOptions = {
@@ -15,6 +13,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/bootstrap", express.static(__dirname + '/node_modules/bootstrap/dist/'));
+
 
 
 const db = require("./models");
@@ -38,12 +37,6 @@ app.engine('hbs', handlebars({
   extname: 'hbs',
   defaultLayout: 'index'
 }))
-
-// app.get('/', (req, res) => {
-//   res.render('main', {
-//     layout: 'index'
-//   })
-// });
 
 require("./routes/billRoutes")(app);
 

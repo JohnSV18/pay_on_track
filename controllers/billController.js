@@ -1,4 +1,8 @@
 const db = require("../models");
+require('dotenv').config();
+const mailer = require("../utils/mailer")
+const API_KEY = process.env.MAILGUN_API_KEY
+const DOMAIN = process.env.EMAIL_DOMAIN
 const Bill = db.bills;
 
 exports.showHome = (req, res) => {
@@ -15,6 +19,7 @@ exports.create = (req, res) => {
       res.status(400).send({ message: "Content can not be empty!" });
       return;
     }
+    mailer.sendMail();
     // Create a Bill
     const bill = new Bill({
       title: req.body.title,
@@ -134,4 +139,6 @@ exports.deleteAll = (req, res) => {
         });
       });
   };
+
+
 
