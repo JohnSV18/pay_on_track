@@ -8,13 +8,16 @@ dotenv.config();
 
 exports.showHome = (req, res) => {
     res.render("home");
-}
+};
 exports.showSignup = (req, res) => {
     res.render("signup");
-}
+};
 exports.showLogin = (req, res) => {
     res.render("login");
-}
+};
+
+
+
 //Sign up user with authentication
 exports.signup = async (req, res) => {
     try {
@@ -52,25 +55,8 @@ exports.signup = async (req, res) => {
         username,
         passwordHash
       });
-  
-      const savedUser = await newUser.save();
-  
-      //sign the token
-  
-      const token = jwt.sign(
-        {
-          user: savedUser._id,
-        },
-        process.env.JWT_SECRET
-      );
-      
-  
-      // send the token in a HTTP-only cookie
-      res
-      .cookie("token", token, {
-        httpOnly: true,
-      }).send()
-      .redirect("/")
+    
+      res.redirect("/login")
   
     } catch (err) {
       console.error(err);
@@ -78,6 +64,13 @@ exports.signup = async (req, res) => {
     }
       
   };
+
+
+
+
+
+
+
 //Log in user 
 // log in a user
 exports.login = async (req, res) => {
@@ -87,37 +80,35 @@ exports.login = async (req, res) => {
       if (!username || !password)
       return res.render('login')
         // .status(400)
-         .json({ errorMessage: "Please enter all required fields." })
-        
-      
+        //  .json({ errorMessage: "Please enter all required fields." })
+    
       const existingUser = await User.findOne({ username });
       if (!existingUser)
-        return res
-          .status(401)
-          .json({ errorMessage: "Wrong username or password" });
+        return res.render('login')
+        //   .status(401)
+        //   .json({ errorMessage: "Wrong username or password" });
       const passwordCorrect = await bcrypt.compare(
         password,
         existingUser.passwordHash
       );
       if (!passwordCorrect)
-        return res
-          .status(401)
-          .json({ errorMessage: "Wrong username or password" });
+        return res.render('login')
+        //   .status(401)
+        //   .json({ errorMessage: "Wrong username or password" });
   
       //sign the token
       const token = jwt.sign(
         {
           user: existingUser._id,
         },
-        process.env.JWT_SECRET
-      );
-
+        process.env.JWT_SECRET,
+        { expiresIn: "60 days" });
       // send the token in a HTTP-only cookie
-      res
-      .redirect("/")
-      .cookie("token", token, {
+      res.cookie("token", token, {
+        maxAge: 900000,  
         httpOnly: true,
-      }).send()
+      })
+      res.redirect("/");
         
     } catch (err) {
       console.error(err);
@@ -126,10 +117,10 @@ exports.login = async (req, res) => {
   };
 
   exports.logout = (req, res) => {
-    res
-      .cookie("token", "", {
+    res.cookie("token", "", {
+        maxAge: 90000,
         httpOnly: true,
         expires: new Date(0),
       })
-      .send();
+    res.redirect("/");
   };

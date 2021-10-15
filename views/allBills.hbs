@@ -1,14 +1,14 @@
-<div class="row">
+<div class="row bg-dark text-info text-center">
             {{#each data}}
             <div class="row">
-            <div class="lead col-5"><a href="/bills/{{this._id}}">{{this.title}}</a></div>
-                <p>{{this.description}}</p>
-                <p>${{this.amount}}</p>
-                <p>{{this.due_date}}</p>
+                <h2>{{this.title}}</h2>
+                <p>Bill description: {{this.description}}</p>
+                <p>Amount due: ${{this.amount}}</p>
+                <p>This bill is due on{{this.due_date}}</p>
                 <a href="/bills/{{this._id}}">Update bill</a>
             </div>
             {{/each}}
 </div>
-<div class="row">
+<div class="row bg-dark">
     <a href="#">Send a reminder with your bills!</a>
 </div>
