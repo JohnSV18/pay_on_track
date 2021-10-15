@@ -24,9 +24,9 @@
             <label for="due_date" class="form-label">Full Payment Due Date</label>
             <input type="date" class="form-control" name="due_date" id="due_date" value="{{data.due_date}}">
         </div>
-        <button type="submit" class="btn btn-primary">Update bill</button>
+        <button type="submit" class="btn btn-outline-success btn-lg px-4">Update bill</button>
     </form>
-
+  {{!-- <button type="button" class="btn btn-outline-success btn-lg px-4">Read More</button> --}}
     <form action = "/bills/{{data._id}}?_method=DELETE" method = "post">
       <input type="hidden" name="_method" value="delete">
       <button type="submit">Delete Bill</button>

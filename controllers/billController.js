@@ -85,9 +85,8 @@ exports.update = (req, res) => {
     }
   
     const id = req.params.id;
-    const date = req.body.due_date;
   
-    Bill.findByIdAndUpdate(id, date, req.body, { useFindAndModify: false })
+    Bill.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
       .then(data => {
         if (!data) {
           res.status(404).send({
