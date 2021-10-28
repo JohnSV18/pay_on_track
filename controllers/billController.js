@@ -1,8 +1,6 @@
 const db = require("../models");
 require('dotenv').config();
 const mailer = require("../utils/mailer")
-const API_KEY = process.env.MAILGUN_API_KEY
-const DOMAIN = process.env.EMAIL_DOMAIN
 const Bill = db.bills;
 
 // Get to great a new bill form
@@ -48,7 +46,6 @@ exports.findAll = (req, res) => {
   
     Bill.find(condition).lean()
       .then(data => {
-        console.log(data)
         res.render('allBills', { data });
       })
       .catch(err => {
