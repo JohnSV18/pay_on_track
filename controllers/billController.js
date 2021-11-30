@@ -1,7 +1,7 @@
-const db = require("../models");
+
 require('dotenv').config();
 const mailer = require("../utils/mailer")
-const Bill = db.bills;
+const Bill = require("../models/billModel");
 
 // Get to great a new bill form
 exports.createForm = (req, res) => {
