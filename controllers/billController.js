@@ -5,16 +5,17 @@ const Bill = require("../models/billModel");
 
 // Get to great a new bill form
 exports.createForm = (req, res) => {
-    res.render("createBill");
+    const currentUser = req.user;
+    res.render("createBill", { currentUser });
 }
 // Create and Save a new Bill
 exports.create = (req, res) => {
     // Validate request
+    const currentUser = req.user;
     if (!req.body.title) {
-      res.status(400).send({ message: "Content can not be empty!" });
-      return;
-    }
+      return res.status(400).send({ message: "Content can not be empty!" });
     
+    }
     // Create a Bill
     const bill = new Bill({
       title: req.body.title,
@@ -28,10 +29,10 @@ exports.create = (req, res) => {
       .save(bill)
       .then(data => {
         mailer.sendMail(bill);
-        res.redirect(`/`);
+        return res.redirect(`/`, { currentUser });
       })
       .catch(err => {
-        res.status(500).send({
+        return res.status(500).send({
           message:
             err.message || "Some error occurred while creating the Bill."
         });
@@ -41,33 +42,40 @@ exports.create = (req, res) => {
 
 // Retrieve all Bills from the database.
 exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
-  
-    Bill.find(condition).lean()
-      .then(data => {
-        res.render('allBills', { data });
-      })
-      .catch(err => {
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving Bill."
+    const currentUser = req.user;
+    if(currentUser){
+      const title = req.query.title;
+      var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+    
+      Bill.find(condition).lean()
+        .then(data => {
+          return res.render('allBills', { data , currentUser });
+        })
+        .catch(err => {
+          return res.status(500).send({
+            message:
+              err.message || "Some error occurred while retrieving Bill."
+          });
         });
-      });
+    } else {
+      return res.status(401); // Unauthorized
+    }
+   
   };
 
 // Find a single Bill with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
+    const currentUser = req.user;
   
     Bill.findById(id).lean()
       .then(data => {
         if (!data)
-          res.status(404).send({ message: "Not found Bill with id " + id });
-        else res.render('showBill', { data });
+          return res.status(404).send({ message: "Not found Bill with id " + id });
+        else return res.render('showBill', { data , currentUser });
       })
       .catch(err => {
-        res
+        return res
           .status(500)
           .send({ message: "Error retrieving Bill with id=" + id });
       });
@@ -86,13 +94,13 @@ exports.update = (req, res) => {
     Bill.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
       .then(data => {
         if (!data) {
-          res.status(404).send({
+          return res.status(404).send({
             message: `Cannot update Bill with id=${id}. Maybe Bill was not found!`
           });
-        } else res.render('home');
+        } else return res.render('home');
       })
       .catch(err => {
-        res.status(500).send({
+        return res.status(500).send({
           message: "Error updating Bill with id=" + id
         });
       });
@@ -105,15 +113,15 @@ exports.delete = (req, res) => {
     Bill.findByIdAndRemove(id)
       .then(data => {
         if (!data) {
-          res.status(404).send({
+          return res.status(404).send({
             message: `Cannot delete Bill with id=${id}. Maybe Bill was not found!`
           });
         } else {
-          res.render('home');
+          return res.render('home');
         }
       })
       .catch(err => {
-        res.status(500).send({
+        return res.status(500).send({
           message: "Could not delete Bill with id=" + id
         });
       });
@@ -123,12 +131,12 @@ exports.delete = (req, res) => {
 exports.deleteAll = (req, res) => {
     Bill.deleteMany({})
       .then(data => {
-        res.send({
+        return res.send({
           message: `${data.deletedCount} Bills were deleted successfully!`
         });
       })
       .catch(err => {
-        res.status(500).send({
+        return res.status(500).send({
           message:
             err.message || "Some error occurred while removing all Bills."
         });

@@ -1,20 +1,20 @@
 const express = require('express')
-const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const handlebars = require('express-handlebars')
 const methodOverride = require('method-override');
+const checkAuth = require('./middleware/auth')
 
 const app = express();
 const port = 8000;
-var corsOptions = {
-  origin: "http://localhost:8081"
-};
 
-app.use(cors(corsOptions));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(methodOverride('_method'));
 app.use("/bootstrap", express.static(__dirname + '/node_modules/bootstrap/dist/'));
+app.use(checkAuth);
 
 
 
@@ -32,3 +32,5 @@ require("./routes/userRoutes")(app);
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`)
 });
+
+module.exports = app;

@@ -11,7 +11,36 @@
     <title>Pay On Track</title>
 </head>
 <body class= "bg-dark">
-    {{> navbar}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+                {{#if currentUser}}
+                <li class="nav-item">
+                <a class="nav-link" href="/allbills">See all bills</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/create">Add a bill</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/logout">Log Out</a>
+                </li>
+                {{else}}
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/login">Log In</a>
+                </li>
+                {{/if}}
+            </ul>
+            </div>
+        </div>
+    </nav>
     {{{body}}}
     {{> footer}}
 </body>
