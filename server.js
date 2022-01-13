@@ -25,6 +25,8 @@ app.engine('hbs', handlebars({
   extname: 'hbs',
   defaultLayout: 'index'
 }))
+app.use(express.static('public'));
+
 require("./config/db.config.js");
 require("./routes/billRoutes")(app);
 require("./routes/userRoutes")(app);

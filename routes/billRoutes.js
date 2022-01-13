@@ -3,7 +3,8 @@ module.exports = app => {
     // const auth = require("../middleware/auth")
   
     var router = require("express").Router();
-  
+    //Shows interest calculator
+    router.get("/calculator", bills.showCalculator);
     // Shows form to create a new bill
     router.get("/create", bills.createForm),
     // Create a new Bill

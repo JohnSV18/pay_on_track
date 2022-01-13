@@ -1,0 +1,20 @@
+<script>
+    function calculateInterest() {
+        var amount = document.getElementById("amount").value;
+        var interest_rate = document.getElementById("interest_rate").value;
+        var months = document.getElementById("months").value;
+        var interest = (amount * (interest_rate / 100)) / 12;
+        var totalPayment = ((amount + interest) * months).toFixed(2);
+        document.getElementById("payment").innerHTML = "Monthly Payment = $" + totalPayment;
+    }
+</script>
+<div class="row justify-content-center text-center">
+    <div class="interest-calc col-6">
+
+        <h1>Interest Calculator</h1>
+        <p>Bill Amount: $<input id="amount" type="number" min="1" max="1000000" onchange="calculateInterest()"></p>
+        <p>Interest Rate: <input id="interest_rate" type="number" min="0" max="100" value="10" step=".1" onchange="calculateInterest()">%</p>
+        <p>Months you will take to repay: <input id="months" type="number" min="1" max="72" value="1" onchange="calculateInterest()"></p>
+        <h2 id="payment"></h2>
+    </div>
+</div>
