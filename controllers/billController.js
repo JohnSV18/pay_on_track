@@ -35,8 +35,8 @@ exports.create = (req, res) => {
   bill
     .save(bill)
     .then(data => {
-      mailer.sendMail(bill);
-      return res.redirect({ currentUser }, `/`);
+      // mailer.sendMail(bill);
+      return res.render('home', { currentUser });
     })
     .catch(err => {
       return res.status(500).send({
