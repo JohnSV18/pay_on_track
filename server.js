@@ -7,7 +7,7 @@ const checkAuth = require('./middleware/auth')
 const paginate = require('express-paginate')
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
