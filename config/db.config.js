@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 assert = require("assert")
+require('dotenv').config();
 
-const url = "mongodb://localhost:27017/payontrack_db"
+const url = process.env.MONGOD_URI
 mongoose.connect(
   url,
   {
