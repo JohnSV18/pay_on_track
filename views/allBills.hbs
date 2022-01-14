@@ -1,17 +1,18 @@
 <div class="row">
-    <a href="#">Send a reminder with your bills!</a>
-    <a class="nav-link" href="/sortedbills">Bills from lowest to highest</a>
-    <a class="nav-link" href="/creditbills">Credit Card bills</a>
-    <a class="nav-link" href="/personalbills">Personal loan bills</a>
+    {{!-- <a href="#">Send a reminder with your bills!</a> --}}
+    <h3 class="col-3">Filter by:</h3>
+    <a class="nav-link col-2 btn btn-outline-dark" href="/sortedbills">Highest Bill Amount to Lowest</a>
+    <a class="nav-link col-2 btn btn-outline-dark" href="/creditbills">Credit Card Bills</a>
+    <a class="nav-link col-2 btn btn-outline-dark" href="/personalbills">Personal Loan Bills</a>
 </div>
 <div class="row text-center">
             {{#each data}}
-            <div class="row">
+            <div class="col-6 login-up-form mt-3">
                 <h2>{{this.title}}</h2>
                 <p>Bill type: {{this.type}}</p>
                 <p>Bill description: {{this.description}}</p>
                 <p>Amount due: ${{this.amount}}</p>
-                <p>This bill is due on{{this.due_date}}</p>
+                <p>This bill is due on: {{this.due_date}}</p>
                 <a href="/bills/{{this._id}}">Update bill</a>
             </div>
             {{/each}}
