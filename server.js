@@ -6,17 +6,17 @@ const handlebars = require('express-handlebars')
 const methodOverride = require('method-override');
 const checkAuth = require('./middleware/auth')
 assert = require("assert")
-
+require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 8000;
 
 
 
-require('dotenv').config();
+
 
 const uri = process.env.MONGODB_URI
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/bills",
+  uri,
   {
     useNewUrlParser: true, useUnifiedTopology: true
   },
@@ -51,7 +51,7 @@ require("./config/db.config.js");
 require("./routes/billRoutes")(app);
 require("./routes/userRoutes")(app);
 
-app.listen(port, () => {
+app.listen(port,'0.0.0.0', () => {
   console.log(`Listening on port ${port}!`)
 });
 
