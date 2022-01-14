@@ -4,6 +4,7 @@ const cors = require('cors')
 const handlebars = require('express-handlebars')
 const methodOverride = require('method-override');
 const checkAuth = require('./middleware/auth')
+const paginate = require('express-paginate')
 
 const app = express();
 const port = 8000;
@@ -26,6 +27,7 @@ app.engine('hbs', handlebars({
   defaultLayout: 'index'
 }))
 app.use(express.static('public'));
+// app.use(express.static('images'));
 
 require("./config/db.config.js");
 require("./routes/billRoutes")(app);

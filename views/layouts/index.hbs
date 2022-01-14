@@ -18,26 +18,31 @@
         
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">
+                    <img src="/images/yellowpay.png" width="100" height="100"  alt="">
+                </a>
+                </li>
+                <li class="nav-item mt-4">
                 <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 {{#if currentUser}}
-                <li class="nav-item">
+                <li class="nav-item mt-4">
                 <a class="nav-link" href="/allbills">See all bills</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mt-4">
                 <a class="nav-link" href="/create">Add a bill</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mt-4">
                 <a class="nav-link" href="/calculator">Use interest calculator</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mt-4">
                 <a class="nav-link active" aria-current="page" href="/logout">Log Out</a>
                 </li>
                 {{else}}
-                <li class="nav-item">
+                <li class="nav-item mt-4">
                 <a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mt-4">
                 <a class="nav-link active" aria-current="page" href="/login">Log In</a>
                 </li>
                 {{/if}}

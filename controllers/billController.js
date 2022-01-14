@@ -68,7 +68,76 @@ exports.findAll = (req, res) => {
     return res.status(401); // Unauthorized
   }
    
-  };
+};
+// Find all bills sorted from highest bill to lowest
+exports.findBigtoSmall = (req, res) => {
+  const currentUser = req.user;
+  if(currentUser){
+    Bill.find({}).sort({ amount: -1 }).lean()
+      .then(data => {
+        return res.render('allBills', { data , currentUser });
+      })
+      .catch(err => {
+        return res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving Bill."
+        });
+      });
+  }
+}
+
+// Find bills sorted by credit card type
+exports.findByTypeCredit = (req, res) => {
+  const currentUser = req.user;
+  if(currentUser){
+    Bill.find({ type: "Credit Card"}).lean()
+      .then(data => {
+        return res.render('allBills', { data , currentUser });
+      })
+      .catch(err => {
+        return res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving Bill."
+        });
+      });
+  }
+}
+
+// Find bills sorted by credit card type
+exports.findByTypePersonalLoan = (req, res) => {
+  const currentUser = req.user;
+  if(currentUser){
+    Bill.find({ type: "Personal Loan"}).lean()
+      .then(data => {
+        return res.render('allBills', { data , currentUser });
+      })
+      .catch(err => {
+        return res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving Bill."
+        });
+      });
+  }
+}
+
+
+// Find a bill from oldest oldest due date to newest
+// exports.findByDate = (req, res) => {
+//   const currentUser = req.user;
+//   if(currentUser){
+//     Bill.find({due_date:{$gte: ISODate("2022-01-13"), $lt:ISODate("2021-01-01")}}).lean()
+//     .then(data => {
+//       return res.render('allBills', { data , currentUser });
+//     })
+//     .catch(err => {
+//       return res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while retrieving Bills."
+//       });
+//     })
+//   }
+// }
+
 
 // Find a single Bill with an id
 exports.findOne = (req, res) => {

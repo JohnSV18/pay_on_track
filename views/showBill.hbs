@@ -1,5 +1,5 @@
-<div class="row justify-content-center text-info">
-  <div class="col-4">
+<div class="row justify-content-center ">
+  <div class="col-4 login-up-form">
     <div class="lead justify-content-center">
       <a href="/bills/{{data._id}}">{{data.title}}</a>
     </div>
@@ -13,6 +13,10 @@
             <input type="text" class="form-control" name="title" id="title" value="{{data.title}}">
         </div>
         <div class="mb-3">
+            <label for="type" class="form-label">Bill Type:</label>
+            <input type="text" class="form-control" name="type" id="type" value="{{data.type}}">
+        </div>
+        <div class="mb-3">
             <label for="description" class="form-label">What is this bill for?</label>
             <input type="text" class="form-control" name="description" id="description" value="{{data.description}}">
         </div>
@@ -23,13 +27,13 @@
         <div class="mb-3">
             <label for="due_date" class="form-label">Full Payment Due Date</label>
             <input type="date" class="form-control" name="due_date" id="due_date" value="{{data.due_date}}">
+            <button type="submit" class="btn btn-outline-success btn-lg px-4 mt-3">Update bill</button>
         </div>
-        <button type="submit" class="btn btn-outline-success btn-lg px-4">Update bill</button>
     </form>
   {{!-- <button type="button" class="btn btn-outline-success btn-lg px-4">Read More</button> --}}
     <form action = "/bills/{{data._id}}?_method=DELETE" method = "post">
       <input type="hidden" name="_method" value="delete">
-      <button type="submit">Delete Bill</button>
+      <button class="mb-3" type="submit">Delete Bill</button>
     </form>
   </div>
 </div>
