@@ -1,13 +1,32 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
+const mongoose = require("mongoose");
 const cors = require('cors')
 const handlebars = require('express-handlebars')
 const methodOverride = require('method-override');
 const checkAuth = require('./middleware/auth')
-const paginate = require('express-paginate')
+assert = require("assert")
 
 const app = express();
 const port = process.env.PORT || 8000;
+
+
+
+require('dotenv').config();
+
+const uri = process.env.MONGODB_URI
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/bills",
+  {
+    useNewUrlParser: true, useUnifiedTopology: true
+  },
+  (err) => {
+    assert.equal(null, err);
+    console.log('Connected succesfully to database');
+  }
+);
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.set('debug', true);
 
 app.use(cors());
 app.use(express.json());
