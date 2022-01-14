@@ -27,7 +27,6 @@ app.engine('hbs', handlebars({
   defaultLayout: 'index'
 }))
 app.use(express.static('public'));
-// app.use(express.static('images'));
 
 require("./config/db.config.js");
 require("./routes/billRoutes")(app);
