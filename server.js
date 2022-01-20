@@ -8,21 +8,7 @@ const checkAuth = require('./middleware/auth')
 assert = require("assert")
 require('dotenv').config();
 const app = express();
-const port = process.env.PORT || 8000;
-
-const uri = process.env.MONGODB_URI
-mongoose.connect(
-  uri,
-  {
-    useNewUrlParser: true, useUnifiedTopology: true
-  },
-  (err) => {
-    assert.equal(null, err);
-    console.log('Connected succesfully to database');
-  }
-);
-mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-mongoose.set('debug', true);
+const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
