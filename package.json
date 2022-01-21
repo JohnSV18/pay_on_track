@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --exit",
     "dev": "nodemon server.js"
   },
   "author": "John Marcos",
@@ -29,6 +29,9 @@
     "paginate": "^0.2.0"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "mocha": "^9.1.4",
     "nodemon": "^2.0.13"
   },
   "engines": {

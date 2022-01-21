@@ -17,9 +17,11 @@ app.use(cookieParser());
 app.use(methodOverride('_method'));
 app.use("/bootstrap", express.static(__dirname + '/node_modules/bootstrap/dist/'));
 app.use(checkAuth);
+app.use(express.static('public'));
 
-
-
+require("./config/db.config.js");
+require("./routes/billRoutes")(app);
+require("./routes/userRoutes")(app);
 
 app.set('view engine', 'hbs')
 app.engine('hbs', handlebars({
@@ -27,11 +29,6 @@ app.engine('hbs', handlebars({
   extname: 'hbs',
   defaultLayout: 'index'
 }))
-app.use(express.static('public'));
-
-require("./config/db.config.js");
-require("./routes/billRoutes")(app);
-require("./routes/userRoutes")(app);
 
 app.listen(port,'0.0.0.0', () => {
   console.log(`Listening on port ${port}!`)
