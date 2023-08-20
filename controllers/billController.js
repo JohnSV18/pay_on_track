@@ -159,6 +159,7 @@ exports.findOne = (req, res) => {
 
 // Update a Bill by the id in the request
 exports.update = (req, res) => {
+  const currentUser = req.user;
   if (!req.body) {
     return res.status(400).send({
       message: "Data to update can not be empty!"
@@ -173,7 +174,7 @@ exports.update = (req, res) => {
         return res.status(404).send({
           message: `Cannot update Bill with id=${id}. Maybe Bill was not found!`
         });
-      } else return res.render('home');
+      } else return res.render('home', { currentUser });
     })
     .catch(err => {
       return res.status(500).send({
