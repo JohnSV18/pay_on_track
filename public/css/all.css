@@ -41,11 +41,23 @@ body {
 }
 
 .login-up-form{
-    color: rgb(98, 26, 139);
+    color: white;
     border-radius: 25px;
-    border-style:2px solid;
-    box-shadow: 6px 6px;
+    border-style:5px solid;
+    background-color: rgb(48, 37, 37);
 }
-a:active {
+
+.submitButton {
+    background-color: yellow;
+    border-radius: 20px;
+    border-style:3px solid;
+}
+/* a:active {
     color: rgb(98, 26, 139);
+} */
+
+
+/* Footer Styling */
+.paytrackFooter {
+    color: #000000;
 }
