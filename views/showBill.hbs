@@ -8,7 +8,7 @@
     <p>This bill must be paid by: {{data.due_date}}</p>
 
     <form action = "/bills/{{data._id}}?_method=put", method="post">
-        <div class="mb-3">
+        <div class="mb-3 mt-3">
             <label for="title" class="form-label">Name of the bill:</label>
             <input type="text" class="form-control" name="title" id="title" value="{{data.title}}">
         </div>
@@ -27,7 +27,9 @@
         <div class="mb-3">
             <label for="due_date" class="form-label">Full Payment Due Date</label>
             <input type="date" class="form-control" name="due_date" id="due_date" value="{{data.due_date}}">
-            <button type="submit" class="btn btn-warning btn-lg px-4 mt-3">Update bill</button>
+        </div>
+        <div class="mb-3 text-center">
+          <button type="submit" class="submitButton px-4 mt-3">Update bill</button>
         </div>
     </form>
   {{!-- <button type="button" class="btn btn-outline-success btn-lg px-4">Read More</button> --}}

@@ -34,10 +34,11 @@ body {
 }
 
 .interest-calc{
-    color: rgb(0, 0, 0);
+    color: white;
     border-radius: 25px;
     border-style:2px solid;
-    box-shadow: 6px 6px ;
+    background-color: rgb(48, 37, 37);
+    font-family: 'Bricolage Grotesque', sans-serif; 
 }
 
 .login-up-form{
@@ -45,16 +46,21 @@ body {
     border-radius: 25px;
     border-style:5px solid;
     background-color: rgb(48, 37, 37);
+    font-family: 'Bricolage Grotesque', sans-serif; 
 }
 
 .submitButton {
-    background-color: yellow;
-    border-radius: 20px;
+    background-color: rgb(241, 194, 65);
+    color: rgb(48, 37, 37);
+    border-radius: 70px;
+    margin-top: 4px;
     border-style:3px solid;
+    font-size: 21px;
+    font-family: 'Bricolage Grotesque', sans-serif; 
+    width: 8rem;
 }
-/* a:active {
-    color: rgb(98, 26, 139);
-} */
+
+
 
 
 /* Footer Styling */
