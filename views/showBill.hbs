@@ -32,7 +32,6 @@
           <button type="submit" class="submitButton px-4 mt-3">Update bill</button>
         </div>
     </form>
-  {{!-- <button type="button" class="btn btn-outline-success btn-lg px-4">Read More</button> --}}
     <form action = "/bills/{{data._id}}?_method=DELETE" method = "post">
       <input type="hidden" name="_method" value="delete">
       <button class="mb-3 btn btn-danger" type="submit">Delete Bill</button>

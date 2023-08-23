@@ -21,6 +21,7 @@ body {
     font-size:larger;
     color: rgb(0, 0, 0);
 }
+/* Navigation Bar Styling */
 .mainNav{
     background-color: rgb(241, 194, 65);
     height: 60px;
@@ -33,6 +34,7 @@ body {
     color: white;
 }
 
+/* Interest Calculators Styling */
 .interest-calc{
     color: white;
     border-radius: 25px;
@@ -41,6 +43,7 @@ body {
     font-family: 'Bricolage Grotesque', sans-serif; 
 }
 
+/* Forms styling */
 .login-up-form{
     color: white;
     border-radius: 25px;
@@ -59,9 +62,6 @@ body {
     font-family: 'Bricolage Grotesque', sans-serif; 
     width: 8rem;
 }
-
-
-
 
 /* Footer Styling */
 .paytrackFooter {
