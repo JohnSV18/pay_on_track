@@ -11,16 +11,16 @@ You will be able to add your bills and debt payments to the site and see how muc
 * You will be able to plan out your payments better after using our interest calculator. Just to make sure how much the debt is worht if you take a longer period to pay it off.
 
 
-<!-- # Check out the site!
-![Website](https://img.shields.io/website?down_color=red&down_message=Offline&style=plastic&up_color=green&up_message=Online&url=http%3A%2F%2Fpayontrack-app.dev.johnmarcos.me%2F)
+# Check out the site!
+![Website](https://img.shields.io/website?down_color=red&down_message=Offline&style=plastic&up_color=green&up_message=Online&url=http%3A%2F%2Fpayontrack.up.railway.app%2F)
 
 You can also checkout the live site by visiting
 
-http://payontrack-app.dev.johnmarcos.me
+https://payontrack.up.railway.app/
 
 You can also checkout the live Pay On Tracks page status page by visiting
  
-https://statuspage.freshping.io/57044-ACS3220 -->
+https://statuspage.freshping.io/57044-ACS3220
 
 # Instructions to run using Docker
 Make sure you have Docker installed and running.
