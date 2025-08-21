@@ -1,5 +1,6 @@
 module.exports = app => {
     const users = require("../controllers/userController.js");
+    const { validate } = require('../middleware/validation.js')
     var router = require("express").Router();
 
     //go home
@@ -7,11 +8,11 @@ module.exports = app => {
 
     router.get("/signup", users.showSignup);
 
-    router.post("/signup", users.signup);
+    router.post("/signup", validate('user'), users.signup);
 
     router.get("/login", users.showLogin);
 
-    router.post("/login", users.login);
+    router.post("/login", validate('login'), users.login);
 
     router.get("/logout", users.logout);
 

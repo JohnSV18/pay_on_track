@@ -5,7 +5,7 @@ require('dotenv').config();
 
 if (process.env.NODE_ENV === "development") {
 
-  const uri = 'mongodb://localhost:27017/pay-ontrack';
+  const uri = process.env.MONGODB_LOCAL;
   mongoose.Promise = global.Promise;
   mongoose.connect(
     uri, 

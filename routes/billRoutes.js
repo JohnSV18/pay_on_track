@@ -1,6 +1,6 @@
 module.exports = app => {
+    const { validate } = require('../middleware/validation.js')
     const bills = require("../controllers/billController.js");
-    // const auth = require("../middleware/auth")
   
     var router = require("express").Router();
     //Shows interest calculator
@@ -10,7 +10,7 @@ module.exports = app => {
     router.get("/create", bills.createForm),
 
     // Create a new Bill
-    router.post("/create", bills.create);
+    router.post("/create", validate('bill'), bills.create);
   
     // Retrieve all Bills
     router.get("/allbills", bills.findAll);
