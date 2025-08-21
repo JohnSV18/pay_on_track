@@ -2,9 +2,29 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new  Schema({
-    username: { type: String, required: true },
-    password: { type: String, required: true }
-}, { timestamps: true }); 
+    username: { 
+        type: String, 
+        required: true,
+        unique: true,
+        minlength: 4,
+        maxlength: 10,
+        trim: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email']
+    },
+    password: { 
+        type: String, 
+        required: true,
+        minlength: 6
+    }
+}, { 
+    timestamps: true 
+}); 
 
 userSchema.pre('save', function (next) {
   //ENCRYPT PASSWORD
@@ -25,6 +45,5 @@ userSchema.methods.comparePassword = function (password, done) {
       done(err, isMatch);
   });
 };
-
 
 module.exports = model('User', userSchema);

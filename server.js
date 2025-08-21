@@ -7,7 +7,8 @@ const checkAuth = require('./middleware/auth')
 assert = require("assert")
 require('dotenv').config();
 const app = express();
-const port = process.env.PORT;
+// const port = process.env.PORT;
+const port = 8000
 
 app.use(cors());
 app.use(express.json());
