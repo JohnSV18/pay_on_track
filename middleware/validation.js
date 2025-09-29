@@ -5,7 +5,8 @@ const schemas = {
         title: Joi.string().min(1).max(100).required(),
         type: Joi.string().min(1).max(100).required(),
         description: Joi.string().min(1).max(100).required(),
-        amount: Joi.number().positive().max(999999.99).precision(2).required()
+        amount: Joi.number().positive().max(999999.99).precision(2).required(),
+        dueDate: Joi.date().required()
     }),
     user: Joi.object({
         username: Joi.string().min(1).max(100).required(),

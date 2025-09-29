@@ -22,7 +22,7 @@ const billSchema = new Schema({
         required: true,
         min: 0.01 
     },
-    due_date: {
+    dueDate: {
         type: Date,
         required: true
     },

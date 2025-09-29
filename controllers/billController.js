@@ -1,6 +1,5 @@
-
 require('dotenv').config();
-const mailer = require("../utils/mailer")
+// const mailer = require("../utils/mailer")
 const Bill = require("../models/billModel");
 
 // Get to interest calculator
@@ -28,7 +27,7 @@ exports.create = (req, res) => {
     type: req.body.type,
     description: req.body.description,
     amount: req.body.amount,
-    due_date: req.body.due_date,
+    dueDate: req.body.dueDate,
   });
   
   // Save Bill in the database
