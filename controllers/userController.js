@@ -44,12 +44,12 @@ const signup = async (req, res) => {
         formData: { username: username || '', email: email || '' }
       });
     }
-    if (password.length < 6){
-        return res
-          .status(400)
-          .json({ errorMessage: "Password must be at least 6 characters long." })
+    if (password.length < 6) {
+      return res.status(400).json({ 
+        errorMessage: "Password must be at least 6 characters long." 
+      });
     }
-    if (password !== passwordVerify){
+    if (password !== passwordVerify) {
       return res.status(400).json({
         errorMessage: "Passwords do not match."
       });
@@ -57,70 +57,66 @@ const signup = async (req, res) => {
     const existingUser = await User.findOne({ username });
       
     if (existingUser){
-      return res
-        .status(400)
-        .json({ errorMessage: "Username already exists." });
+      return res.status(400).json({ 
+        errorMessage: "Username already exists." 
+      });
     }
 
-        // save a new user account to the database
+    // save a new user account to the database 
     const user = new User(req.body);
-    user
-      .save()
-      .then((user) => {
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "60 days" });
-        console.log(token);
-        res.cookie("token", token, { maxAge: 900000, httpOnly: true });
-        return res.redirect("/login");
-    })
+    const savedUser = await user.save();
+
+    console.log('User created:', savedUser.username);
+    return res.redirect("/login");
 
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: 'Account creation failed. Please try again.'
-    });
+    console.log('Sign Up error: ', error.message);
+    res.status(500).render('error', { message: 'Unable to complete sign up request'})
   }
 };
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
-  //validate 
-  if (!username || !password){
-    return res.render('login')
-    // .status(400)
-    //  .json({ errorMessage: "Please enter all required fields." })
-  }
-  
-  User.findOne({ username }, 'username password')
-    .then(user => {
-      if (!user) {
-        return res.status(401).send({ message: "Wrong Username or Password" })
-      }
-      user.comparePassword(password, (err, isMatch) => {
+  try {
+    const { username, password } = req.body;
+    //validate 
+    if (!username || !password){
+      return res.render('login')
+    }
+    
+    const user = await User.findOne({ username }, 'username password')
+    if (!user) {
+      return res.status(401).send({ message: "Wrong Username or Password" })
+    }
+    user.comparePassword(password, (err, isMatch) => {
       if (!isMatch) {
         return res.status(401).send({ message: "Wrong Username or password" })
       //   .json({ errorMessage: "Wrong username or password" });
       }
       //sign the token
-      const token = jwt.sign({ _id: user._id , username: user.username}, process.env.JWT_SECRET, { expiresIn: "60 days" });
+      const token = jwt.sign({ _id: user._id , username: user.username}, process.env.JWT_SECRET, { expiresIn: "15m" });
       // send the token in a HTTP-only cookie
-      res.cookie("token", token, { maxAge: 900000, httpOnly: true });
-      return res.redirect("/");
-    })
-    })
-    .catch(err => {
-    return console.log(err);
+      res.cookie("token", token, {
+      httpOnly: true,      // XSS protection
+      secure: true,        // HTTPS only
+      sameSite: 'strict',  // CSRF protection
+      maxAge: 15 * 60 * 1000
+    });
+    return res.redirect("/");
   })
+  } catch (error) {
+    console.log('Log In error: ', error.message);
+    res.status(500).render('error', { message: 'Unable to complete log in request'})
+  }
 }
 
 const logout = (req, res) => {
   try {
     res.clearCookie("token");
+    throw new Error ('Testing error');
     return res.redirect("/");
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: 'Logout failed. Please try again.'
-    });
+    console.log('Sign Out error: ', error.message);
+    res.status(500).render('error', { message: 'Sign out request crashed, go back home to see if you have been logged out.'})
   }
 }
 

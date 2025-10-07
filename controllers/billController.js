@@ -2,6 +2,15 @@ require('dotenv').config();
 // const mailer = require("../utils/mailer")
 const Bill = require("../models/billModel");
 
+// const showCalculator = async (req, res) => {
+//   try{
+//     const currentUser = req.user;
+//     res.render('interestCalculator', { currentUser });
+//   } catch (error){
+
+//   }
+// }
+
 // Get to interest calculator
 exports.showCalculator = (req, res) => {
   const currentUser = req.user;
@@ -28,6 +37,7 @@ exports.create = (req, res) => {
     description: req.body.description,
     amount: req.body.amount,
     dueDate: req.body.dueDate,
+    userId: req.user.id
   });
   
   // Save Bill in the database
@@ -50,10 +60,10 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   const currentUser = req.user;
   if(currentUser){
-    const title = req.query.title;
-    var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+    // const title = req.query.title;
+    // var userBills = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
   
-    Bill.find(condition).lean()
+    Bill.find({ userID: req.user.id }).lean()
       .then(data => {
         return res.render('allBills', { data , currentUser });
       })

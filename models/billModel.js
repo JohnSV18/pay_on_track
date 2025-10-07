@@ -1,4 +1,4 @@
-const { Schema, model, Mongoose } = require('mongoose');
+const { Schema, model, mongoose } = require('mongoose');
 
 const billSchema = new Schema({
     title: { 
@@ -26,6 +26,12 @@ const billSchema = new Schema({
         type: Date,
         required: true
     },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true, // ← Make this required!
+        index: true // ← Add index for faster queries
+  }
 }, { 
     timestamps: true 
 });
