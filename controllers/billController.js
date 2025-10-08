@@ -1,83 +1,63 @@
 require('dotenv').config();
 // const mailer = require("../utils/mailer")
 const Bill = require("../models/billModel");
-
-// const showCalculator = async (req, res) => {
-//   try{
-//     const currentUser = req.user;
-//     res.render('interestCalculator', { currentUser });
-//   } catch (error){
-
-//   }
-// }
-
-// Get to interest calculator
-exports.showCalculator = (req, res) => {
-  const currentUser = req.user;
-  res.render('interestCalculator', { currentUser });
-
-}
-// Get to great a new bill form
-exports.createForm = (req, res) => {
-  const currentUser = req.user;
-  res.render("createBill", { currentUser });
-}
-// Create and Save a new Bill
-exports.create = (req, res) => {
-  // Validate request
-  const currentUser = req.user;
-  if (!req.body.title) {
-    return res.status(400).send({ message: "Content can not be empty!" });
-  
+// takes you to the interest calculator page
+const showCalculator = (req, res) => {
+  try{
+    const currentUser = req.user;
+    res.render('interestCalculator', { currentUser });
+  } catch (error) {
+    console.error('Calculator page error: ', error.message);
+    res.status(500).render('error', { message: 'Error showing the calculator' });
   }
-  // Create a Bill
-  const bill = new Bill({
-    title: req.body.title,
-    type: req.body.type,
-    description: req.body.description,
-    amount: req.body.amount,
-    dueDate: req.body.dueDate,
-    userId: req.user.id
-  });
-  
-  // Save Bill in the database
-  bill
-    .save(bill)
-    .then(data => {
-      // mailer.sendMail(bill);
-      return res.render('home', { currentUser });
-    })
-    .catch(err => {
-      return res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Bill."
-      });
+}
+//takes you to the create bill page
+const createForm = (req, res) => {
+  try{
+    const currentUser = req.user;
+    res.render('createBill', { currentUser });
+  } catch (error) {
+    console.error('Create bill error: ', error.message);
+    res.status(500).render('error', { message: 'Error on loading page'})
+  }
+}
+// creates a bill and saves it based on the userID
+const create = async (req, res) => {
+  try{
+    const currentUser = req.user
+    if (!req.body.title) {
+      return res.status(400).json({ message: "Content can not be empty!" });
+    }
+    // Create a Bill
+    const bill = new Bill({
+      title: req.body.title,
+      type: req.body.type,
+      description: req.body.description,
+      amount: req.body.amount,
+      dueDate: req.body.dueDate,
+      userId: req.user._id
     });
-  
-  };
-
-// Retrieve all Bills from the database.
-exports.findAll = (req, res) => {
-  const currentUser = req.user;
-  if(currentUser){
-    // const title = req.query.title;
-    // var userBills = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
-  
-    Bill.find({ userID: req.user.id }).lean()
-      .then(data => {
-        return res.render('allBills', { data , currentUser });
-      })
-      .catch(err => {
-        return res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving Bill."
-        });
-      });
-  } else {
-    return res.status(401); // Unauthorized
+    await bill.save()
+    return res.render('home', { currentUser });
+  } catch (error) {
+    console.error('Create bill error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error and could not create bill'})
   }
-   
-};
+}
+// Retrieve all Bills from the database.
+const findAll = async (req, res) => {
+  try{
+    const currentUser = req.user;
+    if (currentUser) {
+      const data = await Bill.find({ userId: req.user._id}).lean()
+      return res.render('allBills', { data, currentUser });
+    }
+  } catch (error) {
+    console.error('Finding all bills error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error fetching all your biills'})
+  }
+}
+
 // Find all bills sorted from highest bill to lowest
 exports.findBigtoSmall = (req, res) => {
   const currentUser = req.user;
@@ -228,6 +208,13 @@ exports.deleteAll = (req, res) => {
       });
     });
   };
+
+module.exports = {
+  showCalculator,
+  createForm,
+  create,
+  findAll
+};
 
 
 

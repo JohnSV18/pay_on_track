@@ -112,7 +112,6 @@ const login = async (req, res) => {
 const logout = (req, res) => {
   try {
     res.clearCookie("token");
-    throw new Error ('Testing error');
     return res.redirect("/");
   } catch (error) {
     console.log('Sign Out error: ', error.message);
