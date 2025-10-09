@@ -1,6 +1,7 @@
 require('dotenv').config();
-// const mailer = require("../utils/mailer")
 const Bill = require("../models/billModel");
+// const mailer = require("../utils/mailer")
+
 // takes you to the interest calculator page
 const showCalculator = (req, res) => {
   try{
@@ -21,6 +22,7 @@ const createForm = (req, res) => {
     res.status(500).render('error', { message: 'Error on loading page'})
   }
 }
+
 // creates a bill and saves it based on the userID
 const create = async (req, res) => {
   try{
@@ -44,68 +46,66 @@ const create = async (req, res) => {
     res.status(500).render('error', { message: 'There was an error and could not create bill'})
   }
 }
+
 // Retrieve all Bills from the database.
 const findAll = async (req, res) => {
   try{
     const currentUser = req.user;
     if (currentUser) {
-      const data = await Bill.find({ userId: req.user._id}).lean()
+      const data = await Bill.find({ userId: req.user._id }).lean()
       return res.render('allBills', { data, currentUser });
     }
   } catch (error) {
     console.error('Finding all bills error: ', error.message);
-    res.status(500).render('error', { message: 'There was an error fetching all your biills'})
+    res.status(500).render('error', { message: 'There was an error fetching all your bills'})
   }
 }
 
 // Find all bills sorted from highest bill to lowest
-exports.findBigtoSmall = (req, res) => {
-  const currentUser = req.user;
-  if(currentUser){
-    Bill.find({}).sort({ amount: -1 }).lean()
-      .then(data => {
-        return res.render('allBills', { data , currentUser });
-      })
-      .catch(err => {
-        return res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving Bill."
-        });
-      });
+const findBigtoSmall = async (req, res) => {
+  try {
+    const currentUser = req.user;
+    if (currentUser) {
+      const data = await Bill.find({ userId: req.user._id }).sort({ amount: -1 }).lean()
+      return res.render('allBills', { data, currentUser });
+    }
+  } catch (error) {
+    console.error('Finding all bills error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error fetching all your bills'})
   }
 }
 
 // Find bills sorted by credit card type
-exports.findByTypeCredit = (req, res) => {
-  const currentUser = req.user;
-  if(currentUser){
-    Bill.find({ type: "Credit Card"}).lean()
-      .then(data => {
-        return res.render('allBills', { data , currentUser });
-      })
-      .catch(err => {
-        return res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving Bill."
-        });
-      });
+const findByTypeCredit = async (req, res) => {
+  try {
+    const currentUser = req.user;
+    if (currentUser) {
+      const data = await Bill.find({ 
+                            type: 'Credit Card',
+                            userId: req.user._id
+                          }).lean()
+      return res.render('allBills', { data, currentUser });
+    }
+  } catch (error) {
+    console.error('Finding all bills error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error fetching all your bills'})
   }
 }
 
 // Find bills sorted by credit card type
-exports.findByTypePersonalLoan = (req, res) => {
-  const currentUser = req.user;
-  if(currentUser){
-    Bill.find({ type: "Personal Loan"}).lean()
-      .then(data => {
-        return res.render('allBills', { data , currentUser });
-      })
-      .catch(err => {
-        return res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving Bill."
-        });
-      });
+const findByTypePersonalLoan = async (req, res) => {
+  try {
+    const currentUser = req.user;
+    if (currentUser) {
+      const data = await Bill.find({ 
+                                type: 'Personal Loan',
+                                userId: req.user._id
+                              }).lean()
+      return res.render('allBills', { data, currentUser })
+    }
+  } catch (error) {
+    console.error('Finding all bills error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error fetching all your bills'})
   }
 }
 
@@ -128,49 +128,48 @@ exports.findByTypePersonalLoan = (req, res) => {
 // }
 
 
-// Find a single Bill with an id
-exports.findOne = (req, res) => {
-  const id = req.params.id;
-  const currentUser = req.user;
-
-  Bill.findById(id).lean()
-    .then(data => {
-      if (!data)
-        return res.status(404).send({ message: "Not found Bill with id " + id });
-      else return res.render('showBill', { data , currentUser });
-    })
-    .catch(err => {
-      return res
-        .status(500)
-        .send({ message: "Error retrieving Bill with id=" + id });
-    });
-  };
+// // Find a single Bill with an id
+const findOne = async (req, res) => {
+  try {
+    const billId = req.params.id;
+    const currentUser = req.user
+    const data = await Bill.findById(billId).lean()
+    if (!data) {
+      return res.status(404).json({ message: "Not found Bill with id " + billId })
+    }
+    return res.render('showBill', { data, currentUser });
+  } catch (error) {
+    console.error('Finding bills error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error fetching all your bill'})
+  }
+}
 
 // Update a Bill by the id in the request
-exports.update = (req, res) => {
-  const currentUser = req.user;
-  if (!req.body) {
-    return res.status(400).send({
-      message: "Data to update can not be empty!"
-    });
-  }
-
-  const id = req.params.id;
-
-  Bill.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-    .then(data => {
-      if (!data) {
-        return res.status(404).send({
-          message: `Cannot update Bill with id=${id}. Maybe Bill was not found!`
+const update = async (req, res) => {
+  try {
+    const currentUser = req.user;
+    // console.log(req)
+    if (!req.body) {
+      return res.status(400).json({
+        message: 'Data to update cannot be empty!'
+      })
+    }
+    const billId = req.params.id;
+    const data = await Bill.findByIdAndUpdate( billId, req.body, { new: true,  // Returns updated document
+                                                                   runValidators: true  // Runs model validators
+                                                                  })
+    if (!data) {
+      return res.status(404).json({
+          message: `Cannot update Bill with id=${billId}. Maybe Bill was not found!`
         });
-      } else return res.render('home', { currentUser });
-    })
-    .catch(err => {
-      return res.status(500).send({
-        message: "Error updating Bill with id=" + id
-      });
-    });
-  };
+    }
+    
+    return res.render('home', { currentUser });
+  } catch (error) {
+    console.error('Updating bill error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error updating your bill'})
+  }
+}
 
 // Delete a Bill with the specified id in the request
 exports.delete = (req, res) => {
@@ -213,7 +212,12 @@ module.exports = {
   showCalculator,
   createForm,
   create,
-  findAll
+  findAll,
+  findBigtoSmall,
+  findByTypeCredit,
+  findByTypePersonalLoan,
+  findOne,
+  update
 };
 
 

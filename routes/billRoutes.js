@@ -3,8 +3,12 @@ module.exports = app => {
     const { showCalculator,
             createForm,
             create,
-            findAll } = require('../controllers/billController.js')
-    // const bills = require("../controllers/billController.js");
+            findAll,
+            findBigtoSmall,
+            findByTypeCredit,
+            findByTypePersonalLoan,
+            findOne,
+            update } = require('../controllers/billController.js')
   
     var router = require("express").Router();
     //Shows interest calculator
@@ -19,23 +23,23 @@ module.exports = app => {
     // Retrieve all Bills
     router.get("/allbills", findAll);
 
-    // // Retrieve sorted bills from lowest amount to largest amount
-    // router.get("/sortedbills", bills.findBigtoSmall);
+    // Retrieve sorted bills from lowest amount to largest amount
+    router.get("/sortedbills", findBigtoSmall);
 
-    // //Retrieve bills if they are of credit card type
-    // router.get("/creditbills", bills.findByTypeCredit);
+    //Retrieve bills if they are of credit card type
+    router.get("/creditbills", findByTypeCredit);
 
-    // //Retrieve bills if they are of personal loan type
-    // router.get("/personalbills", bills.findByTypePersonalLoan);
+    //Retrieve bills if they are of personal loan type
+    router.get("/personalbills", findByTypePersonalLoan);
 
     // // Retrieve bills based on sorted dates
     // // router.get("/datedbills", bills.findByDate);
 
-    // // Retrieve a single bill with id
-    // router.get("/bills/:id", bills.findOne);
+    // Retrieve a single bill with id
+    router.get("/bills/:id", findOne);
   
-    // // Update a bill with id
-    // router.put("/bills/:id", bills.update);
+    // Update a bill with id
+    router.put("/bills/:id", update);
   
     // // Delete a bill with id
     // router.delete("/bills/:id", bills.delete);
