@@ -2,20 +2,20 @@
     <div class="login-up-form col-sm-4">
         <form action="/signup" method="post" id="signupform">
         <div class="mb-3 mt-3" >
-                <label for="username" class="form-label">Create a Username: </label>
-                <input type="text" class="form-control" name="username" id="username" placeholder="JohnDoe34">
+                <label for="username" class="form-label">Create a username: </label>
+                <input type="text" class="form-control italic-placeholder" name="username" id="username" placeholder="'JohnDoe34'">
             </div>
-            <div class="mb-3 mt-3" >
+            {{!-- <div class="mb-3 mt-3" >
                 <label for="email" class="form-label">Enter your email: </label>
                 <input type="text" class="form-control" name="email" id="email" placeholder="johndoe@example.com">
+            </div> --}}
+            <div class="mb-3">
+                <label for="password" class="form-label">Create a password: </label>
+                <input type="password" class="form-control italic-placeholder" name="password" id="password" placeholder="'Password'">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Enter a password: </label>
-                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-            </div>
-            <div class="mb-3">
-                <label for="passwordVerify" class="form-label">Please reenter password: </label>
-                <input type="password" class="form-control" name="passwordVerify" id="passwordVerify" placeholder="Password">
+                <label for="passwordVerify" class="form-label">Please re-enter password: </label>
+                <input type="password" class="form-control italic-placeholder" name="passwordVerify" id="passwordVerify" placeholder="'Password'">
             </div>
             <div class=" mb-3 text-center">
                 <button type="submit" class="submitButton mt-3 ">Submit</button>

@@ -67,3 +67,8 @@ body {
 .paytrackFooter {
     color: #000000;
 }
+
+/* public/css/style.css */
+.italic-placeholder::placeholder {
+  font-style: italic;
+}
