@@ -8,7 +8,8 @@ module.exports = app => {
             findByTypeCredit,
             findByTypePersonalLoan,
             findOne,
-            update } = require('../controllers/billController.js')
+            update,
+            deleteBill } = require('../controllers/billController.js')
   
     var router = require("express").Router();
     //Shows interest calculator
@@ -41,8 +42,8 @@ module.exports = app => {
     // Update a bill with id
     router.put("/bills/:id", update);
   
-    // // Delete a bill with id
-    // router.delete("/bills/:id", bills.delete);
+    // Delete a bill with id
+    router.delete("/bills/:id", deleteBill);
   
     // // Delete all bills
     // router.delete("/allbills", bills.deleteAll);

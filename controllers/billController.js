@@ -172,41 +172,34 @@ const update = async (req, res) => {
 }
 
 // Delete a Bill with the specified id in the request
-exports.delete = (req, res) => {
-  const id = req.params.id;
-
-  Bill.findByIdAndRemove(id)
-    .then(data => {
-      if (!data) {
-        return res.status(404).send({
-          message: `Cannot delete Bill with id=${id}. Maybe Bill was not found!`
-        });
-      } else {
-        return res.render('home');
-      }
-    })
-    .catch(err => {
-      return res.status(500).send({
-        message: "Could not delete Bill with id=" + id
-      });
-    });
-  };
+const deleteBill = async (req, res) => {
+  try {
+    const currentUser = req.user
+    const billId = req.params.id;
+    const data = await Bill.findByIdAndRemove(billId)
+    if (!data) {
+      return res.status(404).json({
+        message: `Cannot delete Bill with id=${billId}`
+      })
+    }
+    return res.render('home', { currentUser })
+  } catch (error) {
+    console.error('Deleting bill error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error deleting your bill'})
+  }
+}
 
 // Delete all Bills from the database.
-exports.deleteAll = (req, res) => {
-  Bill.deleteMany({})
-    .then(data => {
-      return res.send({
-        message: `${data.deletedCount} Bills were deleted successfully!`
-      });
-    })
-    .catch(err => {
-      return res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all Bills."
-      });
-    });
-  };
+const deleteAll = async (req, res) => {
+  try{
+    await Bill.deleteMany({})
+    console.log('All bills were deleted')
+    return res.render('home')
+  } catch (error) {
+    console.error('Deleting all bills error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error deleting all your bills'})
+  }
+}
 
 module.exports = {
   showCalculator,
@@ -217,7 +210,8 @@ module.exports = {
   findByTypeCredit,
   findByTypePersonalLoan,
   findOne,
-  update
+  update,
+  deleteBill
 };
 
 
