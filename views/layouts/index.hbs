@@ -15,35 +15,37 @@
     <title>Pay On Track</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="row mainNav container-fluid">
-            <div class="col-6"> 
-                <a class="nav-link" aria-current="page" href="/">
-                    <img src="/images/yellowpay.png" width="100" height="100"  alt="">
-                    Pay-On-Track
-                </a>
-            </div>
-            <div class="col-4 align-items-end">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="nav-link" aria-current="page" href="/">
+                <img src="/images/yellowpay.png" width="100" height="100"  alt="Pay-On-track Logo">
+                <span>Pay-On-Track</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
                     {{#if currentUser}}
-                    <li class="nav-item mt-2">
+                    <li class="nav-item">
                         <a class="nav-link" href="/allbills">See all bills</a>
                     </li>
-                    <li class="nav-item mt-2">
+                    <li class="nav-item">
                         <a class="nav-link" href="/create">Add a bill</a>
                     </li>
-                    <li class="nav-item mt-2">
+                    <li class="nav-item">
                         <a class="nav-link" href="/calculator">Use interest calculator</a>
                     </li>
-                    <li class="nav-item mt-2">
-                        <a class="nav-link active" aria-current="page" href="/logout">Log Out</a>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/logout">Log Out</a>
                     </li>
                     {{else}}
-                    <li class="nav-item mt-2">
-                        <a class="nav-link active" aria-current="page" href="/signup">Sign Up</a>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/signup">Sign Up</a>
                     </li>
-                    <li class="nav-item mt-2">
-                        <a class="nav-link active" aria-current="page" href="/login">Log In</a>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/login">Log In</a>
                     </li>
                     {{/if}}
                 </ul>
