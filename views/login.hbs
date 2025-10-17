@@ -1,17 +1,19 @@
-<div class="row justify-content-center">
-    <div class="login-up-form col-sm-4">
+<div class="page-container">
+    <div class="form-box">
+        <h1>Welcome Back</h1>
+        
         <form action="/login" method="post" id="loginform">
-            <div class="mb-3 mt-3">
-                <label for="username" class="form-label">Enter your username: </label>
+            <div class="mb-3">
+                <label for="username" class="form-label">Enter your username:</label>
                 <input type="text" class="form-control italic-placeholder" name="username" id="username" placeholder="'Username'">
             </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Enter your password: </label>
+
+            <div class="mb-4">
+                <label for="password" class="form-label">Enter your password:</label>
                 <input type="password" class="form-control italic-placeholder" name="password" id="password" placeholder="'Password'">
             </div>
-            <div class="mb-3 text-center">
-                <button type="submit" class="submitButton mt-3">Log In</button>
-            </div>
+
+            <button type="submit" class="btn btn-form-primary">Log In</button>
         </form>
     </div>
 </div>

@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+{{!-- <div class="row justify-content-center">
     <div class="col-sm-4 login-up-form">
         <form action="/create" method="post" id="billform">
             <div class="mb-3 mt-3">
@@ -31,6 +31,48 @@
                 <button type="submit" class="submitButton mt-3">Create bill</button>
             </div>
             
+        </form>
+    </div>
+</div> --}}
+
+
+<div class="page-container">
+    <div class="form-box">
+        <h1>Add a New Bill</h1>
+        
+        <form action="/create" method="post" id="billform">
+            <div class="mb-3">
+                <label for="title" class="form-label">Name of the bill:</label>
+                <input type="text" class="form-control" name="title" id="title" placeholder="'Best Buy Credit Card'">
+            </div>
+
+            <div class="mb-3">
+                <label for="type" class="form-label">Bill type:</label>
+                <select class="form-select" name="type" id="type">
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Utility">Utility</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Loan">Loan</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Bill Description:</label>
+                <input type="text" class="form-control" name="description" id="description" placeholder="'Credit card bill from laptop purchase at best buy'">
+            </div>
+
+            <div class="mb-3">
+                <label for="amount" class="form-label">Bill Amount: $</label>
+                <input type="number" class="form-control" name="amount" id="amount" placeholder="'1,200'" step="0.01">
+            </div>
+
+            <div class="mb-4">
+                <label for="dueDate" class="form-label">Full Payment Due Date:</label>
+                <input type="date" class="form-control" name="dueDate" id="dueDate">
+            </div>
+
+            <button type="submit" class="btn btn-form-primary">Create Bill</button>
         </form>
     </div>
 </div>

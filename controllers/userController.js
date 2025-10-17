@@ -35,13 +35,13 @@ const showLogin = (req, res) => {
 
 const signup = async (req, res) => {
   try {
-    const { username, email, password, passwordVerify } = req.body;
+    const { username, password, passwordVerify } = req.body;
 
     if (!username || !password || !passwordVerify) {
       return res.status(400).json({
         success: false,
         message: 'Please enter all required fields.',
-        formData: { username: username || '', email: email || '' }
+        formData: { username: username || '' }
       });
     }
     if (password.length < 6) {

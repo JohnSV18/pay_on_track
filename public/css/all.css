@@ -165,9 +165,106 @@ body {
     background-color: rgb(48, 37, 37);
     font-family: 'Bricolage Grotesque', sans-serif; 
 }
+/* form styling */
+.page-container {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.form-box {
+    background: #2d3748;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+    max-width: 550px;
+    width: 100%;
+}
+
+.form-box h1,
+.form-box h2 {
+    color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-box, 
+.form-label {
+    color: white;
+    font-weight: 500;
+}
+
+.form-box .form-control,
+.form-box .form-select {
+    background: white;
+    border: none;
+    padding: 0.875rem;
+    font-size: 1rem;
+}
+
+.form-box .form-control:focus,
+.form-box .form-select:focus {
+    background: white;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.btn-form-primary {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+    color: #2d3748;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(253, 160, 133, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-form-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(253, 160, 133, 0.4);
+    color: #2d3748;
+}
+/* Update bill/ bill info styling */
+.bill-info {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.bill-info h3 {
+    color: #f6d365;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.bill-info p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.bill-info a {
+    color: #81e6d9;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.bill-info a:hover {
+    color: #4fd1c5;
+    text-decoration: underline;
+}
 
 /* Forms styling */
-.login-up-form{
+/* .login-up-form{
     color: white;
     border-radius: 25px;
     border-style:5px solid;
@@ -184,7 +281,7 @@ body {
     font-size: 21px;
     font-family: 'Bricolage Grotesque', sans-serif; 
     width: 8rem;
-}
+} */
 
 /* Footer Styling */
 .paytrackFooter {
