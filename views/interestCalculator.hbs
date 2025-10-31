@@ -1,72 +1,109 @@
 <script>
-    function calculateInterest() {
-        var amount = parseFloat(document.getElementById("amount").value) || 0;
-        var interest_rate = parseFloat(.getElementById("interest_rate").value) || 0;
-        var years = parseFloat(.getElementById("years").value) || 0;
+function calculateInterest() {
+    var amount = parseFloat(document.getElementById("amount").value) || 0;
+    var interest_rate = parseFloat(document.getElementById("interest_rate").value) || 0;
+    var years = parseFloat(document.getElementById("years").value) || 0;
+    var simpleInterest = (amount * interest_rate / 100) * years;
+    var total = amount + simpleInterest;
+    document.getElementById("sampleinter").innerHTML = "Simple Interest = $" + simpleInterest.toFixed(2);
+    document.getElementById("total").innerHTML = "Total bill amount = $" + total.toFixed(2);
+}
 
-        var simpleInterest = (amount*interest_rate/100) * years;
-        var total = amount + simpleInterest;
+function calculateMonthlyInterest() {
+    var totalAmount = parseFloat(document.getElementById("totalAmount").value) || 0;
+    var monthly_interest_rate = parseFloat(document.getElementById("monthly_interest_rate").value) || 0;
+    var months = parseFloat(document.getElementById("months").value) || 0;
+    var simpleMonthlyInterest = (totalAmount * monthly_interest_rate / 100) * (months / 12);
+    var totalAfterMonths = totalAmount + simpleMonthlyInterest;
+    document.getElementById("sampleintermonth").innerHTML = "Simple Interest = $" + simpleMonthlyInterest.toFixed(2);
+    document.getElementById("totalmonth").innerHTML = "Total bill amount = $" + totalAfterMonths.toFixed(2);
+}
 
-        document.getElementById("sampleinter").innerHTML = "Sample Interest = $" + simpleInterest.toFixed(2);
-        document.getElementById("total").innerHTML = "Total bill amount = $" + total.toFixed(2);
-    }
-    function calculateMonthlyInterest() {
-        var totalAmount = parseFloat(document.getElementById("totalAmount").value) || 0;
-        var monthly_interest_rate = parseFloat(document.getElementById("monthly_interest_rate").value) || 0;
-        var months = parseFloat(document.getElementById("months").value) || 0;
-
-        var simpleMonthlyInterest = (totalAmount * monthly_interest_rate / 100) * (months/12).toFixed(2);
-        var totalAfterMonths = totalAmount + simpleMonthlyInterest;
-
-        document.getElementById("sampleintermonth").innerHTML = "Sample Interest = $" + simpleMonthlyInterest.toFixed(2);
-        document.getElementById("totalmonth").innerHTML = "Total bill amount = $" + totalAfterMonths.toFixed(2);
-    }
-    function calculateCompoundMonthlyInterest() {
-        var total_Amount = parseFloat(document.getElementById("com_total_amount").value) || 0;
-        var monthlyInterestRate = parseFloat(document.getElementById("com_monthly_interest_rate").value) || 0;
-        var payPeriod = parseFloat(document.getElementById("pay_period").value) || 0;
-        var compoundMonths = parseFloat(document.getElementById("com_months").value) || 0;
-
-        var rate = monthlyInterestRate / 100;
-        var exponent = compoundMonths * payPeriod
-        var compoundMonthlyInterest = total_Amount * Math.pow((1 + (rate / compoundMonths)), exponent);
-        
-        document.getElementById("totalCompoundMonth").innerHTML = "Total bill amount = $" + compoundMonthlyInterest.toFixed(2);
-    }
+function calculateCompoundMonthlyInterest() {
+    var total_Amount = parseFloat(document.getElementById("com_total_amount").value) || 0;
+    var monthlyInterestRate = parseFloat(document.getElementById("com_monthly_interest_rate").value) || 0;
+    var payPeriod = parseFloat(document.getElementById("pay_period").value) || 0;
+    var compoundMonths = parseFloat(document.getElementById("com_months").value) || 0;
+    var rate = monthlyInterestRate / 100;
+    var exponent = compoundMonths * payPeriod;
+    var compoundMonthlyInterest = total_Amount * Math.pow((1 + (rate / compoundMonths)), exponent);
+    document.getElementById("totalCompoundMonth").innerHTML = "Total bill amount = $" + compoundMonthlyInterest.toFixed(2);
+}
 </script>
 
+<div class="page-container">
+    <div class="container">
+        
+        <!-- Yearly Simple Interest Calculator -->
+        <div class="calculator-section">
+            <h2>Yearly Simple Interest Calculator</h2>
+            <div class="calc-input-group">
+                <label>Bill Amount: $</label>
+                <input id="amount" class="form-control d-inline-block" type="number" min="1" max="1000000" oninput="calculateInterest()">
+            </div>
+            <div class="calc-input-group">
+                <label>Interest Rate(Yearly):</label>
+                <input id="interest_rate" class="form-control d-inline-block" type="number" min="0" max="100" value="10" step=".1" oninput="calculateInterest()">
+                <span class="text-white">%</span>
+            </div>
+            <div class="calc-input-group">
+                <label>Years you will take to repay:</label>
+                <input id="years" class="form-control d-inline-block" type="number" min="1" max="72" value="1" oninput="calculateInterest()">
+            </div>
+            <div class="calc-results mt-4">
+                <h3 id="sampleinter" class="result-interest"></h3>
+                <h3 id="total" class="result-total"></h3>
+            </div>
+        </div>
 
-<div class="row justify-content-center text-center">
-    <div class="interest-calc col-6">
+        <!-- Monthly Simple Interest Calculator -->
+        <div class="calculator-section">
+            <h2>Monthly Simple Interest Calculator</h2>
+            <div class="calc-input-group">
+                <label>Bill Amount: $</label>
+                <input id="totalAmount" class="form-control d-inline-block" type="number" min="1" max="1000000" oninput="calculateMonthlyInterest()">
+            </div>
+            <div class="calc-input-group">
+                <label>Interest Rate(Monthly):</label>
+                <input id="monthly_interest_rate" class="form-control d-inline-block" type="number" min="0" max="100" value="10" step=".1" oninput="calculateMonthlyInterest()">
+                <span class="text-white">%</span>
+            </div>
+            <div class="calc-input-group">
+                <label>Months you will take to repay:</label>
+                <input id="months" class="form-control d-inline-block" type="number" min="1" max="72" value="1" oninput="calculateMonthlyInterest()">
+            </div>
+            <div class="calc-results mt-4">
+                <h3 id="sampleintermonth" class="result-interest"></h3>
+                <h3 id="totalmonth" class="result-total"></h3>
+            </div>
+        </div>
 
-        <h1>Yearly Simple Interest Calculator</h1>
-        <p>Bill Amount: $<input id="amount" type="number" min="1" max="1000000" oninput="calculateInterest()"></p>
-        <p>Interest Rate(Yearly): <input id="interest_rate" type="number" min="0" max="100" value="10" step=".1" oninput="calculateInterest()">%</p>
-        <p>Years you will take to repay: <input id="years" type="number" min="1" max="72" value="1" oninput="calculateInterest()"></p>
-        <h2 id="sampleinter"></h2>
-        <h2 id="total"></h2>
+        <!-- Monthly Compound Interest Calculator -->
+        <div class="calculator-section">
+            <h2>Monthly Compound Interest Calculator</h2>
+            <div class="calc-input-group">
+                <label>Bill Amount: $</label>
+                <input id="com_total_amount" class="form-control d-inline-block" type="number" min="1" max="1000000" oninput="calculateCompoundMonthlyInterest()">
+            </div>
+            <div class="calc-input-group">
+                <label>Interest Rate(Monthly):</label>
+                <input id="com_monthly_interest_rate" class="form-control d-inline-block" type="number" min="0" max="100" value="10" step=".1" oninput="calculateCompoundMonthlyInterest()">
+                <span class="text-white">%</span>
+            </div>
+            <div class="calc-input-group">
+                <label>Months you have to repay:</label>
+                <input id="pay_period" class="form-control d-inline-block" type="number" min="1" max="71" value="1" oninput="calculateCompoundMonthlyInterest()">
+            </div>
+            <div class="calc-input-group">
+                <label>Number of times interest applied:</label>
+                <input id="com_months" class="form-control d-inline-block" type="number" min="1" max="72" value="1" oninput="calculateCompoundMonthlyInterest()">
+            </div>
+            <div class="calc-results mt-4">
+                <h3 id="totalCompoundMonth" class="result-total"></h3>
+            </div>
+        </div>
+
     </div>
 </div>
-<div class="row justify-content-center text-center mt-5">
-    <div class="interest-calc col-6">
 
-        <h1>Monthly Simple Interest Calculator</h1>
-        <p>Bill Amount: $<input id="totalAmount" type="number" min="1" max="1000000" oninput="calculateMonthlyInterest()"></p>
-        <p>Interest Rate(Monthly): <input id="monthly_interest_rate" type="number" min="0" max="100" value="10" step=".1" oninput="calculateMonthlyInterest()">%</p>
-        <p>Months you will take to repay: <input id="months" type="number" min="1" max="72" value="1" oninput="calculateMonthlyInterest()"></p>
-        <h2 id="sampleintermonth"></h2>
-        <h2 id="totalmonth"></h2>
-    </div>
-</div>
-<div class="row justify-content-center text-center mt-5">
-    <div class="interest-calc col-6">
-
-        <h1>Monthly Compound Interest Calculator</h1>
-        <p>Bill Amount: $<input id="com_total_amount" type="number" min="1" max="1000000" onchange="calculateCompoundMonthlyInterest()"></p>
-        <p>Interest Rate(Monthly): <input id="com_monthly_interest_rate" type="number" min="0" max="100" value="10" step=".1" onchange="calculateCompoundMonthlyInterest()">%</p>
-        <p>Months you have to repay: <input id="pay_period" type="number" min="1" max="71" value="1" onchange="calculateCompoundMonthlyInterest()"></p>
-        <p>Number of times interest applied:  <input id="com_months" type="number" min="1" max="72" value="1" onchange="calculateCompoundMonthlyInterest()"></p>
-        <h2 id="totalCompoundMonth"></h2>
-    </div>
-</div>
-
+ 

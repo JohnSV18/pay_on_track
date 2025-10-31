@@ -1,29 +1,51 @@
 {{#if data}}
-    <div class="row">
-        {{!-- <a href="#">Send a reminder with your bills!</a> --}}
-        <h3 class="col-3">Filter by:</h3>
-        <a class="nav-link col-2 btn btn-outline-dark" href="/sortedbills">Highest Bill Amount to Lowest</a>
-        <a class="nav-link col-2 btn btn-outline-dark" href="/creditbills">Credit Card Bills</a>
-        <a class="nav-link col-2 btn btn-outline-dark" href="/personalbills">Personal Loan Bills</a>
-    </div>
-    <div class="row text-center">
-    {{#each data}}
-        <div class="col-6 login-up-form mt-3">
-            <div class="mt-3">
-                <h2>{{this.title}}</h2>
-                <p>Bill type: {{this.type}}</p>
-                <p>Bill description: {{this.description}}</p>
-                <p>Amount due: ${{this.amount}}</p>
-                <p>This bill is due on: {{this.due_date}}</p>
-            </div>
-            <div class="mt-3 text-center">
-                <button type="submit" class="submitButton"><a href="/bills/{{this._id}}">Update bill</a></button>
+<div class="page-container">
+    <div class="container">
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="row align-items-center">
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <h3>Filter by:</h3>
+                </div>
+                <div class="col-md-9">
+                    <div class="d-flex flex-wrap gap-3 justify-content-md-end justify-content-start">
+                        <a href="/sortedbills">Highest Bill Amount to Lowest</a>
+                        <a href="/creditbills">Credit Card Bills</a>
+                        <a href="/personalbills">Personal Loan Bills</a>
+                    </div>
+                </div>
             </div>
         </div>
-    {{/each}}
-{{else}}
-    <div class="text-center mt-5 pt-5">
-        <h2>There are no bills at this time.</h2>
-    </div>  
-{{/if}}
+
+        <!-- Bills Grid - 3 per row -->
+        <div class="row g-4">
+            {{#each data}}
+            <div class="col-lg-4 col-md-6">
+                <div class="bill-card">
+                    <h2>{{this.title}}</h2>
+                    <p><strong>Bill type:</strong> {{this.type}}</p>
+                    <p><strong>Bill description:</strong> {{this.description}}</p>
+                    <p class="amount-due">Amount due: ${{this.amount}}</p>
+                    <p><strong>This bill is due on:</strong> {{this.due_date}}</p>
+                    <a href="/bills/{{this._id}}" class="btn-update">Update bill</a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+    </div>
 </div>
+{{else}}
+<!-- Empty State -->
+<div class="page-container">
+    <div class="container">
+        <div class="empty-state">
+            <h3>No Bills Yet</h3>
+            <p>There are no bills at this time. Get started by adding your first bill to track!</p>
+            <a href="/bills/add" class="btn-add">Add Your First Bill</a>
+        </div>
+    </div>
+</div>
+{{/if}}
+
