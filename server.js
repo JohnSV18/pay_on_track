@@ -1,14 +1,33 @@
-const express = require('express')
+const express = require('express');
+const session = require('express-session');
+const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
-const cors = require('cors')
-const handlebars = require('express-handlebars')
+const cors = require('cors');
+const handlebars = require('express-handlebars');
 const methodOverride = require('method-override');
-const checkAuth = require('./middleware/auth')
-assert = require("assert")
+const checkAuth = require('./middleware/auth');
+assert = require("assert");
 require('dotenv').config();
 const app = express();
 // const port = process.env.PORT;
 const port = 8000
+
+app.use(session({
+    secret: 'sdvsdvdvsdv', // Change this to a random string
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60000 }
+}));
+
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.successMessage = req.flash('success');
+    res.locals.errorMessage = req.flash('error');
+    next();
+});
+
+
 
 app.use(cors());
 app.use(express.json());

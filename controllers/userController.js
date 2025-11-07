@@ -11,7 +11,8 @@ const showHome = (req, res) => {
     return res.render('home', { currentUser });
   } catch (error) {
     console.error('Home page error: ', error.message);
-    res.status(500).render('error', { message: 'Page load failed' });
+    req.flash('error', 'Page load failed');
+    return res.redirect('/');
   }
 };
 
@@ -20,7 +21,8 @@ const showSignup = (req, res) => {
     return res.render('signup');
   } catch (error) {
     console.log('Signup page error: ', error.message);
-    res.status(500).render('error', { message: 'Unable to load signup page'})
+    req.flash('error', 'Unable to load signup page');
+    return res.redirect('/signup');
   }
 };
 
@@ -29,7 +31,8 @@ const showLogin = (req, res) => {
     return res.render('login');
   } catch (error) {
     console.log('Login page error: ', error.message);
-    res.status(500).render('error', { message: 'Unable to load login page'})
+    req.flash('error', 'Unable to load login page');
+    return res.redirect('/login');
   }
 };
 
@@ -37,60 +40,42 @@ const signup = async (req, res) => {
   try {
     const { username, password, passwordVerify } = req.body;
 
-    if (!username || !password || !passwordVerify) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please enter all required fields.',
-        formData: { username: username || '' }
-      });
-    }
-    if (password.length < 6) {
-      return res.status(400).json({ 
-        errorMessage: "Password must be at least 6 characters long." 
-      });
-    }
-    if (password !== passwordVerify) {
-      return res.status(400).json({
-        errorMessage: "Passwords do not match."
-      });
-    }
     const existingUser = await User.findOne({ username });
-      
-    if (existingUser){
-      return res.status(400).json({ 
-        errorMessage: "Username already exists." 
-      });
+
+    if (existingUser) {
+      req.flash('error', 'Username already exists');
+      return res.redirect('/signup')
     }
 
     // save a new user account to the database 
     const user = new User(req.body);
     const savedUser = await user.save();
 
+    req.flash('success', 'Username created')
     console.log('User created:', savedUser.username);
     return res.redirect("/login");
 
   } catch (error) {
-    console.log('Sign Up error: ', error.message);
-    res.status(500).render('error', { message: 'Unable to complete sign up request'})
+      console.error('Signup error:', error);
+      req.flash('error', 'Something went wrong. Please try again.');
+      res.redirect('/signup');
   }
 };
 
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    //validate 
-    if (!username || !password){
-      return res.render('login')
-    }
     
     const user = await User.findOne({ username }, 'username password')
     if (!user) {
-      return res.status(401).send({ message: "Wrong Username or Password" })
+      req.flash('error', 'Wrong Username or Password')
+      return res.redirect('/login')
+      // return res.status(401).send({ message: "Wrong Username or Password" })
     }
     user.comparePassword(password, (err, isMatch) => {
       if (!isMatch) {
-        return res.status(401).send({ message: "Wrong Username or password" })
-      //   .json({ errorMessage: "Wrong username or password" });
+        req.flash('error', 'Wrong Username or Password')
+        return res.redirect('/login')
       }
       //sign the token
       const token = jwt.sign({ _id: user._id , username: user.username}, process.env.JWT_SECRET, { expiresIn: "15m" });
@@ -105,7 +90,8 @@ const login = async (req, res) => {
   })
   } catch (error) {
     console.log('Log In error: ', error.message);
-    res.status(500).render('error', { message: 'Unable to complete log in request'})
+    req.flash('error', 'Unable to complete log in request');
+    return res.redirect('/login');
   }
 }
 

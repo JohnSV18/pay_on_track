@@ -489,3 +489,61 @@ body {
 .empty-state .btn-add:hover {
     transform: translateY(-2px);
 }
+
+/* Flash message styling */
+/* Alert container */
+.alert {
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Error messages */
+.alert-danger {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+/* Success messages */
+.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+/* Close button */
+.alert .btn-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: inherit;
+    opacity: 0.5;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 1rem;
+    line-height: 1;
+    transition: opacity 0.3s;
+}
+
+.alert .btn-close:hover {
+    opacity: 1;
+}
+
+/* Alert text */
+.alert-text {
+    flex: 1;
+}
+
+/* Animation for fade out when dismissed */
+.alert.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
