@@ -53,7 +53,7 @@ require("./config/db.config.js");
 require("./routes/billRoutes")(app);
 require("./routes/userRoutes")(app);
 
-app.listen("0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`Pay-On-Track server running on port ${PORT}`);
 });
 
