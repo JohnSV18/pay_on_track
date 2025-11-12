@@ -16,8 +16,6 @@ module.exports = app => {
 
     router.post("/signup", validate('user'), signup);
 
-    // router.post("/signup", signup);
-
     router.get("/login", showLogin);
 
     router.post("/login", noCache, validate('login'), login);

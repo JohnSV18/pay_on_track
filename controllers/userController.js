@@ -5,6 +5,7 @@ const User = require('../models/userModel');
 
 dotenv.config();
 
+// Shows the homepage dashbboard
 const showHome = (req, res) => {
   try {
     const currentUser = req.user;
@@ -16,6 +17,7 @@ const showHome = (req, res) => {
   }
 };
 
+// Displays the signup form to create a new user
 const showSignup = (req, res) => {
   try {
     return res.render('signup');
@@ -26,6 +28,7 @@ const showSignup = (req, res) => {
   }
 };
 
+// Displays the login form to login existing user
 const showLogin = (req, res) => {
   try {
     return res.render('login');
@@ -36,9 +39,10 @@ const showLogin = (req, res) => {
   }
 };
 
+// POST request submitting the filled out form to sign up
 const signup = async (req, res) => {
   try {
-    const { username, password, passwordVerify } = req.body;
+    const { username, password } = req.body;
 
     const existingUser = await User.findOne({ username });
 
@@ -62,20 +66,20 @@ const signup = async (req, res) => {
   }
 };
 
+// POST request logging in an existing user
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
     
     const user = await User.findOne({ username }, 'username password')
     if (!user) {
-      req.flash('error', 'Wrong Username or Password')
-      return res.redirect('/login')
-      // return res.status(401).send({ message: "Wrong Username or Password" })
+      req.flash('error', 'Wrong Username or Password');
+      return res.redirect('/login');
     }
     user.comparePassword(password, (err, isMatch) => {
       if (!isMatch) {
-        req.flash('error', 'Wrong Username or Password')
-        return res.redirect('/login')
+        req.flash('error', 'Wrong Username or Password');
+        return res.redirect('/login');
       }
       //sign the token
       const token = jwt.sign({ _id: user._id , username: user.username}, process.env.JWT_SECRET, { expiresIn: "15m" });
@@ -95,6 +99,7 @@ const login = async (req, res) => {
   }
 }
 
+// Loging out of exsting user account
 const logout = (req, res) => {
   try {
     res.clearCookie("token");

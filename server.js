@@ -9,8 +9,7 @@ const checkAuth = require('./middleware/auth');
 assert = require("assert");
 require('dotenv').config();
 const app = express();
-// const port = process.env.PORT;
-const port = 8000
+const PORT = process.env.PORT || 3000;
 
 app.use(session({
     secret: 'sdvsdvdvsdv', // Change this to a random string
@@ -49,8 +48,8 @@ require("./config/db.config.js");
 require("./routes/billRoutes")(app);
 require("./routes/userRoutes")(app);
 
-app.listen(port,'0.0.0.0', () => {
-  console.log(`Listening on port ${port}!`)
+app.listen(PORT, () => {
+  console.log(`Pay-On-Track server running on port ${PORT}`);
 });
 
 module.exports = app;

@@ -28,7 +28,8 @@ const create = async (req, res) => {
   try{
     const currentUser = req.user
     if (!req.body.title) {
-      return res.status(400).json({ message: "Content can not be empty!" });
+      req.flash('error', 'Content can not be empty!')
+      return res.redirect('/create');
     }
     // Create a Bill
     const bill = new Bill({
@@ -135,12 +136,12 @@ const findOne = async (req, res) => {
     const currentUser = req.user
     const data = await Bill.findById(billId).lean()
     if (!data) {
-      return res.status(404).json({ message: "Not found Bill with id " + billId })
+      return res.status(404).json({ message: "Could not find Bill with id " + billId })
     }
     return res.render('showBill', { data, currentUser });
   } catch (error) {
-    console.error('Finding bills error: ', error.message);
-    res.status(500).render('error', { message: 'There was an error fetching all your bill'})
+    console.error('Finding bill error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error fetching your bill'})
   }
 }
 
@@ -148,22 +149,17 @@ const findOne = async (req, res) => {
 const update = async (req, res) => {
   try {
     const currentUser = req.user;
-    // console.log(req)
     if (!req.body) {
-      return res.status(400).json({
-        message: 'Data to update cannot be empty!'
-      })
+      req.flash('error', 'Data to update cannot be empty!')
+      res.redirect('/bills/"id')
     }
     const billId = req.params.id;
     const data = await Bill.findByIdAndUpdate( billId, req.body, { new: true,  // Returns updated document
                                                                    runValidators: true  // Runs model validators
                                                                   })
     if (!data) {
-      return res.status(404).json({
-          message: `Cannot update Bill with id=${billId}. Maybe Bill was not found!`
-        });
-    }
-    
+      return res.status(500).render('error', { message: `Cannot update Bill with id=${billId}. Maybe Bill was not found!`})
+    };
     return res.render('home', { currentUser });
   } catch (error) {
     console.error('Updating bill error: ', error.message);

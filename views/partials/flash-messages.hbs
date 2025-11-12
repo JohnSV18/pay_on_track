@@ -1,13 +1,13 @@
 {{#if errorMessage}}
 <div class="alert alert-danger">
     <span class="alert-text">{{errorMessage}}</span>
-    <button type="button" class="btn-close" aria-label="Close">&times;</button>
+    <button type="button" class="btn-close" aria-label="Close" onclick="this.closest('.alert').remove()">&times;</button>
 </div>
 {{/if}}
 
 {{#if successMessage}}
 <div class="alert alert-success">
     <span class="alert-text">{{successMessage}}</span>
-    <button type="button" class="btn-close" aria-label="Close">&times;</button>
+    <button type="button" class="btn-close" aria-label="Close" onclick="this.closest('.alert').remove()">&times;</button>
 </div>
 {{/if}}
