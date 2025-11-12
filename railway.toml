@@ -1,0 +1,8 @@
+[build]
+builder = "NIXPACKS"
+
+[build.nixpacksConfig]
+version = "1.21.0"
+
+[[build.nixpacksConfig.phases.setup]]
+nixPkgs = ["nodejs-18_x"]
