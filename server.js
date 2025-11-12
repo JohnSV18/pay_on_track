@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
@@ -12,9 +13,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(session({
-    secret: 'sdvsdvdvsdv', // Change this to a random string
+    secret: process.env.SESSION_SECRET, 
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+      touchAfter: 24 * 3600 // lazy session update - only update once per 24 hours
+  }),
     cookie: { maxAge: 60000 }
 }));
 
