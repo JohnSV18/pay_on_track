@@ -28,10 +28,10 @@ const schemas = {
         }),
     }),
     user: Joi.object({
-        username: Joi.string().min(1).max(100).required().messages({
+        username: Joi.string().min(1).max(10).required().messages({
             'string.empty': 'Username is required',
             'string.min': 'Username must be at least 3 characters',
-            'string.max': 'Username cannot exceed 100 characters',
+            'string.max': 'Username cannot exceed 10 characters',
             'any.required': 'Username is required'
         }),
         // email: Joi.string().email().required(),
