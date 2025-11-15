@@ -1,4 +1,4 @@
-{{#if data}}
+{{#if formattedBills}}
 <div class="page-container">
     <div class="container">
         
@@ -20,14 +20,14 @@
 
         <!-- Bills Grid - 3 per row -->
         <div class="row g-4">
-            {{#each data}}
+            {{#each formattedBills}}
             <div class="col-lg-4 col-md-6">
                 <div class="bill-card">
                     <h2>{{this.title}}</h2>
                     <p><strong>Bill type:</strong> {{this.type}}</p>
                     <p><strong>Bill description:</strong> {{this.description}}</p>
                     <p class="amount-due">Amount due: ${{this.amount}}</p>
-                    <p><strong>This bill is due on:</strong> {{this.due_date}}</p>
+                    <p><strong>Due by:</strong> {{this.formattedDate}}</p>
                     <a href="/bills/{{this._id}}" class="btn-update">Update bill</a>
                 </div>
             </div>

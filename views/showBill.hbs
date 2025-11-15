@@ -5,7 +5,7 @@
           <h3><a href="/bills/{{data._id}}">{{data.title}}</a></h3>
           <p><strong>Bill description:</strong> {{data.description}} </p>
           <p><strong>${{data.amount}}</strong> is the amount left to be paid</p>
-          <p><strong>This bill must be paid by:</strong>{{data.due_date}}</p>
+          <p><strong>This bill must be paid by:</strong>{{data.dueDate}}</p>
       </div>
 
       <h2>Update Bill Details</h2>
@@ -33,7 +33,7 @@
 
           <div class="mb-4">
               <label for="due_date" class="form-label">Full Payment Due Date:</label>
-              <input type="date" class="form-control" name="due_date" id="due_date" value="{{data.due_date}}">
+              <input type="date" class="form-control" name="due_date" id="due_date" value="{{data.formattedDate}}">
           </div>
 
           <button type="submit" class="btn btn-form-primary">Update Bill</button>

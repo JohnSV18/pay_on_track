@@ -26,6 +26,10 @@ const schemas = {
             'date.base': 'Please enter a valid date',
             'any.required': 'Due date is required'
         }),
+        // dateCreated: Joi.date().required().messages({
+        //     'date.base': 'Could not add date created',
+        //     'any.required': 'Date Created is required'
+        // }),
     }),
     user: Joi.object({
         username: Joi.string().min(1).max(10).required().messages({

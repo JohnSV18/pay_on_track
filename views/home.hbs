@@ -5,7 +5,9 @@
       <div class="col-lg-8">
         <h1>Your Bills, Organized & On Time</h1>
         <p class="lead"> Never miss a payment again. Track all your bills in one place, see exactly what you owe, and stay in control of your finances</p>
+        {{#unless currentUser}}
         <a href="/signup" class="btn btn-hero">Get Started</a>
+        {{/unless}}
       </div>
     </div>
   </div>

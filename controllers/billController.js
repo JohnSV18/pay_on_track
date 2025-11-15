@@ -41,20 +41,33 @@ const create = async (req, res) => {
       userId: req.user._id
     });
     await bill.save()
-    return res.render('home', { currentUser });
+    return res.redirect('/allbills')
   } catch (error) {
     console.error('Create bill error: ', error.message);
     res.status(500).render('error', { message: 'There was an error and could not create bill'})
   }
 }
 
-// Retrieve all Bills from the database.
+// Retrieve all Bills the user has created in desending order from the last one created
 const findAll = async (req, res) => {
   try{
     const currentUser = req.user;
     if (currentUser) {
-      const data = await Bill.find({ userId: req.user._id }).lean()
-      return res.render('allBills', { data, currentUser });
+      const data = await Bill.find({ userId: req.user._id })
+            .sort({ createdAt: -1})
+            .lean()
+
+      const formattedBills = data.map(bill => ({
+        ...bill,
+        formattedDate: bill.dueDate.toLocaleDateString('en-US', {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+      })
+  );
+      return res.render('allBills', { formattedBills, currentUser });
     }
   } catch (error) {
     console.error('Finding all bills error: ', error.message);
