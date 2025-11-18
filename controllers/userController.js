@@ -21,7 +21,8 @@ const showHome = (req, res) => {
 // shows the articles page with links to financial articles
 const showArticles = (req, res) => {
   try {
-    res.render('articles', { articles: articleList })
+    const currentUser = req.user;
+    res.render('articles', { articles: articleList, currentUser })
   } catch (error) {
     console.error('Articles Error', error.message)
     res.status(500).render('error', { message: 'Error getting all the articles' });  

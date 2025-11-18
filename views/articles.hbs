@@ -1,17 +1,55 @@
 <div class="page-container">
     <div class="container">
+        
+        <!-- Page Header -->
+        <div class="articles-header text-center mb-5">
+            <h1 class="articles-title">Financial Resources & Tips</h1>
+            <p class="articles-subtitle">Expert advice to help you master your finances</p>
+        </div>
+
+        <!-- Articles Grid -->
         <div class="row g-4">
             {{#each articles}}
             <div class="col-lg-4 col-md-6">
-                <div class="bill-card">
-                    <h2>{{this.title}}</h2>
-                    <p><strong>Article URL:</strong> {{this.url}}</p>
-                    <p><strong>Category:</strong> {{this.category}}</p>
-                    <p class="amount-due">Source: ${{this.source}}</p>
-                    <p><strong>Published on:</strong> {{this.publishedDate}}</p>
+                <div class="article-card h-100">
+                    <!-- Category Badge -->
+                    <span class="article-badge">{{category}}</span>
+                    
+                    <!-- Article Title -->
+                    <h3 class="article-title">
+                        <a href="{{url}}" target="_blank" rel="noopener noreferrer">
+                            {{title}}
+                        </a>
+                    </h3>
+                    
+                    <!-- Article Excerpt -->
+                    <p class="article-excerpt">{{excerpt}}</p>
+                    
+                    <!-- Article Meta Info -->
+                    <div class="article-meta mt-auto">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="article-source">{{source}}</span>
+                            <span class="article-date">{{publishedDate}}</span>
+                        </div>
+                        <a href="{{url}}" target="_blank" rel="noopener noreferrer" class="btn-read-article mt-3">
+                            Read Article
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="ms-1">
+                                <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
             {{/each}}
         </div>
+
+        <!-- Empty State (if no articles) -->
+        {{#unless articles}}
+        <div class="empty-state text-center py-5">
+            <h3>No Articles Available</h3>
+            <p class="text-muted">Check back soon for financial tips and resources!</p>
+        </div>
+        {{/unless}}
+
     </div>
 </div>
