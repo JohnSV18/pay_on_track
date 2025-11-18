@@ -17,7 +17,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,
+      mongoUrl: process.env.MONGODB_LOCAL,
       touchAfter: 24 * 3600 // lazy session update - only update once per 24 hours
   }),
     cookie: { maxAge: 60000 }

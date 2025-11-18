@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const User = require('../models/userModel');
+const articleList = require('../data/financeArticles.json')
 
 dotenv.config();
 
@@ -14,6 +15,16 @@ const showHome = (req, res) => {
     console.error('Home page error: ', error.message);
     req.flash('error', 'Page load failed');
     return res.redirect('/');
+  }
+};
+
+// shows the articles page with links to financial articles
+const showArticles = (req, res) => {
+  try {
+    res.render('articles', { articles: articleList })
+  } catch (error) {
+    console.error('Articles Error', error.message)
+    res.status(500).render('error', { message: 'Error getting all the articles' });  
   }
 };
 
@@ -113,6 +124,7 @@ const logout = (req, res) => {
   module.exports = {
     showHome,
     showSignup,
+    showArticles,
     showLogin,
     signup, 
     login,

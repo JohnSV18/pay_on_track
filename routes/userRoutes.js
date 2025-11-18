@@ -4,7 +4,8 @@ module.exports = app => {
             showLogin,
             signup, 
             login,
-            logout } = require("../controllers/userController.js");
+            logout, 
+            showArticles} = require("../controllers/userController.js");
     const { validate } = require('../middleware/validation.js');
     const noCache = require('../middleware/noCache');
     var router = require("express").Router();
@@ -13,6 +14,8 @@ module.exports = app => {
     router.get("/", showHome);
 
     router.get("/signup", showSignup);
+
+    router.get("/articles", showArticles);
 
     router.post("/signup", validate('user'), signup);
 
