@@ -1,8 +1,10 @@
-/*  */
 :root {
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --primary-color: #667eea;
-    --secondary-color: #764ba2;
+    --primary-gradient: linear-gradient(135deg, #715AFF 0%, #5887FF 100%);
+    --primary-color: #715AFF;
+    --secondary-color: #5887FF;
+    --accent-cyan: #55C1FF;
+    --dark-navy: #102E4A;
+    --light-periwinkle: #A682FF;
 }
 
 body {
@@ -82,7 +84,7 @@ body {
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
     color: var(--primary-color);
 }
-/* Features and Caclulator image styling */
+/* Features and Calculator image styling */
 .features-section {
     padding: 4rem 0;
 }
@@ -91,14 +93,14 @@ body {
     background: white;
     padding: 2.5rem;
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 4px 20px rgba(113, 90, 255, 0.1);
     height: 100%;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .feature-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 8px 30px rgba(113, 90, 255, 0.2);
 }
 
 .feature-card h2 {
@@ -115,7 +117,7 @@ body {
 }
 
 .calculator-preview {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #E8F0FF 0%, #D4E6FF 100%);
     padding: 2rem;
     border-radius: 12px;
     display: flex;
@@ -124,14 +126,14 @@ body {
 }
 
 .calc-visual {
-    background: #e8eaf0;
+    background: #D4E6FF;
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .calc-display {
-    background: #4a5568;
+    background: #102E4A;
     color: white;
     padding: 1rem;
     border-radius: 8px;
@@ -172,14 +174,14 @@ body {
     align-items: center;
     justify-content: center;
     padding: 3rem 1rem;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #E8F0FF 0%, #D4E6FF 100%);
 }
 
 .form-box {
-    background: #2d3748;
+    background: #102E4A;
     padding: 2.5rem;
     border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 10px 40px rgba(113, 90, 255, 0.2);
     max-width: 550px;
     width: 100%;
 }
@@ -211,26 +213,26 @@ body {
 .form-box .form-select:focus {
     background: white;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(113, 90, 255, 0.25);
 }
 
 .btn-form-primary {
-    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-    color: #2d3748;
+    background: linear-gradient(135deg, #55C1FF 0%, #5887FF 100%);
+    color: white;
     padding: 1rem 2.5rem;
     border: none;
     border-radius: 50px;
     font-size: 1.1rem;
     font-weight: 600;
     width: 100%;
-    box-shadow: 0 4px 15px rgba(253, 160, 133, 0.3);
+    box-shadow: 0 4px 15px rgba(85, 193, 255, 0.3);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .btn-form-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(253, 160, 133, 0.4);
-    color: #2d3748;
+    box-shadow: 0 6px 20px rgba(85, 193, 255, 0.4);
+    color: white;
 }
 /* Update bill/ bill info styling */
 .bill-info {
@@ -242,7 +244,7 @@ body {
 }
 
 .bill-info h3 {
-    color: #f6d365;
+    color: #55C1FF;
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
 }
@@ -253,13 +255,13 @@ body {
 }
 
 .bill-info a {
-    color: #81e6d9;
+    color: #55C1FF;
     text-decoration: none;
     font-weight: 600;
 }
 
 .bill-info a:hover {
-    color: #4fd1c5;
+    color: #A682FF;
     text-decoration: underline;
 }
 
@@ -295,11 +297,11 @@ body {
 
 /* Interest calculator styling */
 .calculator-section {
-    background: #2d3748;
+    background: #102E4A;
     padding: 2rem;
     border-radius: 20px;
     margin-bottom: 2rem;
-    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.15);
+    box-shadow: 0 10px 40px rgba(113, 90, 255, 0.15);
 }
 
 .calculator-section h2 {
@@ -338,13 +340,13 @@ body {
 }
 
 .result-interest {
-    color: #f6d365;
+    color: #55C1FF;
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
 }
 
 .result-total {
-    color: #81e6d9;
+    color: #A682FF;
     font-size: 1.5rem;
     font-weight: 700;
 }
@@ -378,7 +380,7 @@ body {
 .filter-bar h3 {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #2d3748;
+    color: #102E4A;
     margin-bottom: 0;
 }
 
@@ -392,7 +394,7 @@ body {
 }
 
 .filter-bar a:hover {
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(113, 90, 255, 0.1);
 }
 
 /* Bill card styling */
@@ -400,7 +402,7 @@ body {
     background: white;
     padding: 2rem;
     border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 4px 20px rgba(113, 90, 255, 0.1);
     height: 100%;
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
@@ -409,7 +411,7 @@ body {
 
 .bill-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 8px 30px rgba(113, 90, 255, 0.2);
 }
 
 .bill-card h2 {
@@ -427,7 +429,7 @@ body {
 }
 
 .bill-card p strong {
-    color: #2d3748;
+    color: #102E4A;
 }
 
 .bill-card .amount-due {
@@ -438,7 +440,7 @@ body {
 }
 
 .bill-card .btn-update {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #715AFF 0%, #5887FF 100%);
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
@@ -453,7 +455,7 @@ body {
 
 .bill-card .btn-update:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 15px rgba(113, 90, 255, 0.3);
     color: white;
 }
 
@@ -466,7 +468,7 @@ body {
 
 .empty-state h3 {
     font-size: 1.5rem;
-    color: #2d3748;
+    color: #102E4A;
     margin-bottom: 1rem;
 }
 
@@ -476,8 +478,8 @@ body {
 }
 
 .empty-state .btn-add {
-    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-    color: #2d3748;
+    background: linear-gradient(135deg, #55C1FF 0%, #5887FF 100%);
+    color: white;
     padding: 1rem 2rem;
     border-radius: 50px;
     text-decoration: none;
@@ -556,7 +558,7 @@ body {
 }
 
 .articles-title {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #715AFF 0%, #5887FF 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -576,24 +578,24 @@ body {
     background: white;
     border-radius: 16px;
     padding: 2rem;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.08);
+    box-shadow: 0 4px 20px rgba(113, 90, 255, 0.08);
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
     position: relative;
-    border: 1px solid rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(113, 90, 255, 0.1);
 }
 
 .article-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.15);
-    border-color: rgba(102, 126, 234, 0.3);
+    box-shadow: 0 12px 35px rgba(113, 90, 255, 0.15);
+    border-color: rgba(113, 90, 255, 0.3);
 }
 
 /* Category Badge */
 .article-badge {
     display: inline-block;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #715AFF 0%, #5887FF 100%);
     color: white;
     padding: 0.4rem 1rem;
     border-radius: 20px;
@@ -614,13 +616,13 @@ body {
 }
 
 .article-title a {
-    color: #2d3748;
+    color: #102E4A;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 .article-title a:hover {
-    color: #667eea;
+    color: #715AFF;
 }
 
 /* Article Excerpt */
@@ -644,7 +646,7 @@ body {
 }
 
 .article-source {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #715AFF 0%, #5887FF 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -663,7 +665,7 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #715AFF 0%, #5887FF 100%);
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
@@ -677,7 +679,7 @@ body {
 
 .btn-read-article:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(113, 90, 255, 0.4);
     color: white;
 }
 
@@ -686,11 +688,11 @@ body {
     background: white;
     border-radius: 16px;
     padding: 3rem;
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.08);
+    box-shadow: 0 4px 20px rgba(113, 90, 255, 0.08);
 }
 
 .empty-state h3 {
-    color: #2d3748;
+    color: #102E4A;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
