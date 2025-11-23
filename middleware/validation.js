@@ -16,21 +16,31 @@ const schemas = {
             'string.empty': 'Bill description is required',
             'any.required': 'Bill description is required'
         }),
-        amount: Joi.number().positive().max(999999.99).precision(2).required().messages({
+        originalAmount: Joi.number().positive().max(999999.99).precision(2).required().messages({
             'number.base': 'Amount must be a valid number',
             'number.positive': 'Amount must be greater than 0',
             'number.max': 'Amount cannot exceed $999,999.99',
             'any.required': 'Bill amount is required'
         }),
+        payments: Joi.array().items(
+            Joi.object({
+                paymentDate: Joi.date().required().messages({
+                'date.base': 'Valid date is missing',
+                }),
+                paymentAmount: Joi.number().positive().required().messages({
+                    'number.base': 'Amount must be a valid number',
+                    'number.positive': 'Amount must be greater than 0',
+                    'any.required': 'Payment amount is required'
+                })
+            })
+        ).optional(),
+            
         dueDate: Joi.date().required().messages({
             'date.base': 'Please enter a valid date',
             'any.required': 'Due date is required'
         }),
-        // dateCreated: Joi.date().required().messages({
-        //     'date.base': 'Could not add date created',
-        //     'any.required': 'Date Created is required'
-        // }),
     }),
+
     user: Joi.object({
         username: Joi.string().min(1).max(10).required().messages({
             'string.empty': 'Username is required',
@@ -63,6 +73,7 @@ const schemas = {
             'any.required': 'Password is required'
         })
     })
+    
 };
 
 const routeRedirects = {
@@ -74,6 +85,7 @@ const routeRedirects = {
 const validate = (schemaName) => {
     return (req, res, next) => {
         const schema = schemas[schemaName];
+        console.log(schema)
         const { error, value, warning } = schema.validate(req.body);
         if (error) {
              // Get the first error message

@@ -18,14 +18,38 @@ const billSchema = new Schema({
         maxlength: 50, 
         required: true 
     },
-    amount: { 
+    originalAmount: { 
         type: Number, 
         required: true,
         min: 0.01 
     },
+    currentBalance: {
+        type: Number,
+        min: 0,
+        required: true,
+    },
     dueDate: {
         type: Date,
         required: true
+    },
+    payments: [
+        {
+            paymentDate: {
+                type: Date,
+                default: Date.now(),
+                required: true
+            },
+            paymentAmount: {
+                type: Number,
+                min: 0.01,
+                required: true
+            }
+        }
+    ],
+    billStatus: {
+        type: String,
+        enum: ['active', 'paid', 'overdue'],
+        default: 'active'
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

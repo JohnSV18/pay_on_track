@@ -26,7 +26,7 @@ const createForm = (req, res) => {
 // creates a bill and saves it based on the userID
 const create = async (req, res) => {
   try{
-    const currentUser = req.user
+    // const currentUser = req.user
     if (!req.body.title) {
       req.flash('error', 'Content can not be empty!')
       return res.redirect('/create');
@@ -36,11 +36,15 @@ const create = async (req, res) => {
       title: req.body.title,
       type: req.body.type,
       description: req.body.description,
-      amount: req.body.amount,
+      originalAmount: req.body.originalAmount,
+      currentBalance: req.body.originalAmount,
       dueDate: req.body.dueDate,
+      billStatus: req.body.billStatus,
+      payments: req.body.payments,
       userId: req.user._id
     });
     await bill.save()
+    console.log(bill)
     return res.redirect('/allbills')
   } catch (error) {
     console.error('Create bill error: ', error.message);
