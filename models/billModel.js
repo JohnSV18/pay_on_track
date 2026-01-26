@@ -15,7 +15,7 @@ const billSchema = new Schema({
     description: { 
         type: String, 
         minlength: 1, 
-        maxlength: 50, 
+        maxlength: 50,  
         required: true 
     },
     originalAmount: { 

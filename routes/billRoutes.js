@@ -9,7 +9,8 @@ module.exports = app => {
             findByTypePersonalLoan,
             findOne,
             update,
-            deleteBill } = require('../controllers/billController.js')
+            deleteBill, 
+            updateForm} = require('../controllers/billController.js')
   
     var router = require("express").Router();
     //Shows interest calculator
@@ -35,6 +36,9 @@ module.exports = app => {
 
     // // Retrieve bills based on sorted dates
     // // router.get("/datedbills", bills.findByDate);
+
+    // Gets the update bill form
+    router.get("/bills/update/:id", updateForm)
 
     // Retrieve a single bill with id
     router.get("/bills/:id", findOne);

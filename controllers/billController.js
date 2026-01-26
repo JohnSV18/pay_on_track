@@ -63,7 +63,7 @@ const findAll = async (req, res) => {
 
       const formattedBills = data.map(bill => ({
         ...bill,
-        formattedDate: bill.dueDate.toLocaleDateString('en-US', {
+          formattedDate: bill.dueDate.toLocaleDateString('en-US', {
           weekday: 'short',
           year: 'numeric',
           month: 'long',
@@ -162,6 +162,22 @@ const findOne = async (req, res) => {
   }
 }
 
+const updateForm = async (req, res) => {
+  try {
+    const billId = req.params.id;
+    const currentUser = req.user
+    const data = await Bill.findById(billId).lean()
+    if (!data) {
+      return res.status(404).json({ message: "Could not find Bill with id " + billId })
+    }
+    return res.render('updateBill', { data, currentUser });
+  } catch (error){
+    console.error('Finding bill error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error fetching your bill'})
+  }
+}
+
+
 // Update a Bill by the id in the request
 const update = async (req, res) => {
   try {
@@ -172,8 +188,9 @@ const update = async (req, res) => {
     }
     const billId = req.params.id;
     const data = await Bill.findByIdAndUpdate( billId, req.body, { new: true,  // Returns updated document
-                                                                   runValidators: true  // Runs model validators
-                                                                  })
+    runValidators: true  // Runs model validators
+    })
+    console.log(data)
     if (!data) {
       return res.status(500).render('error', { message: `Cannot update Bill with id=${billId}. Maybe Bill was not found!`})
     };
@@ -183,6 +200,8 @@ const update = async (req, res) => {
     res.status(500).render('error', { message: 'There was an error updating your bill'})
   }
 }
+
+// Updating current balance by making a payment
 
 // Delete a Bill with the specified id in the request
 const deleteBill = async (req, res) => {
@@ -224,6 +243,7 @@ module.exports = {
   findByTypePersonalLoan,
   findOne,
   update,
+  updateForm,
   deleteBill
 };
 

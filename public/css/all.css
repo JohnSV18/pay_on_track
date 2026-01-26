@@ -711,3 +711,28 @@ body {
         padding: 1.5rem;
     }
 }
+/* showBill Styling */
+.card-header {
+    font-size: 65px;
+    font-weight: 600;
+}
+
+.detail-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(113, 90, 255, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+ .detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(113, 90, 255, 0.2);
+}
+
+.card-header-custom {
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}

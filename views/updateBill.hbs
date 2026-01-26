@@ -1,0 +1,39 @@
+<div class="page-container">
+     {{> flash-messages}}
+  <div class="form-box">
+      <div class="bill-info">
+          <h3><a href="/bills/{{data._id}}">{{data.title}}</a></h3>
+          <p><strong>Bill description:</strong> {{data.description}} </p>
+          <p><strong>${{data.currentBalance}}</strong> is the amount left to be paid</p>
+          <p><strong>This bill must be paid by:</strong>{{data.formattedDate}}</p>
+      </div>
+
+      <h2>Update Current Balance</h2>
+      
+      <form action = "/bills/{{data._id}}?_method=put", method="post">
+          <div class="mb-3">
+              <label for="currentBalance" class="form-label">Bill Amount: $</label>
+              <input type="number" class="form-control" name="currentBalance" id="currentBalance" value="{{data.currentBalance}}" step="0.01">
+          </div>
+          <button type="submit" class="btn btn-form-primary">Update Bill</button>
+      </form>
+
+      <h2>Make a Payment</h2>
+
+
+      <form action = "/bills/{{data._id}}?_method=put", method="post">
+          <div class="mb-3">
+              <label for="title" class="form-label">Payment Amount:</label>
+              <input type="text" class="form-control" name="title" id="title" value="{{data.title}}">
+          </div>
+          <button type="submit" class="btn btn-form-primary">Update Bill</button>
+      </form>
+
+      
+
+      <form action = "/bills/{{data._id}}?_method=DELETE" method = "post" class="mt-3">
+          <button type="submit" class="btn btn-danger w-100">Delete Bill</button>
+      </form>
+
+  </div>
+</div>
