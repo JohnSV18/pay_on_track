@@ -28,7 +28,7 @@
                     <p><strong>Bill description:</strong> {{this.description}}</p>
                     <p class="amount-due">Amount due: ${{this.currentBalance}}</p>
                     <p><strong>Due by:</strong> {{this.formattedDate}}</p>
-                    {{!-- <a href="/bills/{{this._id}}" class="btn-update">See Bill Details</a> --}}
+                    <a href="/bills/{{this._id}}" class="btn-update">See Bill Details</a>
                     <a href="/bills/update/{{data._id}}" class="card-link">Update with a payment</a>
                 </div>
             </div>
@@ -44,7 +44,7 @@
         <div class="empty-state">
             <h3>No Bills Yet</h3>
             <p>There are no bills at this time. Get started by adding your first bill to track!</p>
-            <a href="/bills/add" class="btn-add">Add Your First Bill</a>
+            <a href="/create" class="btn-add">Add Your First Bill</a>
         </div>
     </div>
 </div>

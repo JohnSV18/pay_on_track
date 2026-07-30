@@ -1,5 +1,7 @@
 module.exports = app => {
     const { validate } = require('../middleware/validation.js')
+    const noCache = require('../middleware/noCache');
+    const requireAuth = require('../middleware/requireAuth');
     const { showCalculator,
             createForm,
             create,
@@ -14,34 +16,31 @@ module.exports = app => {
   
     var router = require("express").Router();
     //Shows interest calculator
-    router.get("/calculator", showCalculator);
+    router.get("/calculator", noCache, requireAuth, showCalculator);
 
     // Shows form to create a new bill
-    router.get("/create", createForm),
+    router.get("/create", noCache, requireAuth, createForm),
 
     // Create a new Bill
-    router.post("/create", validate('bill'), create);
-  
+    router.post("/create", requireAuth, validate('bill'), create);
+
     // Retrieve all Bills
-    router.get("/allbills", findAll);
+    router.get("/allbills", noCache, requireAuth, findAll);
 
     // Retrieve sorted bills from lowest amount to largest amount
-    router.get("/sortedbills", findBigtoSmall);
+    router.get("/sortedbills", noCache, requireAuth, findBigtoSmall);
 
     //Retrieve bills if they are of credit card type
-    router.get("/creditbills", findByTypeCredit);
+    router.get("/creditbills", noCache, requireAuth, findByTypeCredit);
 
     //Retrieve bills if they are of personal loan type
-    router.get("/personalbills", findByTypePersonalLoan);
-
-    // // Retrieve bills based on sorted dates
-    // // router.get("/datedbills", bills.findByDate);
+    router.get("/personalbills", noCache, requireAuth, findByTypePersonalLoan);
 
     // Gets the update bill form
-    router.get("/bills/update/:id", updateForm)
+    router.get("/bills/update/:id", noCache, requireAuth, updateForm)
 
     // Retrieve a single bill with id
-    router.get("/bills/:id", findOne);
+    router.get("/bills/:id", noCache, requireAuth, findOne);
   
     // Update a bill with id
     router.put("/bills/:id", update);

@@ -11,11 +11,11 @@ module.exports = app => {
     var router = require("express").Router();
 
     //go home
-    router.get("/", showHome);
+    router.get("/", noCache, showHome);
 
     router.get("/signup", showSignup);
 
-    router.get("/articles", showArticles);
+    router.get("/articles", noCache, showArticles);
 
     router.post("/signup", validate('user'), signup);
 

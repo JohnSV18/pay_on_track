@@ -13,8 +13,11 @@ const showHome = (req, res) => {
     return res.render('home', { currentUser });
   } catch (error) {
     console.error('Home page error: ', error.message);
-    req.flash('error', 'Page load failed');
-    return res.redirect('/');
+    return res.status(500).render('error', {
+      pageTitle: 'Error',
+      statusCode: 500,
+      message: 'Page load failed.'
+    });
   }
 };
 
