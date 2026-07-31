@@ -1,59 +1,149 @@
-
+<!-- Hero -->
 <section class="hero-section">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <h1>Your Bills, Organized & On Time</h1>
-        <p class="lead"> Never miss a payment again. Track all your bills in one place, see exactly what you owe, and stay in control of your finances</p>
-        {{#unless currentUser}}
-        <a href="/signup" class="btn btn-hero">Get Started</a>
-        {{/unless}}
+      <div class="col-lg-8 col-md-10">
+        <div class="hero-badge">Bill Management Made Simple</div>
+        <h1>Stop Stressing About Bills.<br>Start Paying On Time.</h1>
+        <p class="lead">Pay-On-Track keeps every bill organized in one place, sends you automatic email reminders 3 days before they're due, and logs your payments with visual progress — so late fees stay in the past.</p>
+        {{#if currentUser}}
+          <a href="/allbills" class="btn btn-hero">View My Bills</a>
+        {{else}}
+          <a href="/signup" class="btn btn-hero">Get Started Free</a>
+          <a href="/login" class="btn btn-hero-outline ms-3">Log In</a>
+        {{/if}}
       </div>
     </div>
   </div>
 </section>
 
-<section class="features-section">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-6">
-                <div class="feature-card">
-                    <h2>How does it work?</h2>
-                    <p>Add your bills with amounts and due dates in seconds. View everything at a glance on your personalized dashboard.</p>
-                    <p class="mb-0">Stay organized and never worry about late fees again.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="feature-card">
-                    <h2>Calculate your interest payments</h2>
-                    <p>Wondering how much you'll actually pay over time? Our built-in calculator shows you the real cost of your bills with interest.</p>
-                    <div class="calculator-preview">
-                        <div class="calc-visual">
-                            <div class="calc-display">0</div>
-                            <div class="calc-buttons">
-                                <button class="calc-btn">7</button>
-                                <button class="calc-btn">8</button>
-                                <button class="calc-btn">9</button>
-                                <button class="calc-btn">÷</button>
-                                <button class="calc-btn">4</button>
-                                <button class="calc-btn">5</button>
-                                <button class="calc-btn">6</button>
-                                <button class="calc-btn">×</button>
-                                <button class="calc-btn">1</button>
-                                <button class="calc-btn">2</button>
-                                <button class="calc-btn">3</button>
-                                <button class="calc-btn">-</button>
-                                <button class="calc-btn">0</button>
-                                <button class="calc-btn">.</button>
-                                <button class="calc-btn">+</button>
-                                <button class="calc-btn">=</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Stats Strip -->
+<div class="home-stats-strip">
+  <div class="container">
+    <div class="row justify-content-center text-center g-0">
+      <div class="col-auto px-4 px-lg-5">
+        <div class="stat-number">3 Days</div>
+        <div class="stat-label">Early email reminders</div>
+      </div>
+      <div class="col-auto stat-divider d-none d-md-block"></div>
+      <div class="col-auto px-4 px-lg-5">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Free to use, always</div>
+      </div>
+      <div class="col-auto stat-divider d-none d-md-block"></div>
+      <div class="col-auto px-4 px-lg-5">
+        <div class="stat-number">$0</div>
+        <div class="stat-label">Late fees when you stay prepared</div>
+      </div>
     </div>
+  </div>
+</div>
+
+<!-- How It Works -->
+<section class="home-steps">
+  <div class="container">
+    <h2 class="home-section-title">How it works</h2>
+    <p class="home-section-sub">Set up in minutes. Stay on top of every bill automatically.</p>
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-4 col-md-6">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Add your bills</h3>
+          <p>Enter the bill name, type, amount, and due date. Optionally include your interest rate and minimum payment for the full picture.</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Get reminded automatically</h3>
+          <p>Pay-On-Track emails you 3 days before every active bill is due — zero setup, zero effort. Just check your inbox and pay on time.</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Track every payment</h3>
+          <p>Log payments as you make them. Your balance updates instantly and a progress bar shows exactly how close you are to paying it off.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- Feature Highlights -->
+<section class="home-features">
+  <div class="container">
+    <h2 class="home-section-title">Everything you need to stay ahead</h2>
+    <p class="home-section-sub">Built around the things that actually cause people to miss payments.</p>
+    <div class="row g-4">
+
+      <div class="col-lg-6">
+        <div class="feature-icon-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Automatic Email Reminders</h3>
+            <p>Every active bill triggers a reminder email 3 days before it's due — delivered right to your inbox every time, without you lifting a finger.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="feature-icon-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M0 0h1v15h15v1H0V0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Visual Payment Progress</h3>
+            <p>A progress bar on every bill shows how much you've paid vs. how much remains. Log a payment and watch your balance shrink in real time.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="feature-icon-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/><path d="M4 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-2zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-4z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Interest Calculator</h3>
+            <p>Wondering what your debt is really costing you? Enter your APR and minimum payment to see the true cost of your bills over time.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="feature-icon-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>All Your Bills, One Dashboard</h3>
+            <p>Credit cards, rent, utilities, loans, subscriptions, insurance, medical — filter by category and see exactly what matters right now.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Bottom CTA -->
+{{#unless currentUser}}
+<section class="home-cta">
+  <div class="container text-center">
+    <h2>Ready to stop missing payments?</h2>
+    <p>Create your free account and have your first bill set up in under 2 minutes.</p>
+    <a href="/signup" class="btn btn-hero">Create Your Free Account</a>
+  </div>
+</section>
+{{/unless}}

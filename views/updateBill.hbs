@@ -3,6 +3,7 @@
     <!-- Hero Header -->
     <div class="bill-hero">
         <div class="container">
+            <a href="/bills/{{data._id}}" class="bill-hero-back">&#8592; Bill Details</a>
             <span class="bill-hero-badge">{{data.type}}</span>
             <h1 class="bill-hero-title">{{data.title}}</h1>
             <div style="color: rgba(255,255,255,0.8); font-size: 1rem;">
@@ -12,42 +13,79 @@
         </div>
     </div>
 
-    <!-- Form Card -->
     <div class="container bill-detail-body">
         {{> flash-messages}}
-        <div class="bill-detail-card" style="max-width: 680px; margin: 0 auto;">
+        <div class="row g-4 justify-content-center">
 
-            <h4 class="bill-detail-card-title">Make a Payment</h4>
+            <!-- Make a Payment -->
+            <div class="col-lg-5 col-12">
+                <div class="bill-detail-card">
+                    <h4 class="bill-detail-card-title">Make a Payment</h4>
 
-            <form id="payment-form" action="/bills/{{data._id}}?_method=put" method="post">
-                <div class="form-grid-2 mb-3">
-                    <div>
-                        <label for="paymentAmount" class="update-label">Payment Amount: $</label>
-                        <input type="number" class="update-input" name="paymentAmount" id="paymentAmount"
-                               placeholder="e.g. 50.00" step="0.01" min="0.01" required>
-                    </div>
-                    <div>
-                        <label for="interestRate" class="update-label">Interest Rate / APR % <span class="update-optional">(optional)</span></label>
-                        <input type="number" class="update-input" name="interestRate" id="interestRate"
-                               value="{{data.interestRate}}" step="0.01" min="0" max="100">
+                    <form id="payment-form" action="/bills/{{data._id}}?_method=put" method="post">
+                        <div class="mb-4">
+                            <label for="paymentAmount" class="update-label">Payment Amount: $</label>
+                            <input type="number" class="update-input" name="paymentAmount" id="paymentAmount"
+                                   placeholder="e.g. 50.00" step="0.01" min="0.01" required>
+                        </div>
+                    </form>
+
+                    <form id="delete-form" action="/bills/{{data._id}}?_method=DELETE" method="post"></form>
+
+                    <div class="d-flex align-items-center gap-4">
+                        <button type="submit" form="payment-form" class="btn-make-payment" style="margin-top: 0;">Save Payment</button>
+                        <button type="submit" form="delete-form" class="btn-delete-link">Delete Bill</button>
                     </div>
                 </div>
+            </div>
 
-                <div class="mb-4">
-                    <label for="minimumPayment" class="update-label">Min Monthly Payment: $ <span class="update-optional">(optional)</span></label>
-                    <input type="number" class="update-input" name="minimumPayment" id="minimumPayment"
-                           value="{{data.minimumPayment}}" step="0.01" min="0">
+            <!-- Bill Settings -->
+            <div class="col-lg-5 col-12">
+                <div class="bill-detail-card">
+                    <h4 class="bill-detail-card-title">Bill Settings</h4>
+                    <p style="font-size: 0.85rem; color: #6b7a8d; margin-bottom: 1.25rem;">Update your bill details anytime — these won't affect your payment history.</p>
+
+                    <form id="settings-form" action="/bills/{{data._id}}/settings?_method=PATCH" method="post">
+                        <div class="mb-3">
+                            <label for="interestRate" class="update-label">Interest Rate / APR % <span class="update-optional">(optional)</span></label>
+                            <input type="number" class="update-input" name="interestRate" id="interestRate"
+                                   value="{{data.interestRate}}" step="0.01" min="0" max="100" placeholder="e.g. 24.99">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="minimumPayment" class="update-label">Min Monthly Payment: $ <span class="update-optional">(optional)</span></label>
+                            <input type="number" class="update-input" name="minimumPayment" id="minimumPayment"
+                                   value="{{data.minimumPayment}}" step="0.01" min="0" placeholder="e.g. 25.00">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="update-label d-block" style="margin-bottom: 0.5rem;">Recurring Bill</label>
+                            <label class="bill-toggle-label">
+                                <input type="checkbox" name="isRecurring" class="bill-toggle-input"
+                                       {{#if data.isRecurring}}checked{{/if}}>
+                                <span class="bill-toggle-track">
+                                    <span class="bill-toggle-thumb"></span>
+                                </span>
+                                <span class="bill-toggle-text">
+                                    {{#if data.isRecurring}}Resets each month when paid off{{else}}Enable to reset automatically each month{{/if}}
+                                </span>
+                            </label>
+                        </div>
+                    </form>
+
+                    <button type="submit" form="settings-form" class="btn-make-payment" style="margin-top: 0; width: 100%;">Save Settings</button>
                 </div>
-            </form>
-
-            <form id="delete-form" action="/bills/{{data._id}}?_method=DELETE" method="post"></form>
-
-            <div class="d-flex align-items-center gap-4 mt-4">
-                <button type="submit" form="payment-form" class="btn-make-payment" style="margin-top: 0;">Save Payment</button>
-                <button type="submit" form="delete-form" class="btn-delete-link">Delete Bill</button>
             </div>
 
         </div>
     </div>
 
 </div>
+
+<script>
+// Update toggle label text live
+document.querySelector('.bill-toggle-input').addEventListener('change', function () {
+    const text = this.closest('.bill-toggle-label').querySelector('.bill-toggle-text');
+    text.textContent = this.checked ? 'Resets each month when paid off' : 'Enable to reset automatically each month';
+});
+</script>

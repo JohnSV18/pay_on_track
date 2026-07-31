@@ -96,7 +96,7 @@ const signup = async (req, res) => {
     req.flash('success', 'Check your email for a 6-digit verification code');
     return res.redirect('/verify-email');
   } catch (error) {
-    console.error('Signup error:', error);
+    console.error('Signup error:', error.message);
     req.flash('error', 'Something went wrong. Please try again.');
     return res.redirect('/signup');
   }
@@ -133,7 +133,7 @@ const verifyEmail = async (req, res) => {
     req.flash('success', 'Email verified! You can now log in.');
     return res.redirect('/login');
   } catch (error) {
-    console.error('Verify email error:', error);
+    console.error('Verify email error:', error.message);
     req.flash('error', 'Verification failed. Please try again.');
     return res.redirect('/verify-email');
   }
@@ -212,7 +212,7 @@ const forgotPassword = async (req, res) => {
     }
 
     const token = crypto.randomBytes(32).toString('hex');
-    user.resetToken = token;
+    user.resetToken = crypto.createHash('sha256').update(token).digest('hex');
     user.resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
     await user.save();
 
@@ -222,7 +222,7 @@ const forgotPassword = async (req, res) => {
 
     return res.redirect('/forgot-password');
   } catch (error) {
-    console.error('Forgot password error:', error);
+    console.error('Forgot password error:', error.message);
     req.flash('error', 'Something went wrong. Please try again.');
     return res.redirect('/forgot-password');
   }
@@ -231,8 +231,9 @@ const forgotPassword = async (req, res) => {
 const showResetPassword = async (req, res) => {
   try {
     const { token } = req.params;
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
     const user = await User.findOne({
-      resetToken: token,
+      resetToken: hashedToken,
       resetTokenExpiry: { $gt: new Date() }
     });
 
@@ -271,8 +272,9 @@ const resetPassword = async (req, res) => {
       return res.redirect(`/reset-password/${token}`);
     }
 
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
     const user = await User.findOne({
-      resetToken: token,
+      resetToken: hashedToken,
       resetTokenExpiry: { $gt: new Date() }
     });
 
@@ -289,7 +291,7 @@ const resetPassword = async (req, res) => {
     req.flash('success', 'Password updated! You can now log in with your new password.');
     return res.redirect('/login');
   } catch (error) {
-    console.error('Reset password error:', error);
+    console.error('Reset password error:', error.message);
     req.flash('error', 'Something went wrong. Please try again.');
     return res.redirect(`/reset-password/${token}`);
   }

@@ -11,7 +11,8 @@ module.exports = app => {
             findByTypePersonalLoan,
             findOne,
             update,
-            deleteBill, 
+            updateSettings,
+            deleteBill,
             updateForm} = require('../controllers/billController.js')
   
     var router = require("express").Router();
@@ -42,8 +43,11 @@ module.exports = app => {
     // Retrieve a single bill with id
     router.get("/bills/:id", noCache, requireAuth, findOne);
   
-    // Update a bill with id
+    // Update a bill with id (payment)
     router.put("/bills/:id", requireAuth, update);
+
+    // Update bill settings (APR, min payment, recurring)
+    router.patch("/bills/:id/settings", requireAuth, updateSettings);
 
     // Delete a bill with id
     router.delete("/bills/:id", requireAuth, deleteBill);

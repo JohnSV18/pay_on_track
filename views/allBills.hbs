@@ -1,8 +1,8 @@
 <div class="bills-page">
     <div class="container">
 
-        <!-- Filter Section -->
-        <div class="bills-filter-section">
+        <!-- Filter + Sort Controls -->
+        <div class="bills-filter-section d-flex align-items-center gap-3 flex-wrap">
             <div class="dropdown">
                 <button class="filter-dropdown-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
@@ -12,7 +12,6 @@
                 </button>
                 <ul class="dropdown-menu filter-dropdown-menu">
                     <li><a class="dropdown-item" href="/allbills">All Bills</a></li>
-                    <li><a class="dropdown-item" href="/sortedbills">Highest to Lowest</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><span class="dropdown-header">Bill Type</span></li>
                     <li><a class="dropdown-item" href="/allbills?type=Credit+Card">Credit Card</a></li>
@@ -26,10 +25,84 @@
                     <li><a class="dropdown-item" href="/allbills?type=Other">Other</a></li>
                 </ul>
             </div>
+
+            {{#if formattedBills}}
+            <div class="dropdown">
+                <button class="sort-toggle-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293V3.5zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1h-1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5z"/>
+                    </svg>
+                    Sort: {{sortLabel}}
+                </button>
+                <ul class="dropdown-menu filter-dropdown-menu">
+                    <li><span class="dropdown-header">Sort By</span></li>
+                    <li><a class="dropdown-item{{#if sortIsDesc}} active{{/if}}" href="{{sortLinkDesc}}">Highest Balance First</a></li>
+                    <li><a class="dropdown-item{{#if sortIsAsc}} active{{/if}}" href="{{sortLinkAsc}}">Lowest Balance First</a></li>
+                    <li><a class="dropdown-item{{#if sortIsDate}} active{{/if}}" href="{{sortLinkDate}}">Closest Due Date First</a></li>
+                </ul>
+            </div>
+            {{/if}}
         </div>
 
         {{#if formattedBills}}
-        <!-- Bills Grid -->
+
+        <!-- Dashboard Overview -->
+        <div class="dashboard-section">
+
+            <!-- Urgency Legend -->
+            <div class="dashboard-legend">
+                <span class="legend-item"><span class="legend-dot high"></span>Due within 3 days</span>
+                <span class="legend-item"><span class="legend-dot medium"></span>Due within 7 days</span>
+                <span class="legend-item"><span class="legend-dot low"></span>Due later</span>
+            </div>
+
+            <!-- Column Headers -->
+            <div class="dashboard-col-header">
+                <span class="dcol-name">Bill</span>
+                <span class="dcol-due">Due</span>
+                <span class="dcol-balance">Balance</span>
+                <span class="dcol-min">Min. Payment</span>
+                <span class="dcol-apr">APR</span>
+                <span class="dcol-progress">Progress</span>
+            </div>
+
+            <!-- Bill Rows -->
+            {{#each formattedBills}}
+            <a href="/bills/{{this._id}}" class="dashboard-row urgency-{{this.urgencyLevel}}">
+                <div class="dcol-name">
+                    <span class="dash-type-badge">{{this.type}}</span>
+                    <span class="dash-bill-name">{{this.title}}</span>
+                    {{#if this.isRecurring}}<span class="dash-recurring-badge">&#8635;</span>{{/if}}
+                </div>
+                <div class="dcol-due">{{this.shortDate}}</div>
+                <div class="dcol-balance">${{this.currentBalance}}</div>
+                <div class="dcol-min">{{#if this.minimumPayment}}${{this.minimumPayment}}{{else}}&mdash;{{/if}}</div>
+                <div class="dcol-apr">{{#if this.interestRate}}{{this.interestRate}}%{{else}}&mdash;{{/if}}</div>
+                <div class="dcol-progress">
+                    <div class="progress mb-1" style="height: 6px; border-radius: 4px; background: #e8edf5;">
+                        <div class="progress-bar" role="progressbar"
+                             style="width: {{this.paidPercentage}}%; background: var(--accent-yellow);"
+                             aria-valuenow="{{this.paidPercentage}}" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+                    <small>{{this.paidPercentage}}% paid</small>
+                </div>
+            </a>
+            {{/each}}
+
+            <!-- Totals Row -->
+            <div class="dashboard-total-row">
+                <span class="dcol-name"><strong>Total</strong></span>
+                <span class="dcol-due"></span>
+                <span class="dcol-balance"><strong>${{totalBalance}}</strong></span>
+                <span class="dcol-min"><strong>${{totalMinPayment}}</strong></span>
+                <span class="dcol-apr"></span>
+                <span class="dcol-progress"></span>
+            </div>
+        </div>
+
+        <!-- Bill Cards -->
+        <div class="bills-cards-heading">All Bills</div>
         <div class="row g-4">
             {{#each formattedBills}}
             <div class="col-lg-4 col-md-6">

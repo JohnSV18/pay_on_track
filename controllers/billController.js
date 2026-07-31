@@ -1,15 +1,27 @@
 require('dotenv').config();
 const Bill = require("../models/billModel");
 
-const formatBills = (bills) => bills.map(bill => ({
-  ...bill,
-  formattedDate: bill.dueDate.toLocaleDateString('en-US', {
-    weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'
-  }),
-  paidPercentage: bill.originalAmount > 0
-    ? Math.round(((bill.originalAmount - bill.currentBalance) / bill.originalAmount) * 100)
-    : 0
-}));
+const formatBills = (bills) => bills.map(bill => {
+  const now = new Date();
+  const due = new Date(bill.dueDate);
+  const daysUntilDue = Math.ceil((due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  let urgencyLevel = 'low';
+  if (daysUntilDue <= 3) urgencyLevel = 'high';
+  else if (daysUntilDue <= 7) urgencyLevel = 'medium';
+
+  return {
+    ...bill,
+    formattedDate: due.toLocaleDateString('en-US', {
+      weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'
+    }),
+    shortDate: due.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+    paidPercentage: bill.originalAmount > 0
+      ? Math.round(((bill.originalAmount - bill.currentBalance) / bill.originalAmount) * 100)
+      : 0,
+    daysUntilDue,
+    urgencyLevel
+  };
+});
 
 // takes you to the interest calculator page
 const showCalculator = (req, res) => {
@@ -50,20 +62,18 @@ const create = async (req, res) => {
       interestRate: req.body.interestRate || undefined,
       minimumPayment: req.body.minimumPayment || undefined,
       dueDate: req.body.dueDate,
-      billStatus: req.body.billStatus,
-      payments: req.body.payments,
+      isRecurring: !!req.body.isRecurring,
       userId: req.user._id
     });
-    await bill.save()
-    console.log(bill)
-    return res.redirect('/allbills')
+    await bill.save();
+    return res.redirect('/allbills');
   } catch (error) {
     console.error('Create bill error: ', error.message);
     res.status(500).render('error', { message: 'There was an error and could not create bill'})
   }
 }
 
-// Retrieve all Bills — optionally filtered by ?type=
+// Retrieve all Bills — optionally filtered by ?type= and sorted by ?sort=desc|asc|date
 const findAll = async (req, res) => {
   try{
     const currentUser = req.user;
@@ -71,9 +81,41 @@ const findAll = async (req, res) => {
       const query = { userId: req.user._id };
       if (req.query.type) query.type = req.query.type;
 
-      const data = await Bill.find(query).sort({ createdAt: -1 }).lean();
+      let mongoSort = { currentBalance: -1 };
+      let currentSort = 'desc';
+      if (req.query.sort === 'asc') {
+        mongoSort = { currentBalance: 1 };
+        currentSort = 'asc';
+      } else if (req.query.sort === 'date') {
+        mongoSort = { dueDate: 1 };
+        currentSort = 'date';
+      }
+
+      const data = await Bill.find(query).sort(mongoSort).lean();
       const formattedBills = formatBills(data);
-      return res.render('allBills', { formattedBills, currentUser, activeFilter: req.query.type || null });
+
+      const totalBalance = data.reduce((sum, b) => sum + (b.currentBalance || 0), 0);
+      const totalMinPayment = data.reduce((sum, b) => sum + (b.minimumPayment || 0), 0);
+
+      const sortLabels = { desc: 'Highest Balance', asc: 'Lowest Balance', date: 'Due Date' };
+      const activeFilter = req.query.type || null;
+      const typeParam = activeFilter ? `&type=${encodeURIComponent(activeFilter)}` : '';
+
+      return res.render('allBills', {
+        formattedBills,
+        currentUser,
+        activeFilter,
+        currentSort,
+        sortLabel: sortLabels[currentSort],
+        sortIsDesc: currentSort === 'desc',
+        sortIsAsc: currentSort === 'asc',
+        sortIsDate: currentSort === 'date',
+        sortLinkDesc: `/allbills?sort=desc${typeParam}`,
+        sortLinkAsc: `/allbills?sort=asc${typeParam}`,
+        sortLinkDate: `/allbills?sort=date${typeParam}`,
+        totalBalance: totalBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+        totalMinPayment: totalMinPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      });
     }
   } catch (error) {
     console.error('Finding all bills error: ', error.message);
@@ -149,10 +191,10 @@ const findByTypePersonalLoan = async (req, res) => {
 const findOne = async (req, res) => {
   try {
     const billId = req.params.id;
-    const currentUser = req.user
-    const bill = await Bill.findById(billId).lean()
+    const currentUser = req.user;
+    const bill = await Bill.findOne({ _id: billId, userId: req.user._id }).lean();
     if (!bill) {
-      return res.status(404).json({ message: "Could not find Bill with id " + billId })
+      return res.status(404).render('error', { pageTitle: 'Not Found', statusCode: 404, message: 'Bill not found.' });
     }
     const data = {
       ...bill,
@@ -180,7 +222,7 @@ const updateForm = async (req, res) => {
   try {
     const billId = req.params.id;
     const currentUser = req.user;
-    const bill = await Bill.findById(billId).lean();
+    const bill = await Bill.findOne({ _id: billId, userId: req.user._id }).lean();
     if (!bill) {
       return res.status(404).render('error', { pageTitle: 'Not Found', statusCode: 404, message: 'Bill not found.' });
     }
@@ -201,7 +243,7 @@ const updateForm = async (req, res) => {
 const update = async (req, res) => {
   try {
     const billId = req.params.id;
-    const bill = await Bill.findById(billId);
+    const bill = await Bill.findOne({ _id: billId, userId: req.user._id });
     if (!bill) {
       return res.status(404).render('error', { pageTitle: 'Not Found', statusCode: 404, message: 'Bill not found.' });
     }
@@ -214,22 +256,29 @@ const update = async (req, res) => {
 
     const newBalance = Math.max(0, parseFloat((bill.currentBalance - paymentAmount).toFixed(2)));
 
+    let finalBalance = newBalance;
+    let finalStatus = newBalance <= 0 ? 'paid' : 'active';
+    let finalDueDate = bill.dueDate;
+
+    if (bill.isRecurring && newBalance <= 0) {
+      finalBalance = bill.originalAmount;
+      finalStatus = 'active';
+      const nextDue = new Date(bill.dueDate);
+      nextDue.setMonth(nextDue.getMonth() + 1);
+      finalDueDate = nextDue;
+    }
+
     const updateData = {
-      currentBalance: newBalance,
-      billStatus: newBalance <= 0 ? 'paid' : 'active',
+      currentBalance: finalBalance,
+      billStatus: finalStatus,
+      dueDate: finalDueDate,
       $push: { payments: { paymentAmount, paymentDate: new Date() } }
     };
 
-    if (req.body.interestRate !== '' && req.body.interestRate != null) {
-      updateData.interestRate = parseFloat(req.body.interestRate);
-    }
-    if (req.body.minimumPayment !== '' && req.body.minimumPayment != null) {
-      updateData.minimumPayment = parseFloat(req.body.minimumPayment);
-    }
-
     await Bill.findByIdAndUpdate(billId, updateData, { new: true, runValidators: true });
 
-    req.flash('success', `Payment of $${paymentAmount.toFixed(2)} applied.`);
+    const recurringMsg = bill.isRecurring && newBalance <= 0 ? ' Bill reset for next month.' : '';
+    req.flash('success', `Payment of $${paymentAmount.toFixed(2)} applied.${recurringMsg}`);
     return res.redirect(`/bills/${billId}`);
   } catch (error) {
     console.error('Updating bill error: ', error.message);
@@ -239,11 +288,44 @@ const update = async (req, res) => {
 
 // Updating current balance by making a payment
 
+// Update bill settings (APR, min payment, recurring) independently of payments
+const updateSettings = async (req, res) => {
+  try {
+    const billId = req.params.id;
+    const bill = await Bill.findOne({ _id: billId, userId: req.user._id });
+    if (!bill) {
+      return res.status(404).render('error', { pageTitle: 'Not Found', statusCode: 404, message: 'Bill not found.' });
+    }
+
+    const settingsData = {
+      isRecurring: req.body.isRecurring === 'on' || req.body.isRecurring === true
+    };
+    if (req.body.interestRate !== '' && req.body.interestRate != null) {
+      settingsData.interestRate = parseFloat(req.body.interestRate);
+    } else {
+      settingsData.interestRate = undefined;
+    }
+    if (req.body.minimumPayment !== '' && req.body.minimumPayment != null) {
+      settingsData.minimumPayment = parseFloat(req.body.minimumPayment);
+    } else {
+      settingsData.minimumPayment = undefined;
+    }
+
+    await Bill.findByIdAndUpdate(billId, settingsData, { new: true, runValidators: true });
+
+    req.flash('success', 'Bill settings updated.');
+    return res.redirect(`/bills/update/${billId}`);
+  } catch (error) {
+    console.error('Updating bill settings error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error updating your bill settings' });
+  }
+};
+
 // Delete a Bill with the specified id in the request
 const deleteBill = async (req, res) => {
   try {
     const billId = req.params.id;
-    const deleted = await Bill.findByIdAndDelete(billId);
+    const deleted = await Bill.findOneAndDelete({ _id: billId, userId: req.user._id });
     if (!deleted) {
       return res.status(404).render('error', { pageTitle: 'Not Found', statusCode: 404, message: 'Bill not found.' });
     }
@@ -277,6 +359,7 @@ module.exports = {
   findByTypePersonalLoan,
   findOne,
   update,
+  updateSettings,
   updateForm,
   deleteBill
 };

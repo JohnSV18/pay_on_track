@@ -4,23 +4,42 @@ const MongoStore = require('connect-mongo')
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser')
 const cors = require('cors');
+const helmet = require('helmet');
 const handlebars = require('express-handlebars');
 const methodOverride = require('method-override');
 const checkAuth = require('./middleware/auth');
-assert = require("assert");
 require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
+const isProd = process.env.NODE_ENV === 'production';
+
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net"],
+      styleSrc: ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net"],
+      fontSrc: ["'self'", "cdn.jsdelivr.net"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'"]
+    }
+  }
+}));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET, 
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: process.env.MONGODB_URI,
-      touchAfter: 24 * 3600 // lazy session update - only update once per 24 hours
+      touchAfter: 24 * 3600
   }),
-    cookie: { maxAge: 60000 }
+    cookie: {
+      maxAge: 60000,
+      httpOnly: true,
+      secure: isProd,
+      sameSite: 'strict'
+    }
 }));
 
 app.use(flash());
@@ -50,6 +69,7 @@ app.engine('hbs', handlebars({
 }))
 
 require("./config/db.config.js");
+require("./jobs/billReminder");
 require("./routes/billRoutes")(app);
 require("./routes/userRoutes")(app);
 

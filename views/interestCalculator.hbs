@@ -1,109 +1,191 @@
-<script>
-function calculateInterest() {
-    var amount = parseFloat(document.getElementById("amount").value) || 0;
-    var interest_rate = parseFloat(document.getElementById("interest_rate").value) || 0;
-    var years = parseFloat(document.getElementById("years").value) || 0;
-    var simpleInterest = (amount * interest_rate / 100) * years;
-    var total = amount + simpleInterest;
-    document.getElementById("sampleinter").innerHTML = "Simple Interest = $" + simpleInterest.toFixed(2);
-    document.getElementById("total").innerHTML = "Total bill amount = $" + total.toFixed(2);
-}
+<div class="bill-detail-page">
 
-function calculateMonthlyInterest() {
-    var totalAmount = parseFloat(document.getElementById("totalAmount").value) || 0;
-    var monthly_interest_rate = parseFloat(document.getElementById("monthly_interest_rate").value) || 0;
-    var months = parseFloat(document.getElementById("months").value) || 0;
-    var simpleMonthlyInterest = (totalAmount * monthly_interest_rate / 100) * (months / 12);
-    var totalAfterMonths = totalAmount + simpleMonthlyInterest;
-    document.getElementById("sampleintermonth").innerHTML = "Simple Interest = $" + simpleMonthlyInterest.toFixed(2);
-    document.getElementById("totalmonth").innerHTML = "Total bill amount = $" + totalAfterMonths.toFixed(2);
-}
-
-function calculateCompoundMonthlyInterest() {
-    var total_Amount = parseFloat(document.getElementById("com_total_amount").value) || 0;
-    var monthlyInterestRate = parseFloat(document.getElementById("com_monthly_interest_rate").value) || 0;
-    var payPeriod = parseFloat(document.getElementById("pay_period").value) || 0;
-    var compoundMonths = parseFloat(document.getElementById("com_months").value) || 0;
-    var rate = monthlyInterestRate / 100;
-    var exponent = compoundMonths * payPeriod;
-    var compoundMonthlyInterest = total_Amount * Math.pow((1 + (rate / compoundMonths)), exponent);
-    document.getElementById("totalCompoundMonth").innerHTML = "Total bill amount = $" + compoundMonthlyInterest.toFixed(2);
-}
-</script>
-
-<div class="page-container">
-    <div class="container">
-        
-        <!-- Yearly Simple Interest Calculator -->
-        <div class="calculator-section">
-            <h2>Yearly Simple Interest Calculator</h2>
-            <div class="calc-input-group">
-                <label>Bill Amount: $</label>
-                <input id="amount" class="form-control d-inline-block" type="number" min="1" max="1000000" oninput="calculateInterest()">
-            </div>
-            <div class="calc-input-group">
-                <label>Interest Rate(Yearly):</label>
-                <input id="interest_rate" class="form-control d-inline-block" type="number" min="0" max="100" value="10" step=".1" oninput="calculateInterest()">
-                <span class="text-white">%</span>
-            </div>
-            <div class="calc-input-group">
-                <label>Years you will take to repay:</label>
-                <input id="years" class="form-control d-inline-block" type="number" min="1" max="72" value="1" oninput="calculateInterest()">
-            </div>
-            <div class="calc-results mt-4">
-                <h3 id="sampleinter" class="result-interest"></h3>
-                <h3 id="total" class="result-total"></h3>
-            </div>
+    <!-- Hero Header -->
+    <div class="bill-hero">
+        <div class="container">
+            <h1 class="bill-hero-title">Interest Calculator</h1>
+            <p style="color: rgba(255,255,255,0.75); font-size: 1rem; margin: 0;">See the real cost of your debt over time</p>
         </div>
+    </div>
 
-        <!-- Monthly Simple Interest Calculator -->
-        <div class="calculator-section">
-            <h2>Monthly Simple Interest Calculator</h2>
-            <div class="calc-input-group">
-                <label>Bill Amount: $</label>
-                <input id="totalAmount" class="form-control d-inline-block" type="number" min="1" max="1000000" oninput="calculateMonthlyInterest()">
+    <div class="container bill-detail-body">
+        <div class="row g-4 justify-content-center">
+
+            <!-- Yearly Simple Interest -->
+            <div class="col-lg-6 col-12">
+                <div class="bill-detail-card">
+                    <div class="d-flex align-items-center gap-2 mb-0">
+                        <h4 class="bill-detail-card-title mb-0" style="flex:1;">Yearly Simple Interest</h4>
+                        <button class="calc-help-btn"
+                            data-bs-toggle="popover"
+                            data-bs-placement="top"
+                            data-bs-trigger="hover focus click"
+                            data-bs-html="true"
+                            data-bs-content="<strong>Formula:</strong> SI = P &times; r &times; t<br><br><strong>P</strong> = Principal amount<br><strong>r</strong> = Annual interest rate (%)<br><strong>t</strong> = Years to repay<br><br>Total = P + SI">?</button>
+                    </div>
+                    <hr style="border-color:#f0f4ff; margin: 0.75rem 0 1.25rem;">
+
+                    <div class="mb-3">
+                        <label class="update-label">Bill Amount: $</label>
+                        <input id="amount" class="update-input" type="number" min="1" max="1000000" placeholder="e.g. 5000" oninput="calculateInterest()">
+                    </div>
+                    <div class="mb-3">
+                        <label class="update-label">Annual Interest Rate (APR) %</label>
+                        <input id="interest_rate" class="update-input" type="number" min="0" max="100" value="10" step=".1" oninput="calculateInterest()">
+                    </div>
+                    <div class="mb-4">
+                        <label class="update-label">Years to repay</label>
+                        <input id="years" class="update-input" type="number" min="1" max="72" value="1" oninput="calculateInterest()">
+                    </div>
+
+                    <div class="calc-result-box" id="yearly-results" style="display:none;">
+                        <div class="calc-result-row">
+                            <span>Simple Interest</span>
+                            <span id="sampleinter" class="calc-result-value"></span>
+                        </div>
+                        <div class="calc-result-row">
+                            <span>Total Amount</span>
+                            <span id="total" class="calc-result-total"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="calc-input-group">
-                <label>Interest Rate(Monthly):</label>
-                <input id="monthly_interest_rate" class="form-control d-inline-block" type="number" min="0" max="100" value="10" step=".1" oninput="calculateMonthlyInterest()">
-                <span class="text-white">%</span>
+
+            <!-- Monthly Simple Interest -->
+            <div class="col-lg-6 col-12">
+                <div class="bill-detail-card">
+                    <div class="d-flex align-items-center gap-2 mb-0">
+                        <h4 class="bill-detail-card-title mb-0" style="flex:1;">Monthly Simple Interest</h4>
+                        <button class="calc-help-btn"
+                            data-bs-toggle="popover"
+                            data-bs-placement="top"
+                            data-bs-trigger="hover focus click"
+                            data-bs-html="true"
+                            data-bs-content="<strong>Formula:</strong> SI = P &times; r &times; (months &divide; 12)<br><br><strong>P</strong> = Principal amount<br><strong>r</strong> = Annual interest rate / APR (%)<br><strong>months</strong> = Repayment period in months<br><br>Total = P + SI">?</button>
+                    </div>
+                    <hr style="border-color:#f0f4ff; margin: 0.75rem 0 1.25rem;">
+
+                    <div class="mb-3">
+                        <label class="update-label">Bill Amount: $</label>
+                        <input id="totalAmount" class="update-input" type="number" min="1" max="1000000" placeholder="e.g. 5000" oninput="calculateMonthlyInterest()">
+                    </div>
+                    <div class="mb-3">
+                        <label class="update-label">Annual Interest Rate (APR) %</label>
+                        <input id="monthly_interest_rate" class="update-input" type="number" min="0" max="100" value="10" step=".1" oninput="calculateMonthlyInterest()">
+                    </div>
+                    <div class="mb-4">
+                        <label class="update-label">Months to repay</label>
+                        <input id="months" class="update-input" type="number" min="1" max="360" value="12" oninput="calculateMonthlyInterest()">
+                    </div>
+
+                    <div class="calc-result-box" id="monthly-results" style="display:none;">
+                        <div class="calc-result-row">
+                            <span>Simple Interest</span>
+                            <span id="sampleintermonth" class="calc-result-value"></span>
+                        </div>
+                        <div class="calc-result-row">
+                            <span>Total Amount</span>
+                            <span id="totalmonth" class="calc-result-total"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="calc-input-group">
-                <label>Months you will take to repay:</label>
-                <input id="months" class="form-control d-inline-block" type="number" min="1" max="72" value="1" oninput="calculateMonthlyInterest()">
+
+            <!-- Monthly Compound Interest -->
+            <div class="col-lg-8 col-12">
+                <div class="bill-detail-card">
+                    <div class="d-flex align-items-center gap-2 mb-0">
+                        <h4 class="bill-detail-card-title mb-0" style="flex:1;">Monthly Compound Interest</h4>
+                        <button class="calc-help-btn"
+                            data-bs-toggle="popover"
+                            data-bs-placement="top"
+                            data-bs-trigger="hover focus click"
+                            data-bs-html="true"
+                            data-bs-content="<strong>Formula:</strong> A = P &times; (1 + r/n)<sup>n &times; t</sup><br><br><strong>P</strong> = Principal amount<br><strong>r</strong> = Annual APR (as decimal)<br><strong>n</strong> = Times compounded per year (12 = monthly)<br><strong>t</strong> = Time in years (months &divide; 12)<br><br>Interest is applied to the growing balance each period, so you pay interest on interest.">?</button>
+                    </div>
+                    <hr style="border-color:#f0f4ff; margin: 0.75rem 0 1.25rem;">
+
+                    <div class="form-grid-2 mb-3">
+                        <div>
+                            <label class="update-label">Bill Amount: $</label>
+                            <input id="com_total_amount" class="update-input" type="number" min="1" max="1000000" placeholder="e.g. 5000" oninput="calculateCompoundMonthlyInterest()">
+                        </div>
+                        <div>
+                            <label class="update-label">Annual Interest Rate (APR) %</label>
+                            <input id="com_monthly_interest_rate" class="update-input" type="number" min="0" max="100" value="10" step=".1" oninput="calculateCompoundMonthlyInterest()">
+                        </div>
+                    </div>
+                    <div class="form-grid-2 mb-4">
+                        <div>
+                            <label class="update-label">Months to repay</label>
+                            <input id="pay_period" class="update-input" type="number" min="1" max="360" value="12" oninput="calculateCompoundMonthlyInterest()">
+                        </div>
+                        <div>
+                            <label class="update-label">Times compounded per year</label>
+                            <input id="com_months" class="update-input" type="number" min="1" max="365" value="12" oninput="calculateCompoundMonthlyInterest()">
+                        </div>
+                    </div>
+
+                    <div class="calc-result-box" id="compound-results" style="display:none;">
+                        <div class="calc-result-row">
+                            <span>Interest Accrued</span>
+                            <span id="compoundInterest" class="calc-result-value"></span>
+                        </div>
+                        <div class="calc-result-row">
+                            <span>Total Amount</span>
+                            <span id="totalCompoundMonth" class="calc-result-total"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="calc-results mt-4">
-                <h3 id="sampleintermonth" class="result-interest"></h3>
-                <h3 id="totalmonth" class="result-total"></h3>
-            </div>
+
         </div>
-
-        <!-- Monthly Compound Interest Calculator -->
-        <div class="calculator-section">
-            <h2>Monthly Compound Interest Calculator</h2>
-            <div class="calc-input-group">
-                <label>Bill Amount: $</label>
-                <input id="com_total_amount" class="form-control d-inline-block" type="number" min="1" max="1000000" oninput="calculateCompoundMonthlyInterest()">
-            </div>
-            <div class="calc-input-group">
-                <label>Interest Rate(Monthly):</label>
-                <input id="com_monthly_interest_rate" class="form-control d-inline-block" type="number" min="0" max="100" value="10" step=".1" oninput="calculateCompoundMonthlyInterest()">
-                <span class="text-white">%</span>
-            </div>
-            <div class="calc-input-group">
-                <label>Months you have to repay:</label>
-                <input id="pay_period" class="form-control d-inline-block" type="number" min="1" max="71" value="1" oninput="calculateCompoundMonthlyInterest()">
-            </div>
-            <div class="calc-input-group">
-                <label>Number of times interest applied:</label>
-                <input id="com_months" class="form-control d-inline-block" type="number" min="1" max="72" value="1" oninput="calculateCompoundMonthlyInterest()">
-            </div>
-            <div class="calc-results mt-4">
-                <h3 id="totalCompoundMonth" class="result-total"></h3>
-            </div>
-        </div>
-
     </div>
 </div>
 
- 
+<script>
+function calculateInterest() {
+    var amount = parseFloat(document.getElementById("amount").value) || 0;
+    var rate   = parseFloat(document.getElementById("interest_rate").value) || 0;
+    var years  = parseFloat(document.getElementById("years").value) || 0;
+    var si     = amount * (rate / 100) * years;
+    var total  = amount + si;
+    document.getElementById("sampleinter").textContent = "$" + si.toFixed(2);
+    document.getElementById("total").textContent = "$" + total.toFixed(2);
+    document.getElementById("yearly-results").style.display = amount ? "block" : "none";
+}
+
+function calculateMonthlyInterest() {
+    var amount = parseFloat(document.getElementById("totalAmount").value) || 0;
+    var rate   = parseFloat(document.getElementById("monthly_interest_rate").value) || 0;
+    var months = parseFloat(document.getElementById("months").value) || 0;
+    // SI = P × r × (months / 12)  — rate is APR
+    var si    = amount * (rate / 100) * (months / 12);
+    var total = amount + si;
+    document.getElementById("sampleintermonth").textContent = "$" + si.toFixed(2);
+    document.getElementById("totalmonth").textContent = "$" + total.toFixed(2);
+    document.getElementById("monthly-results").style.display = amount ? "block" : "none";
+}
+
+function calculateCompoundMonthlyInterest() {
+    var P      = parseFloat(document.getElementById("com_total_amount").value) || 0;
+    var apr    = parseFloat(document.getElementById("com_monthly_interest_rate").value) || 0;
+    var months = parseFloat(document.getElementById("pay_period").value) || 0;
+    var n      = parseFloat(document.getElementById("com_months").value) || 12;
+    var r      = apr / 100;
+    var t      = months / 12; // convert months to years
+    // A = P × (1 + r/n)^(n×t)
+    var A        = P * Math.pow(1 + r / n, n * t);
+    var interest = A - P;
+    document.getElementById("compoundInterest").textContent  = "$" + interest.toFixed(2);
+    document.getElementById("totalCompoundMonth").textContent = "$" + A.toFixed(2);
+    document.getElementById("compound-results").style.display = P ? "block" : "none";
+}
+
+// Init Bootstrap popovers
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function (el) {
+        new bootstrap.Popover(el, { trigger: 'hover focus click' });
+    });
+});
+</script>

@@ -18,8 +18,9 @@ const schemas = {
             'number.max': 'Amount cannot exceed $999,999.99',
             'any.required': 'Bill amount is required'
         }),
-        interestRate: Joi.number().min(0).max(100).precision(2).optional(),
-        minimumPayment: Joi.number().min(0).precision(2).optional(),
+        interestRate: Joi.number().min(0).max(100).precision(2).optional().allow('', null),
+        minimumPayment: Joi.number().min(0).precision(2).optional().allow('', null),
+        isRecurring: Joi.boolean().truthy('on').falsy('', null).optional().default(false),
         payments: Joi.array().items(
             Joi.object({
                 paymentDate: Joi.date().required().messages({
@@ -90,10 +91,8 @@ const routeRedirects = {
 const validate = (schemaName) => {
     return (req, res, next) => {
         const schema = schemas[schemaName];
-        console.log(schema)
         const { error, value, warning } = schema.validate(req.body);
         if (error) {
-             // Get the first error message
             const errorMessage = error.details[0].message;
             
             // Set flash message

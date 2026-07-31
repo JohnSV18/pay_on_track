@@ -3,6 +3,7 @@
     <!-- Hero Header -->
     <div class="bill-hero">
         <div class="container">
+            <a href="/allbills" class="bill-hero-back">&#8592; All Bills</a>
             <span class="bill-hero-badge">{{data.type}}</span>
             <h1 class="bill-hero-title">{{data.title}}</h1>
 
@@ -58,6 +59,12 @@
                     <div class="bill-detail-row">
                         <span>Min. Monthly Payment</span>
                         <span>${{data.minimumPayment}}</span>
+                    </div>
+                    {{/if}}
+                    {{#if data.isRecurring}}
+                    <div class="bill-detail-row">
+                        <span>Recurring</span>
+                        <span><span class="bill-hero-badge" style="font-size: 0.72rem; padding: 0.2rem 0.6rem;">Monthly</span></span>
                     </div>
                     {{/if}}
 

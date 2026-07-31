@@ -60,12 +60,29 @@
                     </div>
                 </div>
 
+                <div class="mb-4">
+                    <label class="update-label d-block" style="margin-bottom: 0.5rem;">Recurring Bill <span class="update-optional">(optional)</span></label>
+                    <label class="bill-toggle-label">
+                        <input type="checkbox" name="isRecurring" id="isRecurring" class="bill-toggle-input">
+                        <span class="bill-toggle-track">
+                            <span class="bill-toggle-thumb"></span>
+                        </span>
+                        <span class="bill-toggle-text">Enable to reset automatically each month</span>
+                    </label>
+                </div>
+
                 <div class="text-center mt-2">
-                    <button type="submit" class="btn-make-payment">Create Bill</button>
+                    <button type="submit" class="btn-make-payment" style="display: inline-block; width: auto; padding: 0.85rem 3rem;">Create Bill</button>
                 </div>
 
             </form>
         </div>
     </div>
-
 </div>
+
+<script>
+document.querySelector('.bill-toggle-input').addEventListener('change', function () {
+    const text = this.closest('.bill-toggle-label').querySelector('.bill-toggle-text');
+    text.textContent = this.checked ? 'Resets each month when paid off' : 'Enable to reset automatically each month';
+});
+</script>

@@ -160,6 +160,222 @@ body {
     font-weight: 600;
 }
 
+/* ---- Hero additions ---- */
+.hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
+    margin-bottom: 1.25rem;
+}
+
+.btn-hero-outline {
+    display: inline-block;
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.65);
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.btn-hero-outline:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: white;
+    color: white;
+}
+
+/* ---- Stats strip ---- */
+.home-stats-strip {
+    background: var(--dark-navy);
+    padding: 2rem 0;
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--accent-yellow);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+}
+
+.stat-divider {
+    width: 1px;
+    background: rgba(255, 255, 255, 0.12);
+    align-self: stretch;
+    margin: 0.25rem 0;
+}
+
+/* ---- How it works ---- */
+.home-steps {
+    padding: 5rem 0;
+    background: white;
+}
+
+.home-section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--dark-navy);
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.home-section-sub {
+    text-align: center;
+    color: #5a6c7d;
+    font-size: 1.05rem;
+    margin-bottom: 3rem;
+}
+
+.step-card {
+    background: #f8faff;
+    border: 1.5px solid #e8edf5;
+    border-radius: 16px;
+    padding: 2rem;
+    height: 100%;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(113, 90, 255, 0.12);
+}
+
+.step-number {
+    width: 44px;
+    height: 44px;
+    background: var(--primary-gradient);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 800;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.step-card h3 {
+    color: var(--dark-navy);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.step-card p {
+    color: #5a6c7d;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ---- Feature highlight cards ---- */
+.home-features {
+    padding: 5rem 0;
+    background: linear-gradient(135deg, #E8F0FF 0%, #D4E6FF 100%);
+}
+
+.feature-icon-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.75rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    height: 100%;
+    box-shadow: 0 4px 20px rgba(113, 90, 255, 0.08);
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.feature-icon-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(113, 90, 255, 0.16);
+}
+
+.feature-icon-wrap {
+    flex-shrink: 0;
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, #E8F0FF 0%, #D4E6FF 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+}
+
+.feature-icon-card h3 {
+    color: var(--dark-navy);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+
+.feature-icon-card p {
+    color: #5a6c7d;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ---- Bottom CTA ---- */
+.home-cta {
+    background: var(--primary-gradient);
+    padding: 5rem 0;
+    color: white;
+}
+
+.home-cta h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.home-cta p {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .home-steps,
+    .home-features,
+    .home-cta {
+        padding: 3rem 0;
+    }
+    .home-section-title {
+        font-size: 1.65rem;
+    }
+    .home-cta h2 {
+        font-size: 1.65rem;
+    }
+    .feature-icon-card {
+        padding: 1.25rem;
+        gap: 1rem;
+    }
+    .btn-hero-outline {
+        margin-top: 0.75rem;
+        margin-left: 0 !important;
+        display: block;
+        text-align: center;
+    }
+}
+
 /* Interest Calculators Styling */
 /* .interest-calc{
     color: white;
@@ -577,6 +793,271 @@ body {
     transform: translateY(-1px);
 }
 
+/* Sort toggle button */
+/* Bill recurring toggle switch */
+.bill-toggle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+.bill-toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.bill-toggle-track {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: #d1d5db;
+    border-radius: 12px;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+.bill-toggle-input:checked + .bill-toggle-track {
+    background: #7c3aed;
+}
+.bill-toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+.bill-toggle-input:checked + .bill-toggle-track .bill-toggle-thumb {
+    transform: translateX(20px);
+}
+.bill-toggle-text {
+    font-size: 0.88rem;
+    color: #5a6c7d;
+}
+
+.sort-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 20px;
+    background: white;
+    color: #102E4A;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border: 1px solid rgba(113, 90, 255, 0.2);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.sort-toggle-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Dashboard section */
+.dashboard-section {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(113, 90, 255, 0.09);
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+}
+
+.dashboard-legend {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    background: #f8faff;
+    border-bottom: 1px solid #f0f4ff;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: #5a6c7d;
+    font-weight: 500;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-dot.high   { background: #ef4444; }
+.legend-dot.medium { background: #f59e0b; }
+.legend-dot.low    { background: #22c55e; }
+
+/* Column header row */
+.dashboard-col-header {
+    display: grid;
+    grid-template-columns: 2.2fr 0.8fr 1fr 1fr 0.7fr 1.4fr;
+    padding: 0.6rem 1.25rem;
+    background: #f0f4ff;
+    border-bottom: 1px solid #e8edf5;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #7a8ca0;
+}
+
+/* Bill row */
+.dashboard-row {
+    display: grid;
+    grid-template-columns: 2.2fr 0.8fr 1fr 1fr 0.7fr 1.4fr;
+    align-items: center;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid #f5f7ff;
+    border-left: 4px solid transparent;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+}
+
+.dashboard-row:hover {
+    background: #fafbff;
+    text-decoration: none;
+    color: inherit;
+}
+
+.dashboard-row.urgency-high   { border-left-color: #ef4444; }
+.dashboard-row.urgency-medium { border-left-color: #f59e0b; }
+.dashboard-row.urgency-low    { border-left-color: #22c55e; }
+
+.dash-type-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #E8F0FF 0%, #D4E6FF 100%);
+    color: var(--primary-color);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    padding: 0.2rem 0.55rem;
+    border-radius: 10px;
+    margin-bottom: 0.25rem;
+    display: block;
+    width: fit-content;
+}
+
+.dash-bill-name {
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #102E4A;
+}
+
+.dash-recurring-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #7c3aed;
+    background: #ede9fe;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    margin-left: 4px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.dcol-due {
+    font-size: 0.88rem;
+    color: #5a6c7d;
+    font-weight: 500;
+}
+
+.dcol-balance {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.dcol-min {
+    font-size: 0.88rem;
+    color: #102E4A;
+    font-weight: 500;
+}
+
+.dcol-apr {
+    font-size: 0.88rem;
+    color: #5a6c7d;
+}
+
+.dcol-progress small {
+    font-size: 0.72rem;
+    color: #9ca3af;
+}
+
+/* Totals row */
+.dashboard-total-row {
+    display: grid;
+    grid-template-columns: 2.2fr 0.8fr 1fr 1fr 0.7fr 1.4fr;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: #f8faff;
+    border-top: 2px solid #e8edf5;
+}
+
+.dashboard-total-row .dcol-name strong {
+    font-size: 0.9rem;
+    color: #102E4A;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.dashboard-total-row .dcol-balance strong {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.dashboard-total-row .dcol-min strong {
+    font-size: 0.95rem;
+    color: #102E4A;
+}
+
+/* Cards section heading */
+.bills-cards-heading {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #7a8ca0;
+    margin-bottom: 1rem;
+}
+
+/* Mobile: collapse dashboard to card-like rows */
+@media (max-width: 768px) {
+    .dashboard-col-header {
+        display: none;
+    }
+    .dashboard-row {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        gap: 0.4rem 1rem;
+        padding: 1rem;
+    }
+    .dcol-name  { grid-column: 1 / -1; }
+    .dcol-progress { grid-column: 1 / -1; }
+    .dashboard-total-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem;
+    }
+    .dashboard-total-row .dcol-due,
+    .dashboard-total-row .dcol-apr,
+    .dashboard-total-row .dcol-progress { display: none; }
+}
+
 /* Empty state */
 .empty-state {
     text-align: center;
@@ -840,6 +1321,18 @@ body {
     padding: 3rem 0 5rem;
 }
 
+.bill-hero-back {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.85rem;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+    transition: color 0.2s;
+}
+.bill-hero-back:hover {
+    color: white;
+}
+
 .bill-hero-badge {
     display: inline-block;
     background: rgba(255, 255, 255, 0.2);
@@ -958,6 +1451,68 @@ body {
     text-align: center;
     padding: 2rem 0;
     color: #9ca3af;
+}
+
+/* Calculator help button */
+.calc-help-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E8F0FF 0%, #D4E6FF 100%);
+    border: none;
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+    -webkit-appearance: none;
+}
+
+.calc-help-btn:hover {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+/* Calculator result box */
+.calc-result-box {
+    background: #f8faff;
+    border: 1.5px solid #e8edf5;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.calc-result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid #f0f4ff;
+    font-size: 0.95rem;
+}
+
+.calc-result-row:last-child {
+    border-bottom: none;
+}
+
+.calc-result-row span:first-child {
+    color: #7a8ca0;
+    font-weight: 500;
+}
+
+.calc-result-value {
+    color: #102E4A;
+    font-weight: 700;
+}
+
+.calc-result-total {
+    color: var(--primary-color) !important;
+    font-size: 1.2rem;
+    font-weight: 800 !important;
 }
 
 /* Update bill form inputs */

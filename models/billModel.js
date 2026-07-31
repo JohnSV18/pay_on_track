@@ -54,6 +54,10 @@ const billSchema = new Schema({
         enum: ['active', 'paid', 'overdue'],
         default: 'active'
     },
+    isRecurring: {
+        type: Boolean,
+        default: false
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
