@@ -1,52 +1,81 @@
-{{#if formattedBills}}
-<div class="page-container">
+<div class="bills-page">
     <div class="container">
-        
-        <!-- Filter Bar -->
-        <div class="filter-bar">
-            <div class="row align-items-center">
-                <div class="col-md-3 mb-3 mb-md-0">
-                    <h3>Filter by:</h3>
-                </div>
-                <div class="col-md-9">
-                    <div class="d-flex flex-wrap gap-3 justify-content-md-end justify-content-start">
-                        <a href="/sortedbills">Highest Bill Amount to Lowest</a>
-                        <a href="/creditbills">Credit Card Bills</a>
-                        <a href="/personalbills">Personal Loan Bills</a>
-                    </div>
-                </div>
+
+        <!-- Filter Section -->
+        <div class="bills-filter-section">
+            <div class="dropdown">
+                <button class="filter-dropdown-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                    </svg>
+                    {{#if activeFilter}}{{activeFilter}}{{else}}Filter{{/if}}
+                </button>
+                <ul class="dropdown-menu filter-dropdown-menu">
+                    <li><a class="dropdown-item" href="/allbills">All Bills</a></li>
+                    <li><a class="dropdown-item" href="/sortedbills">Highest to Lowest</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><span class="dropdown-header">Bill Type</span></li>
+                    <li><a class="dropdown-item" href="/allbills?type=Credit+Card">Credit Card</a></li>
+                    <li><a class="dropdown-item" href="/allbills?type=Utility">Utility</a></li>
+                    <li><a class="dropdown-item" href="/allbills?type=Rent">Rent</a></li>
+                    <li><a class="dropdown-item" href="/allbills?type=Loan">Loan</a></li>
+                    <li><a class="dropdown-item" href="/allbills?type=Subscription">Subscription</a></li>
+                    <li><a class="dropdown-item" href="/allbills?type=Insurance">Insurance</a></li>
+                    <li><a class="dropdown-item" href="/allbills?type=Medical">Medical</a></li>
+                    <li><a class="dropdown-item" href="/allbills?type=Mortgage">Mortgage</a></li>
+                    <li><a class="dropdown-item" href="/allbills?type=Other">Other</a></li>
+                </ul>
             </div>
         </div>
 
-        <!-- Bills Grid - 3 per row -->
+        {{#if formattedBills}}
+        <!-- Bills Grid -->
         <div class="row g-4">
             {{#each formattedBills}}
             <div class="col-lg-4 col-md-6">
                 <div class="bill-card">
-                    <h2>{{this.title}}</h2>
-                    <p><strong>Bill type:</strong> {{this.type}}</p>
-                    <p><strong>Bill description:</strong> {{this.description}}</p>
-                    <p class="amount-due">Amount due: ${{this.currentBalance}}</p>
-                    <p><strong>Due by:</strong> {{this.formattedDate}}</p>
-                    <a href="/bills/{{this._id}}" class="btn-update">See Bill Details</a>
-                    <a href="/bills/update/{{data._id}}" class="card-link">Update with a payment</a>
+                    <div class="bill-card-top">
+                        <span class="bill-type-badge">{{this.type}}</span>
+                        <h2>{{this.title}}</h2>
+                    </div>
+
+                    <div class="bill-card-body">
+                        <div class="amount-due">${{this.currentBalance}}</div>
+                        <p class="due-label"><strong>Due by:</strong> {{this.formattedDate}}</p>
+
+                        <div class="progress mt-3 mb-1" style="height: 8px; border-radius: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar"
+                                 style="width: {{this.paidPercentage}}%"
+                                 aria-valuenow="{{this.paidPercentage}}"
+                                 aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                        </div>
+                        <small class="paid-label">{{this.paidPercentage}}% paid</small>
+                    </div>
+
+                    <div class="bill-card-actions">
+                        <a href="/bills/{{this._id}}" class="btn-bill-primary">See Details</a>
+                        <a href="/bills/update/{{this._id}}" class="btn-bill-secondary">Make Payment</a>
+                    </div>
                 </div>
             </div>
             {{/each}}
         </div>
 
-    </div>
-</div>
-{{else}}
-<!-- Empty State -->
-<div class="page-container">
-    <div class="container">
+        {{else}}
+        <!-- Empty State -->
         <div class="empty-state">
+            {{#if activeFilter}}
+            <h3>No {{activeFilter}} bills found</h3>
+            <p>You don't have any bills under this category yet.</p>
+            <a href="/allbills" class="btn-add">View All Bills</a>
+            {{else}}
             <h3>No Bills Yet</h3>
-            <p>There are no bills at this time. Get started by adding your first bill to track!</p>
+            <p>Get started by adding your first bill to track!</p>
             <a href="/create" class="btn-add">Add Your First Bill</a>
+            {{/if}}
         </div>
+        {{/if}}
+
     </div>
 </div>
-{{/if}}
-

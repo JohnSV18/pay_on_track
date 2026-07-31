@@ -1,46 +1,93 @@
-<div class="container">
-    <div class="card-header-custom">
-            {{data.title}}
-    </div>
+<div class="bill-detail-page">
 
-    <div class="row">
-        <div class="detail-card col-lg-6 col-12">
-            <div>
-                <h4 class="card-title"> Bill Details</h4>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                        <span class="text-muted fw-medium">Bill Type:</span>
-                        <span class="fw-bold">{{data.type}}</span>
+    <!-- Hero Header -->
+    <div class="bill-hero">
+        <div class="container">
+            <span class="bill-hero-badge">{{data.type}}</span>
+            <h1 class="bill-hero-title">{{data.title}}</h1>
+
+            <div class="bill-hero-progress">
+                <div class="d-flex justify-content-between mb-2">
+                    <small style="color: rgba(255,255,255,0.6);">$0</small>
+                    <small style="color: white; font-weight: 700;">{{data.paidPercentage}}% paid</small>
+                    <small style="color: rgba(255,255,255,0.6);">${{data.originalAmount}}</small>
                 </div>
-                 <div class="d-flex justify-content-between py-2 border-bottom">
-                        <span class="text-muted fw-medium">Category:</span>
-                        <span class="fw-bold">Entertainment</span>
+                <div class="progress" style="height: 10px; border-radius: 8px; background: rgba(255,255,255,0.2);">
+                    <div class="progress-bar" role="progressbar"
+                         style="width: {{data.paidPercentage}}%; background: var(--accent-yellow);"
+                         aria-valuenow="{{data.paidPercentage}}"
+                         aria-valuemin="0" aria-valuemax="100">
+                    </div>
                 </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                        <span class="text-muted fw-medium">Bill Description:</span>
-                        <span class="fw-bold">{{data.description}}</span>
+                <div class="d-flex justify-content-between mt-2">
+                    <small style="color: rgba(255,255,255,0.7);">Remaining: <strong style="color:white">${{data.currentBalance}}</strong></small>
+                    <small style="color: rgba(255,255,255,0.7);">Original: <strong style="color:white">${{data.originalAmount}}</strong></small>
                 </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                        <span class="text-muted fw-medium">Due by:</span>
-                        <span class="fw-bold">{{data.dueDate}}</span>
-                </div>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                        <span class="text-muted fw-medium">Current Balance:</span>
-                        <span class="fw-bold">${{data.currentBalance}}</span>
-                </div>
-                <a href="#" class="card-link">Update Current Balance?</a>
-                <a href="/bills/update/{{data._id}}" class="card-link">Update with a payment</a>
             </div>
         </div>
+    </div>
 
+    <!-- Cards -->
+    <div class="container bill-detail-body">
+        <div class="row g-4 justify-content-center">
 
-        <div class="detail-card col-lg-6 col-12">
-            <div>
-                <h5 class="card-title"> Payment History</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+            <!-- Bill Details -->
+            <div class="col-lg-5 col-12">
+                <div class="bill-detail-card">
+                    <h4 class="bill-detail-card-title">Bill Details</h4>
+
+                    <div class="bill-detail-row">
+                        <span>Bill Type</span>
+                        <span>{{data.type}}</span>
+                    </div>
+                    <div class="bill-detail-row">
+                        <span>Due by</span>
+                        <span>{{data.formattedDate}}</span>
+                    </div>
+                    <div class="bill-detail-row">
+                        <span>Current Balance</span>
+                        <span class="bill-detail-amount">${{data.currentBalance}}</span>
+                    </div>
+                    {{#if data.interestRate}}
+                    <div class="bill-detail-row">
+                        <span>Interest Rate (APR)</span>
+                        <span>{{data.interestRate}}%</span>
+                    </div>
+                    {{/if}}
+                    {{#if data.minimumPayment}}
+                    <div class="bill-detail-row">
+                        <span>Min. Monthly Payment</span>
+                        <span>${{data.minimumPayment}}</span>
+                    </div>
+                    {{/if}}
+
+                    <div class="text-center mt-4">
+                        <a href="/bills/update/{{data._id}}" class="btn-make-payment-sm">
+                            Make a Payment
+                        </a>
+                    </div>
+                </div>
             </div>
+
+            <!-- Payment History -->
+            <div class="col-lg-4 col-12">
+                <div class="bill-detail-card">
+                    <h4 class="bill-detail-card-title">Payment History</h4>
+                    {{#if data.payments.length}}
+                        {{#each data.payments}}
+                        <div class="bill-detail-row">
+                            <span>{{this.paymentDate}}</span>
+                            <span class="fw-bold">${{this.paymentAmount}}</span>
+                        </div>
+                        {{/each}}
+                    {{else}}
+                        <div class="bill-no-payments">
+                            <p>No payments recorded yet.</p>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

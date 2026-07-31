@@ -1,6 +1,15 @@
 require('dotenv').config();
 const Bill = require("../models/billModel");
-// const mailer = require("../utils/mailer")
+
+const formatBills = (bills) => bills.map(bill => ({
+  ...bill,
+  formattedDate: bill.dueDate.toLocaleDateString('en-US', {
+    weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'
+  }),
+  paidPercentage: bill.originalAmount > 0
+    ? Math.round(((bill.originalAmount - bill.currentBalance) / bill.originalAmount) * 100)
+    : 0
+}));
 
 // takes you to the interest calculator page
 const showCalculator = (req, res) => {
@@ -16,7 +25,8 @@ const showCalculator = (req, res) => {
 const createForm = (req, res) => {
   try{
     const currentUser = req.user;
-    res.render('createBill', { currentUser });
+    const today = new Date().toISOString().split('T')[0];
+    res.render('createBill', { currentUser, today });
   } catch (error) {
     console.error('Create bill error: ', error.message);
     res.status(500).render('error', { message: 'Error on loading page'})
@@ -35,9 +45,10 @@ const create = async (req, res) => {
     const bill = new Bill({
       title: req.body.title,
       type: req.body.type,
-      description: req.body.description,
       originalAmount: req.body.originalAmount,
       currentBalance: req.body.originalAmount,
+      interestRate: req.body.interestRate || undefined,
+      minimumPayment: req.body.minimumPayment || undefined,
       dueDate: req.body.dueDate,
       billStatus: req.body.billStatus,
       payments: req.body.payments,
@@ -52,25 +63,31 @@ const create = async (req, res) => {
   }
 }
 
-// Retrieve all Bills the user has created in desending order from the last one created
+// Retrieve all Bills — optionally filtered by ?type=
 const findAll = async (req, res) => {
   try{
     const currentUser = req.user;
     if (currentUser) {
-      const data = await Bill.find({ userId: req.user._id })
-            .sort({ createdAt: -1})
-            .lean()
+      const query = { userId: req.user._id };
+      if (req.query.type) query.type = req.query.type;
 
-      const formattedBills = data.map(bill => ({
-        ...bill,
-          formattedDate: bill.dueDate.toLocaleDateString('en-US', {
-          weekday: 'short',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })
-      })
-  );
+      const data = await Bill.find(query).sort({ createdAt: -1 }).lean();
+      const formattedBills = formatBills(data);
+      return res.render('allBills', { formattedBills, currentUser, activeFilter: req.query.type || null });
+    }
+  } catch (error) {
+    console.error('Finding all bills error: ', error.message);
+    res.status(500).render('error', { message: 'There was an error fetching all your bills'})
+  }
+}
+
+// Find all bills sorted from highest balance to lowest
+const findBigtoSmall = async (req, res) => {
+  try {
+    const currentUser = req.user;
+    if (currentUser) {
+      const data = await Bill.find({ userId: req.user._id }).sort({ currentBalance: -1 }).lean();
+      const formattedBills = formatBills(data);
       return res.render('allBills', { formattedBills, currentUser });
     }
   } catch (error) {
@@ -79,30 +96,14 @@ const findAll = async (req, res) => {
   }
 }
 
-// Find all bills sorted from highest bill to lowest
-const findBigtoSmall = async (req, res) => {
-  try {
-    const currentUser = req.user;
-    if (currentUser) {
-      const data = await Bill.find({ userId: req.user._id }).sort({ amount: -1 }).lean()
-      return res.render('allBills', { data, currentUser });
-    }
-  } catch (error) {
-    console.error('Finding all bills error: ', error.message);
-    res.status(500).render('error', { message: 'There was an error fetching all your bills'})
-  }
-}
-
-// Find bills sorted by credit card type
+// Find bills by Credit Card type
 const findByTypeCredit = async (req, res) => {
   try {
     const currentUser = req.user;
     if (currentUser) {
-      const data = await Bill.find({ 
-                            type: 'Credit Card',
-                            userId: req.user._id
-                          }).lean()
-      return res.render('allBills', { data, currentUser });
+      const data = await Bill.find({ type: 'Credit Card', userId: req.user._id }).lean();
+      const formattedBills = formatBills(data);
+      return res.render('allBills', { formattedBills, currentUser });
     }
   } catch (error) {
     console.error('Finding all bills error: ', error.message);
@@ -110,16 +111,14 @@ const findByTypeCredit = async (req, res) => {
   }
 }
 
-// Find bills sorted by credit card type
+// Find bills by Loan type
 const findByTypePersonalLoan = async (req, res) => {
   try {
     const currentUser = req.user;
     if (currentUser) {
-      const data = await Bill.find({ 
-                                type: 'Personal Loan',
-                                userId: req.user._id
-                              }).lean()
-      return res.render('allBills', { data, currentUser })
+      const data = await Bill.find({ type: 'Loan', userId: req.user._id }).lean();
+      const formattedBills = formatBills(data);
+      return res.render('allBills', { formattedBills, currentUser });
     }
   } catch (error) {
     console.error('Finding all bills error: ', error.message);
@@ -151,10 +150,25 @@ const findOne = async (req, res) => {
   try {
     const billId = req.params.id;
     const currentUser = req.user
-    const data = await Bill.findById(billId).lean()
-    if (!data) {
+    const bill = await Bill.findById(billId).lean()
+    if (!bill) {
       return res.status(404).json({ message: "Could not find Bill with id " + billId })
     }
+    const data = {
+      ...bill,
+      formattedDate: bill.dueDate.toLocaleDateString('en-US', {
+        weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'
+      }),
+      paidPercentage: bill.originalAmount > 0
+        ? Math.round(((bill.originalAmount - bill.currentBalance) / bill.originalAmount) * 100)
+        : 0,
+      payments: bill.payments.map(p => {
+        const d = new Date(p.paymentDate);
+        const date = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        return { ...p, paymentDate: `${date} · ${time}` };
+      })
+    };
     return res.render('showBill', { data, currentUser });
   } catch (error) {
     console.error('Finding bill error: ', error.message);
@@ -165,39 +179,61 @@ const findOne = async (req, res) => {
 const updateForm = async (req, res) => {
   try {
     const billId = req.params.id;
-    const currentUser = req.user
-    const data = await Bill.findById(billId).lean()
-    if (!data) {
-      return res.status(404).json({ message: "Could not find Bill with id " + billId })
+    const currentUser = req.user;
+    const bill = await Bill.findById(billId).lean();
+    if (!bill) {
+      return res.status(404).render('error', { pageTitle: 'Not Found', statusCode: 404, message: 'Bill not found.' });
     }
+    const data = {
+      ...bill,
+      formattedDate: bill.dueDate.toLocaleDateString('en-US', {
+        weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'
+      })
+    };
     return res.render('updateBill', { data, currentUser });
   } catch (error){
     console.error('Finding bill error: ', error.message);
-    res.status(500).render('error', { message: 'There was an error fetching your bill'})
+    res.status(500).render('error', { message: 'There was an error fetching your bill' });
   }
 }
 
-
-// Update a Bill by the id in the request
+// Apply a payment: subtracts paymentAmount from currentBalance and logs it
 const update = async (req, res) => {
   try {
-    const currentUser = req.user;
-    if (!req.body) {
-      req.flash('error', 'Data to update cannot be empty!')
-      res.redirect('/bills/"id')
-    }
     const billId = req.params.id;
-    const data = await Bill.findByIdAndUpdate( billId, req.body, { new: true,  // Returns updated document
-    runValidators: true  // Runs model validators
-    })
-    console.log(data)
-    if (!data) {
-      return res.status(500).render('error', { message: `Cannot update Bill with id=${billId}. Maybe Bill was not found!`})
+    const bill = await Bill.findById(billId);
+    if (!bill) {
+      return res.status(404).render('error', { pageTitle: 'Not Found', statusCode: 404, message: 'Bill not found.' });
+    }
+
+    const paymentAmount = parseFloat(req.body.paymentAmount);
+    if (!paymentAmount || paymentAmount <= 0) {
+      req.flash('error', 'Please enter a valid payment amount.');
+      return res.redirect(`/bills/update/${billId}`);
+    }
+
+    const newBalance = Math.max(0, parseFloat((bill.currentBalance - paymentAmount).toFixed(2)));
+
+    const updateData = {
+      currentBalance: newBalance,
+      billStatus: newBalance <= 0 ? 'paid' : 'active',
+      $push: { payments: { paymentAmount, paymentDate: new Date() } }
     };
-    return res.render('home', { currentUser });
+
+    if (req.body.interestRate !== '' && req.body.interestRate != null) {
+      updateData.interestRate = parseFloat(req.body.interestRate);
+    }
+    if (req.body.minimumPayment !== '' && req.body.minimumPayment != null) {
+      updateData.minimumPayment = parseFloat(req.body.minimumPayment);
+    }
+
+    await Bill.findByIdAndUpdate(billId, updateData, { new: true, runValidators: true });
+
+    req.flash('success', `Payment of $${paymentAmount.toFixed(2)} applied.`);
+    return res.redirect(`/bills/${billId}`);
   } catch (error) {
     console.error('Updating bill error: ', error.message);
-    res.status(500).render('error', { message: 'There was an error updating your bill'})
+    res.status(500).render('error', { message: 'There was an error updating your bill' });
   }
 }
 
@@ -206,18 +242,16 @@ const update = async (req, res) => {
 // Delete a Bill with the specified id in the request
 const deleteBill = async (req, res) => {
   try {
-    const currentUser = req.user
     const billId = req.params.id;
-    const data = await Bill.findByIdAndRemove(billId)
-    if (!data) {
-      return res.status(404).json({
-        message: `Cannot delete Bill with id=${billId}`
-      })
+    const deleted = await Bill.findByIdAndDelete(billId);
+    if (!deleted) {
+      return res.status(404).render('error', { pageTitle: 'Not Found', statusCode: 404, message: 'Bill not found.' });
     }
-    return res.render('home', { currentUser })
+    req.flash('success', 'Bill deleted successfully.');
+    return res.redirect('/allbills');
   } catch (error) {
     console.error('Deleting bill error: ', error.message);
-    res.status(500).render('error', { message: 'There was an error deleting your bill'})
+    res.status(500).render('error', { message: 'There was an error deleting your bill' });
   }
 }
 

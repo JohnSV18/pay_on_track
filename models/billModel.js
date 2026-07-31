@@ -8,15 +8,9 @@ const billSchema = new Schema({
         maxlength: 100,
         trim: true
     },
-    type: { 
-        type: String, 
-        required: true 
-    },
-    description: { 
-        type: String, 
-        minlength: 1, 
-        maxlength: 50,  
-        required: true 
+    type: {
+        type: String,
+        required: true
     },
     originalAmount: { 
         type: Number, 
@@ -27,6 +21,15 @@ const billSchema = new Schema({
         type: Number,
         min: 0,
         required: true,
+    },
+    interestRate: {
+        type: Number,
+        min: 0,
+        max: 100
+    },
+    minimumPayment: {
+        type: Number,
+        min: 0
     },
     dueDate: {
         type: Date,

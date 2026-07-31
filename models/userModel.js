@@ -2,22 +2,29 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
-    username: { 
-        type: String, 
+    email: {
+        type: String,
         required: true,
         unique: true,
-        minlength: 4,
-        maxlength: 10,
+        lowercase: true,
         trim: true
     },
-    password: { 
-        type: String, 
+    password: {
+        type: String,
         required: true,
         minlength: 6
-    }
-}, { 
-    timestamps: true 
-}); 
+    },
+    emailVerified: {
+        type: Boolean,
+        default: false
+    },
+    verificationCode: String,
+    verificationCodeExpiry: Date,
+    resetToken: String,
+    resetTokenExpiry: Date
+}, {
+    timestamps: true
+});
 
 userSchema.pre('save', function (next) {
   //ENCRYPT PASSWORD

@@ -12,16 +12,14 @@ const schemas = {
             'string.empty': 'Bill type is required',
             'any.required': 'Bill type is required'  
         }),
-        description: Joi.string().min(1).max(100).required().messages({
-            'string.empty': 'Bill description is required',
-            'any.required': 'Bill description is required'
-        }),
         originalAmount: Joi.number().positive().max(999999.99).precision(2).required().messages({
             'number.base': 'Amount must be a valid number',
             'number.positive': 'Amount must be greater than 0',
             'number.max': 'Amount cannot exceed $999,999.99',
             'any.required': 'Bill amount is required'
         }),
+        interestRate: Joi.number().min(0).max(100).precision(2).optional(),
+        minimumPayment: Joi.number().min(0).precision(2).optional(),
         payments: Joi.array().items(
             Joi.object({
                 paymentDate: Joi.date().required().messages({
@@ -42,13 +40,11 @@ const schemas = {
     }),
 
     user: Joi.object({
-        username: Joi.string().min(1).max(10).required().messages({
-            'string.empty': 'Username is required',
-            'string.min': 'Username must be at least 3 characters',
-            'string.max': 'Username cannot exceed 10 characters',
-            'any.required': 'Username is required'
+        email: Joi.string().email().required().messages({
+            'string.empty': 'Email is required',
+            'string.email': 'Please enter a valid email address',
+            'any.required': 'Email is required'
         }),
-        // email: Joi.string().email().required(),
         password: Joi.string().min(6).required().messages({
             'string.empty': 'Password is required',
             'string.min': 'Password must be at least 6 characters',
@@ -61,25 +57,34 @@ const schemas = {
             'any.only': 'Passwords do not match',
             'any.required': 'Please confirm your password',
             'string.empty': 'Please confirm your password'
-      })
+        })
     }),
     login: Joi.object({
-        username: Joi.string().min(1).max(100).required().messages({
-            'string.empty': 'Username is required',
-            'any.required': 'Username is required'
+        email: Joi.string().email().required().messages({
+            'string.empty': 'Email is required',
+            'string.email': 'Please enter a valid email address',
+            'any.required': 'Email is required'
         }),
         password: Joi.string().required().messages({
             'string.empty': 'Password is required',
             'any.required': 'Password is required'
         })
+    }),
+    forgotPassword: Joi.object({
+        email: Joi.string().email().required().messages({
+            'string.empty': 'Email is required',
+            'string.email': 'Please enter a valid email address',
+            'any.required': 'Email is required'
+        })
     })
-    
+
 };
 
 const routeRedirects = {
     'user': '/signup',
     'login': '/login',
-    'bill': '/create'
+    'bill': '/create',
+    'forgotPassword': '/forgot-password'
 };
 
 const validate = (schemaName) => {

@@ -1,42 +1,71 @@
+<div class="bill-detail-page">
 
-<div class="page-container">
-     {{> flash-messages}}
-    <div class="form-box">
-        <h1>Add a New Bill</h1>
-        
-        <form action="/create" method="post" id="billform">
-            <div class="mb-3">
-                <label for="title" class="form-label">Name of the bill:</label>
-                <input type="text" class="form-control" name="title" id="title" placeholder="'Best Buy Credit Card'">
-            </div>
-
-            <div class="mb-3">
-                <label for="type" class="form-label">Bill type:</label>
-                <select class="form-select" name="type" id="type">
-                    <option value="Credit Card">Credit Card</option>
-                    <option value="Utility">Utility</option>
-                    <option value="Rent">Rent</option>
-                    <option value="Loan">Loan</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Bill Description:</label>
-                <input type="text" class="form-control" name="description" id="description" placeholder="'Credit card bill from laptop purchase at best buy'">
-            </div>
-
-            <div class="mb-3">
-                <label for="originalAmount" class="form-label">Bill Amount: $</label>
-                <input type="number" class="form-control" name="originalAmount" id="originalAmount" placeholder="'1,200'" step="0.01">
-            </div>
-
-            <div class="mb-4">
-                <label for="dueDate" class="form-label">Full Payment Due Date:</label>
-                <input type="date" class="form-control" name="dueDate" id="dueDate">
-            </div>
-
-            <button type="submit" class="btn btn-form-primary">Create Bill</button>
-        </form>
+    <!-- Hero Header -->
+    <div class="bill-hero">
+        <div class="container">
+            <h1 class="bill-hero-title">Add a New Bill</h1>
+            <p style="color: rgba(255,255,255,0.75); font-size: 1rem; margin: 0;">Fill in the details below to start tracking</p>
+        </div>
     </div>
+
+    <!-- Form Card -->
+    <div class="container bill-detail-body">
+        {{> flash-messages}}
+        <div class="bill-detail-card" style="max-width: 680px; margin: 0 auto;">
+
+            <h4 class="bill-detail-card-title">Bill Details</h4>
+
+            <form action="/create" method="post" id="billform">
+
+                <div class="form-grid-2 mb-3">
+                    <div>
+                        <label for="title" class="update-label">Name of the bill:</label>
+                        <input type="text" class="update-input" name="title" id="title" placeholder="e.g. Best Buy Credit Card">
+                    </div>
+                    <div>
+                        <label for="type" class="update-label">Bill type:</label>
+                        <select class="update-input" name="type" id="type">
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Utility">Utility</option>
+                            <option value="Rent">Rent</option>
+                            <option value="Loan">Loan</option>
+                            <option value="Subscription">Subscription</option>
+                            <option value="Insurance">Insurance</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Mortgage">Mortgage</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid-2 mb-3">
+                    <div>
+                        <label for="dueDate" class="update-label">Monthly Due Date:</label>
+                        <input type="date" class="update-input" name="dueDate" id="dueDate" value="{{today}}" min="{{today}}">
+                    </div>
+                    <div>
+                        <label for="originalAmount" class="update-label">Bill Amount: $</label>
+                        <input type="number" class="update-input" name="originalAmount" id="originalAmount" placeholder="1200.00" step="0.01" min="0.01">
+                    </div>
+                </div>
+
+                <div class="form-grid-2 mb-4">
+                    <div>
+                        <label for="interestRate" class="update-label">Interest Rate / APR % <span class="update-optional">(optional)</span></label>
+                        <input type="number" class="update-input" name="interestRate" id="interestRate" placeholder="e.g. 24.99" step="0.01" min="0" max="100">
+                    </div>
+                    <div>
+                        <label for="minimumPayment" class="update-label">Min Monthly Payment: $ <span class="update-optional">(optional)</span></label>
+                        <input type="number" class="update-input" name="minimumPayment" id="minimumPayment" placeholder="e.g. 25.00" step="0.01" min="0">
+                    </div>
+                </div>
+
+                <div class="text-center mt-2">
+                    <button type="submit" class="btn-make-payment">Create Bill</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
 </div>

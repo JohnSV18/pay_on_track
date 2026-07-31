@@ -1,39 +1,53 @@
-<div class="page-container">
-     {{> flash-messages}}
-  <div class="form-box">
-      <div class="bill-info">
-          <h3><a href="/bills/{{data._id}}">{{data.title}}</a></h3>
-          <p><strong>Bill description:</strong> {{data.description}} </p>
-          <p><strong>${{data.currentBalance}}</strong> is the amount left to be paid</p>
-          <p><strong>This bill must be paid by:</strong>{{data.formattedDate}}</p>
-      </div>
+<div class="bill-detail-page">
 
-      <h2>Update Current Balance</h2>
-      
-      <form action = "/bills/{{data._id}}?_method=put", method="post">
-          <div class="mb-3">
-              <label for="currentBalance" class="form-label">Bill Amount: $</label>
-              <input type="number" class="form-control" name="currentBalance" id="currentBalance" value="{{data.currentBalance}}" step="0.01">
-          </div>
-          <button type="submit" class="btn btn-form-primary">Update Bill</button>
-      </form>
+    <!-- Hero Header -->
+    <div class="bill-hero">
+        <div class="container">
+            <span class="bill-hero-badge">{{data.type}}</span>
+            <h1 class="bill-hero-title">{{data.title}}</h1>
+            <div style="color: rgba(255,255,255,0.8); font-size: 1rem;">
+                <strong style="color:white; font-size: 1.4rem;">${{data.currentBalance}}</strong>
+                <span> remaining &nbsp;·&nbsp; Due {{data.formattedDate}}</span>
+            </div>
+        </div>
+    </div>
 
-      <h2>Make a Payment</h2>
+    <!-- Form Card -->
+    <div class="container bill-detail-body">
+        {{> flash-messages}}
+        <div class="bill-detail-card" style="max-width: 680px; margin: 0 auto;">
 
+            <h4 class="bill-detail-card-title">Make a Payment</h4>
 
-      <form action = "/bills/{{data._id}}?_method=put", method="post">
-          <div class="mb-3">
-              <label for="title" class="form-label">Payment Amount:</label>
-              <input type="text" class="form-control" name="title" id="title" value="{{data.title}}">
-          </div>
-          <button type="submit" class="btn btn-form-primary">Update Bill</button>
-      </form>
+            <form id="payment-form" action="/bills/{{data._id}}?_method=put" method="post">
+                <div class="form-grid-2 mb-3">
+                    <div>
+                        <label for="paymentAmount" class="update-label">Payment Amount: $</label>
+                        <input type="number" class="update-input" name="paymentAmount" id="paymentAmount"
+                               placeholder="e.g. 50.00" step="0.01" min="0.01" required>
+                    </div>
+                    <div>
+                        <label for="interestRate" class="update-label">Interest Rate / APR % <span class="update-optional">(optional)</span></label>
+                        <input type="number" class="update-input" name="interestRate" id="interestRate"
+                               value="{{data.interestRate}}" step="0.01" min="0" max="100">
+                    </div>
+                </div>
 
-      
+                <div class="mb-4">
+                    <label for="minimumPayment" class="update-label">Min Monthly Payment: $ <span class="update-optional">(optional)</span></label>
+                    <input type="number" class="update-input" name="minimumPayment" id="minimumPayment"
+                           value="{{data.minimumPayment}}" step="0.01" min="0">
+                </div>
+            </form>
 
-      <form action = "/bills/{{data._id}}?_method=DELETE" method = "post" class="mt-3">
-          <button type="submit" class="btn btn-danger w-100">Delete Bill</button>
-      </form>
+            <form id="delete-form" action="/bills/{{data._id}}?_method=DELETE" method="post"></form>
 
-  </div>
+            <div class="d-flex align-items-center gap-4 mt-4">
+                <button type="submit" form="payment-form" class="btn-make-payment" style="margin-top: 0;">Save Payment</button>
+                <button type="submit" form="delete-form" class="btn-delete-link">Delete Bill</button>
+            </div>
+
+        </div>
+    </div>
+
 </div>

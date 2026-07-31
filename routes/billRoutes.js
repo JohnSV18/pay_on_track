@@ -43,10 +43,10 @@ module.exports = app => {
     router.get("/bills/:id", noCache, requireAuth, findOne);
   
     // Update a bill with id
-    router.put("/bills/:id", update);
-  
+    router.put("/bills/:id", requireAuth, update);
+
     // Delete a bill with id
-    router.delete("/bills/:id", deleteBill);
+    router.delete("/bills/:id", requireAuth, deleteBill);
   
     // // Delete all bills
     // router.delete("/allbills", bills.deleteAll);
