@@ -3,7 +3,7 @@ const { Resend } = require('resend');
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendVerificationEmail = async (toEmail, code) => {
-    return resend.emails.send({
+    const result = await resend.emails.send({
         from: process.env.RESEND_FROM_EMAIL,
         to: toEmail,
         subject: 'Verify your Pay-On-Track email',
@@ -17,6 +17,8 @@ const sendVerificationEmail = async (toEmail, code) => {
             </div>
         `
     });
+    console.log('Verification email result:', JSON.stringify(result));
+    return result;
 };
 
 const sendPasswordResetEmail = async (toEmail, resetUrl) => {
