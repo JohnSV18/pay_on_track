@@ -150,8 +150,12 @@ const login = async (req, res) => {
     }
 
     if (!user.emailVerified) {
+      const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+      const verificationCodeExpiry = new Date(Date.now() + 15 * 60 * 1000);
+      await User.findByIdAndUpdate(user._id, { verificationCode, verificationCodeExpiry });
+      await sendVerificationEmail(email, verificationCode);
       req.session.pendingEmail = email;
-      req.flash('error', 'Please verify your email before logging in.');
+      req.flash('success', 'A new verification code has been sent to your email.');
       return res.redirect('/verify-email');
     }
 
