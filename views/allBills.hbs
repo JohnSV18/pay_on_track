@@ -44,8 +44,8 @@
                         <p class="due-label"><strong>Due by:</strong> {{this.formattedDate}}</p>
 
                         <div class="progress mt-3 mb-1" style="height: 8px; border-radius: 6px;">
-                            <div class="progress-bar bg-success" role="progressbar"
-                                 style="width: {{this.paidPercentage}}%"
+                            <div class="progress-bar" role="progressbar"
+                                 style="width: {{this.paidPercentage}}%; background: var(--accent-yellow);"
                                  aria-valuenow="{{this.paidPercentage}}"
                                  aria-valuemin="0" aria-valuemax="100">
                             </div>
