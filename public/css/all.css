@@ -1,3 +1,68 @@
+/* ── Accessibility ────────────────────────────────────────────────────────── */
+
+.skip-nav-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: 9999;
+    padding: 0.75rem 1.5rem;
+    background: #7c3aed;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 0 0 8px 8px;
+    text-decoration: none;
+    transition: top 0.2s;
+}
+.skip-nav-link:focus {
+    top: 0;
+    outline: 3px solid #FFD700;
+    outline-offset: 2px;
+}
+
+/* Global focus-visible — clear, consistent outline on all interactive elements */
+:focus-visible {
+    outline: 3px solid #7c3aed;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Specific overrides where needed */
+.update-input:focus-visible,
+.form-control:focus-visible {
+    outline: 3px solid #7c3aed;
+    outline-offset: 0;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+}
+
+.btn-make-payment:focus-visible,
+.btn-make-payment-sm:focus-visible,
+.btn-delete-link:focus-visible,
+.filter-dropdown-btn:focus-visible,
+.sort-toggle-btn:focus-visible,
+.calc-help-btn:focus-visible,
+.toggle-password:focus-visible,
+.bill-hero-back:focus-visible,
+.auth-link:focus-visible {
+    outline: 3px solid #7c3aed;
+    outline-offset: 3px;
+}
+
+.navbar-brand:focus-visible,
+.nav-link:focus-visible,
+.dropdown-item:focus-visible {
+    outline: 3px solid #FFD700;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Toggle checkbox — keep in tab order but show focus on the track */
+.bill-toggle-input:focus-visible + .bill-toggle-track {
+    outline: 3px solid #7c3aed;
+    outline-offset: 2px;
+    border-radius: 12px;
+}
+
 :root {
     --primary-gradient: linear-gradient(135deg, #715AFF 0%, #5887FF 100%);
     --primary-color: #715AFF;

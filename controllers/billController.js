@@ -27,7 +27,7 @@ const formatBills = (bills) => bills.map(bill => {
 const showCalculator = (req, res) => {
   try{
     const currentUser = req.user;
-    res.render('interestCalculator', { currentUser });
+    res.render('interestCalculator', { currentUser, pageTitle: 'Interest Calculator' });
   } catch (error) {
     console.error('Calculator page error: ', error.message);
     res.status(500).render('error', { message: 'Error showing the calculator' });
@@ -38,7 +38,7 @@ const createForm = (req, res) => {
   try{
     const currentUser = req.user;
     const today = new Date().toISOString().split('T')[0];
-    res.render('createBill', { currentUser, today });
+    res.render('createBill', { currentUser, today, pageTitle: 'Add a Bill' });
   } catch (error) {
     console.error('Create bill error: ', error.message);
     res.status(500).render('error', { message: 'Error on loading page'})
@@ -114,7 +114,8 @@ const findAll = async (req, res) => {
         sortLinkAsc: `/allbills?sort=asc${typeParam}`,
         sortLinkDate: `/allbills?sort=date${typeParam}`,
         totalBalance: totalBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-        totalMinPayment: totalMinPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        totalMinPayment: totalMinPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+        pageTitle: 'All Bills'
       });
     }
   } catch (error) {
@@ -211,7 +212,7 @@ const findOne = async (req, res) => {
         return { ...p, paymentDate: `${date} · ${time}` };
       })
     };
-    return res.render('showBill', { data, currentUser });
+    return res.render('showBill', { data, currentUser, pageTitle: data.title });
   } catch (error) {
     console.error('Finding bill error: ', error.message);
     res.status(500).render('error', { message: 'There was an error fetching your bill'})
@@ -232,7 +233,7 @@ const updateForm = async (req, res) => {
         weekday: 'short', year: 'numeric', month: 'long', day: 'numeric'
       })
     };
-    return res.render('updateBill', { data, currentUser });
+    return res.render('updateBill', { data, currentUser, pageTitle: `Pay — ${data.title}` });
   } catch (error){
     console.error('Finding bill error: ', error.message);
     res.status(500).render('error', { message: 'There was an error fetching your bill' });

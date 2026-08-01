@@ -17,6 +17,7 @@
                     <div class="d-flex align-items-center gap-2 mb-0">
                         <h4 class="bill-detail-card-title mb-0" style="flex:1;">Yearly Simple Interest</h4>
                         <button class="calc-help-btn"
+                            aria-label="How yearly simple interest is calculated"
                             data-bs-toggle="popover"
                             data-bs-placement="top"
                             data-bs-trigger="hover focus click"
@@ -26,15 +27,15 @@
                     <hr style="border-color:#f0f4ff; margin: 0.75rem 0 1.25rem;">
 
                     <div class="mb-3">
-                        <label class="update-label">Bill Amount: $</label>
+                        <label for="amount" class="update-label">Bill Amount: $</label>
                         <input id="amount" class="update-input" type="number" min="1" max="1000000" placeholder="e.g. 5000" oninput="calculateInterest()">
                     </div>
                     <div class="mb-3">
-                        <label class="update-label">Annual Interest Rate (APR) %</label>
+                        <label for="interest_rate" class="update-label">Annual Interest Rate (APR) %</label>
                         <input id="interest_rate" class="update-input" type="number" min="0" max="100" value="10" step=".1" oninput="calculateInterest()">
                     </div>
                     <div class="mb-4">
-                        <label class="update-label">Years to repay</label>
+                        <label for="years" class="update-label">Years to repay</label>
                         <input id="years" class="update-input" type="number" min="1" max="72" value="1" oninput="calculateInterest()">
                     </div>
 
@@ -57,6 +58,7 @@
                     <div class="d-flex align-items-center gap-2 mb-0">
                         <h4 class="bill-detail-card-title mb-0" style="flex:1;">Monthly Simple Interest</h4>
                         <button class="calc-help-btn"
+                            aria-label="How monthly simple interest is calculated"
                             data-bs-toggle="popover"
                             data-bs-placement="top"
                             data-bs-trigger="hover focus click"
@@ -66,15 +68,15 @@
                     <hr style="border-color:#f0f4ff; margin: 0.75rem 0 1.25rem;">
 
                     <div class="mb-3">
-                        <label class="update-label">Bill Amount: $</label>
+                        <label for="totalAmount" class="update-label">Bill Amount: $</label>
                         <input id="totalAmount" class="update-input" type="number" min="1" max="1000000" placeholder="e.g. 5000" oninput="calculateMonthlyInterest()">
                     </div>
                     <div class="mb-3">
-                        <label class="update-label">Annual Interest Rate (APR) %</label>
+                        <label for="monthly_interest_rate" class="update-label">Annual Interest Rate (APR) %</label>
                         <input id="monthly_interest_rate" class="update-input" type="number" min="0" max="100" value="10" step=".1" oninput="calculateMonthlyInterest()">
                     </div>
                     <div class="mb-4">
-                        <label class="update-label">Months to repay</label>
+                        <label for="months" class="update-label">Months to repay</label>
                         <input id="months" class="update-input" type="number" min="1" max="360" value="12" oninput="calculateMonthlyInterest()">
                     </div>
 
@@ -97,6 +99,7 @@
                     <div class="d-flex align-items-center gap-2 mb-0">
                         <h4 class="bill-detail-card-title mb-0" style="flex:1;">Monthly Compound Interest</h4>
                         <button class="calc-help-btn"
+                            aria-label="How monthly compound interest is calculated"
                             data-bs-toggle="popover"
                             data-bs-placement="top"
                             data-bs-trigger="hover focus click"
@@ -107,21 +110,21 @@
 
                     <div class="form-grid-2 mb-3">
                         <div>
-                            <label class="update-label">Bill Amount: $</label>
+                            <label for="com_total_amount" class="update-label">Bill Amount: $</label>
                             <input id="com_total_amount" class="update-input" type="number" min="1" max="1000000" placeholder="e.g. 5000" oninput="calculateCompoundMonthlyInterest()">
                         </div>
                         <div>
-                            <label class="update-label">Annual Interest Rate (APR) %</label>
+                            <label for="com_monthly_interest_rate" class="update-label">Annual Interest Rate (APR) %</label>
                             <input id="com_monthly_interest_rate" class="update-input" type="number" min="0" max="100" value="10" step=".1" oninput="calculateCompoundMonthlyInterest()">
                         </div>
                     </div>
                     <div class="form-grid-2 mb-4">
                         <div>
-                            <label class="update-label">Months to repay</label>
+                            <label for="pay_period" class="update-label">Months to repay</label>
                             <input id="pay_period" class="update-input" type="number" min="1" max="360" value="12" oninput="calculateCompoundMonthlyInterest()">
                         </div>
                         <div>
-                            <label class="update-label">Times compounded per year</label>
+                            <label for="com_months" class="update-label">Times compounded per year</label>
                             <input id="com_months" class="update-input" type="number" min="1" max="365" value="12" oninput="calculateCompoundMonthlyInterest()">
                         </div>
                     </div>

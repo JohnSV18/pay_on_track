@@ -1,13 +1,13 @@
 {{#if errorMessage}}
-<div class="alert alert-danger">
+<div class="alert alert-danger" role="alert" aria-live="assertive" aria-atomic="true">
     <span class="alert-text">{{errorMessage}}</span>
-    <button type="button" class="btn-close" aria-label="Close" onclick="this.closest('.alert').remove()">&times;</button>
+    <button type="button" class="btn-close" aria-label="Dismiss error message" onclick="this.closest('.alert').remove()">&times;</button>
 </div>
 {{/if}}
 
 {{#if successMessage}}
-<div class="alert alert-success">
+<div class="alert alert-success" role="status" aria-live="polite" aria-atomic="true">
     <span class="alert-text">{{successMessage}}</span>
-    <button type="button" class="btn-close" aria-label="Close" onclick="this.closest('.alert').remove()">&times;</button>
+    <button type="button" class="btn-close" aria-label="Dismiss success message" onclick="this.closest('.alert').remove()">&times;</button>
 </div>
 {{/if}}

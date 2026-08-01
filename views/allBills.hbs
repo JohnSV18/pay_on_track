@@ -4,8 +4,8 @@
         <!-- Filter + Sort Controls -->
         <div class="bills-filter-section d-flex align-items-center gap-3 flex-wrap">
             <div class="dropdown">
-                <button class="filter-dropdown-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                <button class="filter-dropdown-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Filter bills by type">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                         <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
                     </svg>
                     {{#if activeFilter}}{{activeFilter}}{{else}}Filter{{/if}}
@@ -28,8 +28,8 @@
 
             {{#if formattedBills}}
             <div class="dropdown">
-                <button class="sort-toggle-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+                <button class="sort-toggle-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Sort bills">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
                         <path d="M3.5 3.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 12.293V3.5zm4 .5a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1h-1zm0 3a.5.5 0 0 1 0-1h3a.5.5 0 0 1 0 1h-3zm0 3a.5.5 0 0 1 0-1h5a.5.5 0 0 1 0 1h-5zM7 12.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5z"/>
                     </svg>
                     Sort: {{sortLabel}}
@@ -72,7 +72,7 @@
                 <div class="dcol-name">
                     <span class="dash-type-badge">{{this.type}}</span>
                     <span class="dash-bill-name">{{this.title}}</span>
-                    {{#if this.isRecurring}}<span class="dash-recurring-badge">&#8635;</span>{{/if}}
+                    {{#if this.isRecurring}}<span class="dash-recurring-badge" aria-label="Recurring bill">&#8635;</span>{{/if}}
                 </div>
                 <div class="dcol-due">{{this.shortDate}}</div>
                 <div class="dcol-balance">${{this.currentBalance}}</div>
@@ -82,10 +82,11 @@
                     <div class="progress mb-1" style="height: 6px; border-radius: 4px; background: #e8edf5;">
                         <div class="progress-bar" role="progressbar"
                              style="width: {{this.paidPercentage}}%; background: var(--accent-yellow);"
+                             aria-label="{{this.paidPercentage}}% of {{this.title}} paid"
                              aria-valuenow="{{this.paidPercentage}}" aria-valuemin="0" aria-valuemax="100">
                         </div>
                     </div>
-                    <small>{{this.paidPercentage}}% paid</small>
+                    <small aria-hidden="true">{{this.paidPercentage}}% paid</small>
                 </div>
             </a>
             {{/each}}

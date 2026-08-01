@@ -12,7 +12,7 @@ dotenv.config();
 const showHome = (req, res) => {
   try {
     const currentUser = req.user;
-    return res.render('home', { currentUser });
+    return res.render('home', { currentUser, pageTitle: 'Home' });
   } catch (error) {
     console.error('Home page error: ', error.message);
     return res.status(500).render('error', {
@@ -26,7 +26,7 @@ const showHome = (req, res) => {
 const showArticles = (req, res) => {
   try {
     const currentUser = req.user;
-    res.render('articles', { articles: articleList, currentUser })
+    res.render('articles', { articles: articleList, currentUser, pageTitle: 'Articles' })
   } catch (error) {
     console.error('Articles Error', error.message)
     res.status(500).render('error', { message: 'Error getting all the articles' });
@@ -35,7 +35,7 @@ const showArticles = (req, res) => {
 
 const showSignup = (req, res) => {
   try {
-    return res.render('signup');
+    return res.render('signup', { pageTitle: 'Sign Up' });
   } catch (error) {
     console.log('Signup page error: ', error.message);
     req.flash('error', 'Unable to load signup page');
@@ -45,7 +45,7 @@ const showSignup = (req, res) => {
 
 const showLogin = (req, res) => {
   try {
-    return res.render('login');
+    return res.render('login', { pageTitle: 'Log In' });
   } catch (error) {
     console.log('Login page error: ', error.message);
     req.flash('error', 'Unable to load login page');
@@ -58,7 +58,7 @@ const showVerify = (req, res) => {
     if (!req.session.pendingEmail) {
       return res.redirect('/signup');
     }
-    return res.render('verifyEmail');
+    return res.render('verifyEmail', { pageTitle: 'Verify Email' });
   } catch (error) {
     console.log('Verify page error: ', error.message);
     return res.redirect('/signup');
@@ -196,7 +196,7 @@ const logout = (req, res) => {
 
 const showForgotPassword = (req, res) => {
   try {
-    return res.render('forgotPassword');
+    return res.render('forgotPassword', { pageTitle: 'Forgot Password' });
   } catch (error) {
     console.log('Forgot password page error: ', error.message);
     return res.redirect('/forgot-password');
@@ -246,7 +246,7 @@ const showResetPassword = async (req, res) => {
       return res.redirect('/forgot-password');
     }
 
-    return res.render('resetPassword', { token });
+    return res.render('resetPassword', { token, pageTitle: 'Reset Password' });
   } catch (error) {
     console.log('Reset password page error: ', error.message);
     req.flash('error', 'Something went wrong. Please try again.');

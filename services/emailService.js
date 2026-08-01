@@ -17,7 +17,6 @@ const sendVerificationEmail = async (toEmail, code) => {
             </div>
         `
     });
-    console.log('Verification email result:', JSON.stringify(result));
     return result;
 };
 

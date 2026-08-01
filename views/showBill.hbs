@@ -3,7 +3,7 @@
     <!-- Hero Header -->
     <div class="bill-hero">
         <div class="container">
-            <a href="/allbills" class="bill-hero-back">&#8592; All Bills</a>
+            <a href="/allbills" class="bill-hero-back" aria-label="Back to All Bills">&larr; All Bills</a>
             <span class="bill-hero-badge">{{data.type}}</span>
             <h1 class="bill-hero-title">{{data.title}}</h1>
 
@@ -16,6 +16,7 @@
                 <div class="progress" style="height: 10px; border-radius: 8px; background: rgba(255,255,255,0.2);">
                     <div class="progress-bar" role="progressbar"
                          style="width: {{data.paidPercentage}}%; background: var(--accent-yellow);"
+                         aria-label="{{data.paidPercentage}}% of {{data.title}} paid"
                          aria-valuenow="{{data.paidPercentage}}"
                          aria-valuemin="0" aria-valuemax="100">
                     </div>

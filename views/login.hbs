@@ -61,6 +61,8 @@
             const isHidden = input.type === 'password';
             input.type = isHidden ? 'text' : 'password';
             btn.innerHTML = isHidden ? eyeSlash : eyeOpen;
+            btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+            btn.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
         });
     });
 </script>
