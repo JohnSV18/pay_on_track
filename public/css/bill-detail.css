@@ -1,0 +1,418 @@
+/* ── Bill Detail Page Layout ────────────────────────────────────────────── */
+
+.bill-detail-page {
+    min-height: calc(100vh - 80px);
+    background: linear-gradient(135deg, #E8F0FF 0%, #D4E6FF 100%);
+}
+
+.bill-hero {
+    background: var(--primary-gradient);
+    padding: 3rem 0 5rem;
+}
+
+.bill-hero-back {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.85rem;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+    transition: color 0.2s;
+}
+
+.bill-hero-back:hover {
+    color: white;
+}
+
+.bill-hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 0.35rem 1rem;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+}
+
+.bill-hero-title {
+    color: white;
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+}
+
+.bill-hero-progress {
+    max-width: 560px;
+}
+
+.bill-detail-body {
+    margin-top: -2.5rem;
+    padding-bottom: 3rem;
+}
+
+.bill-detail-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(113, 90, 255, 0.1);
+    padding: 2rem;
+    height: 100%;
+}
+
+.bill-detail-card-title {
+    color: var(--primary-color);
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #f0f4ff;
+}
+
+.bill-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f5f7ff;
+    font-size: 0.95rem;
+}
+
+.bill-detail-row span:first-child {
+    color: #7a8ca0;
+    font-weight: 500;
+}
+
+.bill-detail-row span:last-child {
+    color: #102E4A;
+    font-weight: 600;
+}
+
+.bill-detail-amount {
+    color: var(--primary-color) !important;
+    font-size: 1.3rem;
+    font-weight: 800 !important;
+}
+
+/* ── Action Buttons ─────────────────────────────────────────────────────── */
+
+.btn-make-payment {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.85rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    transition: all 0.2s;
+    margin-top: 1.5rem;
+}
+
+.btn-make-payment:hover {
+    color: white;
+    box-shadow: 0 6px 20px rgba(113, 90, 255, 0.35);
+    transform: translateY(-2px);
+}
+
+.btn-make-payment-sm {
+    display: inline-block;
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.55rem 1.75rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.btn-make-payment-sm:hover {
+    color: white;
+    box-shadow: 0 4px 14px rgba(113, 90, 255, 0.35);
+    transform: translateY(-1px);
+}
+
+.btn-delete-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #dc2626;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+}
+
+.btn-delete-link:hover {
+    color: #b91c1c;
+}
+
+.bill-no-payments {
+    text-align: center;
+    padding: 2rem 0;
+    color: #9ca3af;
+}
+
+/* ── Interest Calculator Helpers ────────────────────────────────────────── */
+
+.calc-help-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E8F0FF 0%, #D4E6FF 100%);
+    border: none;
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s;
+    -webkit-appearance: none;
+}
+
+.calc-help-btn:hover {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.calc-result-box {
+    background: #f8faff;
+    border: 1.5px solid #e8edf5;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.calc-result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid #f0f4ff;
+    font-size: 0.95rem;
+}
+
+.calc-result-row:last-child {
+    border-bottom: none;
+}
+
+.calc-result-row span:first-child {
+    color: #7a8ca0;
+    font-weight: 500;
+}
+
+.calc-result-value {
+    color: #102E4A;
+    font-weight: 700;
+}
+
+.calc-result-total {
+    color: var(--primary-color) !important;
+    font-size: 1.2rem;
+    font-weight: 800 !important;
+}
+
+/* ── Form Inputs ────────────────────────────────────────────────────────── */
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.update-label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #5a6c7d;
+    margin-bottom: 0.5rem;
+}
+
+.update-optional {
+    font-weight: 400;
+    color: #9ca3af;
+}
+
+.update-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #e8edf5;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #102E4A;
+    background: #f8faff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.update-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(113, 90, 255, 0.12);
+    background: white;
+}
+
+/* ── Recurring Toggle ───────────────────────────────────────────────────── */
+
+.bill-toggle-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.bill-toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.bill-toggle-track {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: #d1d5db;
+    border-radius: 12px;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.bill-toggle-input:checked + .bill-toggle-track {
+    background: #7c3aed;
+}
+
+.bill-toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+.bill-toggle-input:checked + .bill-toggle-track .bill-toggle-thumb {
+    transform: translateX(20px);
+}
+
+.bill-toggle-text {
+    font-size: 0.88rem;
+    color: #5a6c7d;
+}
+
+/* ── Auth Additions (login, signup, forgotPassword, resetPassword) ───────── */
+
+.auth-card {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper .update-input {
+    padding-right: 3rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    color: #9ca3af;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    transition: color 0.2s;
+    -webkit-appearance: none;
+}
+
+.toggle-password:hover {
+    color: var(--primary-color);
+}
+
+.auth-links {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #f0f4ff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-align: center;
+}
+
+.auth-link {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.auth-link:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .bill-hero {
+        padding: 1.75rem 0 3.5rem;
+    }
+    .bill-hero-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.25rem;
+    }
+    .bill-hero-progress {
+        max-width: 100%;
+    }
+    .bill-detail-card {
+        padding: 1.25rem;
+    }
+    .bill-detail-body {
+        margin-top: -1.5rem;
+        padding-bottom: 2rem;
+    }
+    .bill-detail-row {
+        flex-wrap: wrap;
+        gap: 0.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .bill-detail-card {
+        padding: 1rem;
+    }
+    .btn-make-payment {
+        min-height: 44px;
+        padding: 0.9rem 1.5rem;
+    }
+    .btn-make-payment-sm {
+        min-height: 44px;
+        padding: 0.65rem 2rem;
+    }
+    .form-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
